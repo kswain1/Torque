@@ -85,6 +85,8 @@ enum DroidView {
 }
 
 open class AnimationControlsOverlay: CameraViewOverlay {
+    open var downloadTrue = false
+    open var imuData:[Double]? = [0.0]
     public var animationController: WorkoutAnimationViewController? = nil
     
     var progressBackground: SKShapeNode!
@@ -256,11 +258,11 @@ open class AnimationControlsOverlay: CameraViewOverlay {
         self.moveProgressBar(self.progressLinePercent)
     }
     
-    open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override open func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first {
             let location = touch.location(in: self)
             let touchedNode = self.atPoint(location)
-    
+
             if let nodeName = touchedNode.name {
                 switch nodeName {
                 case "rewind":
@@ -275,7 +277,11 @@ open class AnimationControlsOverlay: CameraViewOverlay {
                     }
                 case "download":
                     print("downloading csv data")
+                    downloadTrue = true
+                    print("download status", downloadTrue)
+                    print(imuData)
                     
+
                 case "slomo":
                     if animationProgress != nil {
                         switch playbackSpeed {

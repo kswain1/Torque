@@ -21,6 +21,8 @@ class VisualiserViewController: WorkoutAnimationViewController, AnimationProgres
     
     var sceneOverlay: AnimationControlsOverlay!
     
+    var imuData = [0]
+    
     var progress: Float = 0.0
     
     override func viewDidLoad() {
@@ -95,6 +97,7 @@ class VisualiserViewController: WorkoutAnimationViewController, AnimationProgres
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first {
+            print("we are touching in visualizer")
             let location = touch.location(in: self.sceneOverlay)
             let touchedNode = self.sceneOverlay.atPoint(location)
             if let nodeName = touchedNode.name {
@@ -116,10 +119,28 @@ class VisualiserViewController: WorkoutAnimationViewController, AnimationProgres
     
     private func configureReplayMeasurement() {
         
+        var imuData = [0.0]
         if (self.isExampleMeasurement) {
             do {
                 let measurementAsset = NSDataAsset(name: "cartwheel_11notches", bundle: Bundle.main)
                 self.visualiserData = try NotchVisualiserData.fromData(data: measurementAsset!.data)
+                let skeleton = self.visualiserData.skeleton
+                
+                
+                /// Downloading skeleton data example
+                let rightLowerLeg = skeleton.bone("RightLowerLeg")
+                if (rightLowerLeg != nil){
+                    
+                    //count through all of the samples
+                    for i in 1..<self.visualiserData.frameCount {
+                        if let vector = self.visualiserData.calculateAngularVelocity(bone: rightLowerLeg!, frameIndex: i) {
+                            
+                            print("angular Velocity: \(vector.x) \(vector.y) \(vector.z)")
+                            imuData.append(Double(vector.x))
+                        }
+                    }
+                }
+                
             } catch let error as NSError {
                 print(error.localizedDescription)
             }
@@ -234,6 +255,9 @@ class VisualiserViewController: WorkoutAnimationViewController, AnimationProgres
         (notchAnimation.delegate as! NotchWorkoutAnimationDelegate).progress.isLooping = true
         
         (notchAnimation.delegate as! NotchWorkoutAnimationDelegate).progress.play()
+        
+        /// IMU data holder
+        sceneOverlay.imuData?.append(contentsOf: imuData)
     }
     
     func addAvatarAnimations() {
@@ -293,6 +317,7 @@ class VisualiserViewController: WorkoutAnimationViewController, AnimationProgres
     func animationProgressDidPause(_ animationProgress: AnimationProgress) {
         (self.view as! SCNView).isPlaying = false
         sceneOverlay.animationPaused = true
+        
     }
     
     func animationProgressDidStartSeeking(_ animationProgress: AnimationProgress) {
