@@ -5,6 +5,14 @@ import SceneKit
 import SpriteKit
 import WearnotchSDK
 
+protocol ControlsOverlayDelegate: class {
+    func goBack(data: [[String: Float]])
+}
+
+protocol VisualizerDownloadDelegate: class {
+    func getImuData(data: [[String:Float]])
+}
+
 class VisualiserViewController: WorkoutAnimationViewController, AnimationProgressDelegate {
     
 
@@ -24,6 +32,8 @@ class VisualiserViewController: WorkoutAnimationViewController, AnimationProgres
     var imuData = [0]
     
     var progress: Float = 0.0
+    
+    weak var visualizerDelegate: VisualizerDownloadDelegate?
     
     override func viewDidLoad() {
         // set up scene
@@ -119,7 +129,8 @@ class VisualiserViewController: WorkoutAnimationViewController, AnimationProgres
     
     private func configureReplayMeasurement() {
         
-        var imuData = [0.0]
+        var imuData: [[String: Float]] = []
+        // imuData:[String:
         if (self.isExampleMeasurement) {
             do {
                 let measurementAsset = NSDataAsset(name: "cartwheel_11notches", bundle: Bundle.main)
@@ -136,7 +147,8 @@ class VisualiserViewController: WorkoutAnimationViewController, AnimationProgres
                         if let vector = self.visualiserData.calculateAngularVelocity(bone: rightLowerLeg!, frameIndex: i) {
                             
                             print("angular Velocity: \(vector.x) \(vector.y) \(vector.z)")
-                            imuData.append(Double(vector.x))
+                            let data: [String: Float] = ["angleX":vector.x, "angleY": vector.y, "angleZ": vector.z]
+                            imuData.append(data)
                         }
                     }
                 }
@@ -231,6 +243,7 @@ class VisualiserViewController: WorkoutAnimationViewController, AnimationProgres
         
         // add overlay:
         sceneOverlay = AnimationControlsOverlay(size: self.view.bounds.size)
+        sceneOverlay.controlDelegate = self
         sceneOverlay.topPadding = 64.0 / sceneOverlay.dpi // navigation bar + status bar
         sceneOverlay.cameraController = self
         sceneOverlay.animationController = self
@@ -333,3 +346,10 @@ class VisualiserViewController: WorkoutAnimationViewController, AnimationProgres
     }
 }
 
+extension VisualiserViewController: ControlsOverlayDelegate {
+    func goBack(data: [[String: Float]]) {
+        //sends to main view controller
+        visualizerDelegate?.getImuData(data: data)
+        self.navigationController?.popViewController(animated: true)
+    }
+}

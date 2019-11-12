@@ -10,6 +10,8 @@ import UIKit
 import WearnotchSDK
 import CoreBluetooth
 
+
+
 //Mark: lifeCycle
 class ViewController: UIViewController {
     
@@ -631,9 +633,10 @@ extension ViewController {
         if realtimeSwitch.isOn {
             DispatchQueue.main.async {
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let viewController = storyboard.instantiateViewController(withIdentifier: "visualizerScreenId")
-                
+                let viewController = storyboard.instantiateViewController(withIdentifier: "visualizerScreenId") as! VisualiserViewController
+                viewController.visualizerDelegate = self
                 self.navigationController?.pushViewController(viewController, animated: true)
+                
             }
         } else {
             _ = AppDelegate.service.timedCapture(
@@ -706,8 +709,11 @@ extension ViewController {
         
         if isShowingExample {
             viewController.isExampleMeasurement = true
+            viewController.visualizerDelegate = self
+
         } else {
             viewController.measurementURL = measurementURL
+            viewController.visualizerDelegate = self
         }
         DispatchQueue.main.async(){
             self.navigationController?.pushViewController(viewController, animated: true)
@@ -797,5 +803,14 @@ extension ViewController {
         
         dockAnimationImageView.isHidden = true
         dockAnimationImageView.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi))
+    }
+}
+
+extension ViewController: VisualizerDownloadDelegate {
+    func getImuData(data: [[String : Float]]) {
+        for item in data {
+            print("Item angleX... ", item["angleX"])
+            print("Item angleY... ", item["angleY"])
+        }
     }
 }

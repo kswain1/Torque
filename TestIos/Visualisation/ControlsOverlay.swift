@@ -86,8 +86,10 @@ enum DroidView {
 
 open class AnimationControlsOverlay: CameraViewOverlay {
     open var downloadTrue = false
-    open var imuData:[Double]? = [0.0]
+    open var imuData:[[String:Float]]? = []
     public var animationController: WorkoutAnimationViewController? = nil
+    
+    weak var controlDelegate: ControlsOverlayDelegate?
     
     var progressBackground: SKShapeNode!
     var progressFull: SKShapeNode!
@@ -276,11 +278,8 @@ open class AnimationControlsOverlay: CameraViewOverlay {
                         }
                     }
                 case "download":
-                    print("downloading csv data")
-                    downloadTrue = true
-                    print("download status", downloadTrue)
-                    print(imuData)
-                    
+                    self.controlDelegate?.goBack(data:imuData ?? [])
+
 
                 case "slomo":
                     if animationProgress != nil {
