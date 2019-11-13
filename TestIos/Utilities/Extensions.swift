@@ -51,3 +51,10 @@ func emgDataConvert(from characteristics: CBCharacteristic ) -> [Double] {
     }
     return emgConvertedArray
 }
+
+func externalWorkMagnitude(x: Float, y: Float, z: Float) -> Float{
+    var results = x*x + y*y + z*z
+    results = results.squareRoot()
+    return results
+    
+}

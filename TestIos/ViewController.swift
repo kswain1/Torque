@@ -44,6 +44,7 @@ class ViewController: UIViewController {
     var customArray2 = [Double]()
     var customArray3 = [Double]()
     var emgDataArray = [0.0,0.0,0.0,0.0]
+    var imuDictionary: [[String : Float]]? = []
 
     
     private var selectedConfiguration: ConfigurationType = ConfigurationType.chest1 {
@@ -131,6 +132,52 @@ class ViewController: UIViewController {
             }
         }
     }
+    
+    /// EXPORT IMU DATA
+    @IBAction func exportIMU(_ sender: Any) {
+        let fileName = "imuDownload.csv"
+        let path = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(fileName)
+        var csvText = "angleX, angleY, angleZ\n"
+        let count = self.imuDictionary?.count
+        var angleX, angleY, angleZ: Float
+        var i = 0
+        
+        if imuDictionary != nil{
+            var imuMotionList = "\(i),"
+            for item in imuDictionary!{
+                angleX = item["angleX"] ?? 0.00
+                angleY = item["angleY"] ?? 0.00
+                angleZ = item["angleZ"] ?? 0.00
+                csvText.append(contentsOf: "\(angleX), \(angleY), \(angleZ)\n")
+            }
+            
+            do {
+                try csvText.write(to: path!, atomically: true, encoding: String.Encoding.utf8)
+                let vcExportCSV = UIActivityViewController(activityItems: [path], applicationActivities: [])
+                vcExportCSV.excludedActivityTypes = [
+                    UIActivity.ActivityType.assignToContact,
+                    UIActivity.ActivityType.saveToCameraRoll,
+                    UIActivity.ActivityType.postToFlickr,
+                    UIActivity.ActivityType.postToVimeo,
+                    UIActivity.ActivityType.postToTencentWeibo,
+                    UIActivity.ActivityType.postToTwitter,
+                    UIActivity.ActivityType.postToFacebook,
+                    UIActivity.ActivityType.openInIBooks
+                ]
+                present(vcExportCSV, animated: true, completion: nil)
+                
+            }catch {
+                print("Failed to create file")
+                showFailedActionAlert(message: "Failed to Create CSV File")
+            }
+            
+        } else {
+            print("no loaded imu data")
+            showFailedActionAlert(message: "No Loaded IMU Data")
+        }
+        
+    }
+    
     
 }
 
@@ -806,11 +853,21 @@ extension ViewController {
     }
 }
 
+// MARK: Download Delegate from 3D Rendering
 extension ViewController: VisualizerDownloadDelegate {
+    
     func getImuData(data: [[String : Float]]) {
+        imuDictionary?.append(contentsOf: data)
+        var i = 0
         for item in data {
             print("Item angleX... ", item["angleX"])
             print("Item angleY... ", item["angleY"])
+            imuDictionary?[i]["externalWorkX"] = item["angleX"]! * 2
+            imuDictionary?[i]["externalWorkY"] = item["angleY"]! * 2
+            imuDictionary?[i]["externalWorkZ"] = item["angleZ"]! * 2
+            imuDictionary?[i]["externalWorkMag"] = externalWorkMagnitude(x: (imuDictionary?[i]["externalWorkX"])!, y: (imuDictionary?[i]["externalWorkY"])!, z: (imuDictionary?[i]["externalWorkZ"])!)
+            i = i + 1
         }
     }
 }
+

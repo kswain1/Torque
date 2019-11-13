@@ -585,6 +585,9 @@
                                                         <state key="normal" title="  Export IMU CSV  ">
                                                             <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                                         </state>
+                                                        <connections>
+                                                            <action selector="exportIMU:" destination="Mdc-O1-VmU" eventType="touchUpInside" id="nU0-BC-Drx"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                             </stackView>
