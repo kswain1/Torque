@@ -137,7 +137,7 @@ class ViewController: UIViewController {
     @IBAction func exportIMU(_ sender: Any) {
         let fileName = "imuDownload.csv"
         let path = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(fileName)
-        var csvText = "angleX, angleY, angleZ, externalWorkX, externalWorkY, externalWorkZ\n"
+        var csvText = "angleX, angleY, angleZ,torqueMag, torqueX, torqueY, torqueZ, posMag, posX, posY, posZ\n"
         let count = self.imuDictionary?.count
         var angleX, angleY, angleZ: Float
         var i = 0
@@ -149,17 +149,18 @@ class ViewController: UIViewController {
                 angleX = item["angleX"] ?? 0.00
                 angleY = item["angleY"] ?? 0.00
                 angleZ = item["angleZ"] ?? 0.00
-                    csvText.append(contentsOf: "\(angleX), \(angleY), \(angleZ)")
+                    csvText.append(contentsOf: "\(angleX), \(angleY), \(angleZ),")
                     
                 }else {
                     csvText.append(contentsOf: ",,,")
                 }
                 
                 if (item["torqueX"] != nil){
-                    let externalWorkX = item["torqueX"]!
-                    let externalWorkY = item["torqueY"]!
-                    let externalWorkZ = item["torqueZ"]!
-                    csvText.append(contentsOf: "\(externalWorkX), \(externalWorkY), \(externalWorkZ)")
+                    let torqueX = item["torqueX"]!
+                    let torqueY = item["torqueY"]!
+                    let torqueZ = item["torqueZ"]!
+                    let torqueMag = item["torqueMag"]
+                    csvText.append(contentsOf: "\(torqueMag),\(torqueX), \(torqueY), \(torqueZ),")
                 }else {
                     csvText.append(contentsOf: ",,,")
                 }
@@ -168,7 +169,8 @@ class ViewController: UIViewController {
                     let posX = item["posX"]!
                     let posY = item["posY"]!
                     let posZ = item["posZ"]!
-                    csvText.append(contentsOf: "\(posX), \(posY), \(posZ)")
+                    let posMag = item["posMag"]
+                    csvText.append(contentsOf: "\(posMag), \(posX), \(posY), \(posZ)\n")
                 }else {
                     csvText.append(contentsOf: ",,,\n")
                 }

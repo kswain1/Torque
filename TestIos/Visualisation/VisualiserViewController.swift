@@ -226,7 +226,10 @@ class VisualiserViewController: WorkoutAnimationViewController, AnimationProgres
                 let rightFoot = skeleton.bone("RightFootTop")
                 let rightLowerLeg = skeleton.bone("RightLowerLeg")
                 if  (rightFoot != nil) && (rightLowerLeg != nil){
-                    var angleVeloX, angleVeloY, angleVeloZ, posX, posY, posZ: Float
+                    var angleVeloX, angleVeloY, angleVeloZ: Float
+                    var posX: Float = 0.0
+                    var posY: Float = 0.0
+                    var posZ: Float = 0.0
                     var angleX:Float = 0.0
                     var angleY:Float = 0.0
                     var angleZ:Float = 0.0
@@ -248,8 +251,9 @@ class VisualiserViewController: WorkoutAnimationViewController, AnimationProgres
                                 let accelerationX = angularAcceleration(angleVelocityPrevious: Float(previousVeloX), angleVelocityCurrent: vector.x, samplesPerSecond: 40)
                                 let accelerationY = angularAcceleration(angleVelocityPrevious: Float(previousVeloY), angleVelocityCurrent: vector.x, samplesPerSecond: 40)
                                 let accelerationZ = angularAcceleration(angleVelocityPrevious: Float(previousVeloZ), angleVelocityCurrent: vector.x, samplesPerSecond: 40)
-
-                                // Calculating Torque
+                                
+                                // MARK: Calculating Torque
+                                /// Calculating Torque
                                 // Step 1 collect angles
                                 if let angles = self.visualiserData.calculateRelativeAngleForReferenceBone(bone: rightLowerLeg!, referenceBone: rightFoot!, frameIndex: i){
                                     angleX = angles.x
@@ -262,7 +266,15 @@ class VisualiserViewController: WorkoutAnimationViewController, AnimationProgres
                                 torqueZ = jointTorque(angularAcceleration: accelerationZ, angle: angleZ)
                                 let torqueMag = externalWorkMagnitude(x:torqueX,y:torqueY,z:torqueZ )
                                 
-                                let data: [String: Float] = ["angleX":angleX,"angleY":angleY,"angleZ":angleZ ,"angleVeloX":vector.x, "angleVeloY": vector.y, "angleVeloZ": vector.z, "angleAccelX": accelerationX, "angleAccelY": accelerationY, "angleAccelZ": accelerationZ, "torqueMag":torqueMag, "torqueX":torqueX, "torqueY":torqueY, "torqueZ":torqueZ]
+                                //position calculations
+                                if let position = self.visualiserData.getPosition(bone: rightFoot!, frameIndex: i) {
+                                    posX = position.x
+                                    posY = position.y
+                                    posZ = position.z
+                                }
+                                let posMag = externalWorkMagnitude(x: posX, y: posY, z: posZ)
+                                
+                                let data: [String: Float] = ["angleX":angleX,"angleY":angleY,"angleZ":angleZ ,"angleVeloX":vector.x, "angleVeloY": vector.y, "angleVeloZ": vector.z, "angleAccelX": accelerationX, "angleAccelY": accelerationY, "angleAccelZ": accelerationZ, "torqueMag":torqueMag, "torqueX":torqueX, "torqueY":torqueY, "torqueZ":torqueZ, "posX": posX, "posY": posY, "posZ": posZ, "posMag": posMag]
                                 
                                 print("accelerationX:", accelerationX)
                                 print("TorqueX, TorqueMag:", torqueX, torqueMag)
@@ -281,23 +293,12 @@ class VisualiserViewController: WorkoutAnimationViewController, AnimationProgres
                                     angleZ = angles.z
                                 }
                                 
-                                let data: [String: Float] = ["angleX":angleX,"angleY":angleY, "angleZ":angleZ, "angleVeloX":vector.x, "angleVeloY": vector.y, "angleVeloZ": vector.z, "angleAccelX": 0.0, "angleAccelY": 0.0, "angleAccelZ": 0.0,"torqueMag":0.0 ,"torqueX":torqueX, "torqueY":torqueY, "torqueZ":torqueZ]
+                                let data: [String: Float] = ["angleX":angleX,"angleY":angleY, "angleZ":angleZ, "angleVeloX":vector.x, "angleVeloY": vector.y, "angleVeloZ": vector.z, "angleAccelX": 0.0, "angleAccelY": 0.0, "angleAccelZ": 0.0,"torqueMag":0.0 ,"torqueX":torqueX, "torqueY":torqueY, "torqueZ":torqueZ, "posX": 0.0, "posY": 0.0, "posZ": 0.0, "posMag": 0.0]
                                 print("accelerationX:", 0.0)
                                imuData.append(data)
                             }
                             
                         }
-                        
-                                                
-                        if let vector = self.visualiserData.getPosition(bone: rightFoot!, frameIndex: i){
-                            print("Position via visualizer: \(vector.x) \(vector.y) \(vector.z)")
-                            posX = vector.x
-                            posY = vector.y
-                            posZ = vector.z
-                            let data: [String: Float] = ["posX":vector.x, "posY": vector.y, "posZ": vector.z]
-                            imuData.append(data)
-                        }
-                        
                     }
                     
                 } else {
