@@ -137,7 +137,7 @@ class ViewController: UIViewController {
     @IBAction func exportIMU(_ sender: Any) {
         let fileName = "imuDownload.csv"
         let path = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(fileName)
-        var csvText = "angleX, angleY, angleZ\n"
+        var csvText = "angleX, angleY, angleZ, externalWorkX, externalWorkY, externalWorkZ\n"
         let count = self.imuDictionary?.count
         var angleX, angleY, angleZ: Float
         var i = 0
@@ -145,10 +145,33 @@ class ViewController: UIViewController {
         if imuDictionary != nil{
             var imuMotionList = "\(i),"
             for item in imuDictionary!{
+                if (item["angleX"] != nil){
                 angleX = item["angleX"] ?? 0.00
                 angleY = item["angleY"] ?? 0.00
                 angleZ = item["angleZ"] ?? 0.00
-                csvText.append(contentsOf: "\(angleX), \(angleY), \(angleZ)\n")
+                    csvText.append(contentsOf: "\(angleX), \(angleY), \(angleZ)")
+                    
+                }else {
+                    csvText.append(contentsOf: ",,,")
+                }
+                
+                if (item["torqueX"] != nil){
+                    let externalWorkX = item["torqueX"]!
+                    let externalWorkY = item["torqueY"]!
+                    let externalWorkZ = item["torqueZ"]!
+                    csvText.append(contentsOf: "\(externalWorkX), \(externalWorkY), \(externalWorkZ)")
+                }else {
+                    csvText.append(contentsOf: ",,,")
+                }
+                
+                if (item["posX"] != nil){
+                    let posX = item["posX"]!
+                    let posY = item["posY"]!
+                    let posZ = item["posZ"]!
+                    csvText.append(contentsOf: "\(posX), \(posY), \(posZ)")
+                }else {
+                    csvText.append(contentsOf: ",,,\n")
+                }
             }
             
             do {
@@ -858,15 +881,17 @@ extension ViewController: VisualizerDownloadDelegate {
     
     func getImuData(data: [[String : Float]]) {
         imuDictionary?.append(contentsOf: data)
-        var i = 0
+        var i = 1
         for item in data {
+            
+            print("potential data value for angle X", data[i]["angleX"])
+            
+            if (item["angleX"]  != nil) {
             print("Item angleX... ", item["angleX"])
             print("Item angleY... ", item["angleY"])
-            imuDictionary?[i]["externalWorkX"] = item["angleX"]! * 2
-            imuDictionary?[i]["externalWorkY"] = item["angleY"]! * 2
-            imuDictionary?[i]["externalWorkZ"] = item["angleZ"]! * 2
-            imuDictionary?[i]["externalWorkMag"] = externalWorkMagnitude(x: (imuDictionary?[i]["externalWorkX"])!, y: (imuDictionary?[i]["externalWorkY"])!, z: (imuDictionary?[i]["externalWorkZ"])!)
-            i = i + 1
+            print("Item workx...", item["torqueX"])
+            print("item worky...", item["torqueY"])
+            }
         }
     }
 }

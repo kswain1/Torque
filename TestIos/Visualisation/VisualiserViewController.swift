@@ -140,16 +140,73 @@ class VisualiserViewController: WorkoutAnimationViewController, AnimationProgres
                 
                 /// Downloading skeleton data example
                 let rightLowerLeg = skeleton.bone("RightLowerLeg")
-                if (rightLowerLeg != nil){
+                let rightFoot = skeleton.bone("RightFootTop")
+                let rightFootFront = skeleton.bone("RightFootFront")
+                let bones = skeleton.boneOrder
+                if (rightLowerLeg != nil ) && (rightFoot != nil) && (rightFootFront != nil){
+                    var previousVeloX:Float = 0.00
+                    var previousVeloY:Float = 0.00
+                    var previousVeloZ:Float = 0.00
+                    var torqueX: Float = 0.0
+                    var torqueY: Float = 0.0
+                    var torqueZ: Float = 0.0
+                    var angleX:Float = 0.00
+                    var angleY:Float = 0.00
+                    var angleZ: Float = 0.00
+                    
                     
                     //count through all of the samples
                     for i in 1..<self.visualiserData.frameCount {
+                        
+                        
                         if let vector = self.visualiserData.calculateAngularVelocity(bone: rightLowerLeg!, frameIndex: i) {
                             
                             print("angular Velocity: \(vector.x) \(vector.y) \(vector.z)")
-                            let data: [String: Float] = ["angleX":vector.x, "angleY": vector.y, "angleZ": vector.z]
+                            if i > 1 {
+                                let accelerationX = angularAcceleration(angleVelocityPrevious: Float(previousVeloX), angleVelocityCurrent: vector.x, samplesPerSecond: 40)
+                                let accelerationY = angularAcceleration(angleVelocityPrevious: Float(previousVeloY), angleVelocityCurrent: vector.x, samplesPerSecond: 40)
+                                let accelerationZ = angularAcceleration(angleVelocityPrevious: Float(previousVeloZ), angleVelocityCurrent: vector.x, samplesPerSecond: 40)
+
+                                // Calculating Torque
+                                // Step 1 collect angles
+                                if let angles = self.visualiserData.calculateRelativeAngleForReferenceBone(bone: rightLowerLeg!, referenceBone: rightFoot!, frameIndex: i){
+                                    angleX = angles.x
+                                    angleY = angles.y
+                                    angleZ = angles.z
+                                }
+                                
+                                torqueX = jointTorque(angularAcceleration: accelerationX, angle: angleX)
+                                torqueY = jointTorque(angularAcceleration: accelerationY, angle: angleY)
+                                torqueZ = jointTorque(angularAcceleration: accelerationZ, angle: angleZ)
+                                let torqueMag = externalWorkMagnitude(x:torqueX,y:torqueY,z:torqueZ )
+                                
+                                let data: [String: Float] = ["angleX":angleX,"angleY":angleY,"angleZ":angleZ ,"angleVeloX":vector.x, "angleVeloY": vector.y, "angleVeloZ": vector.z, "angleAccelX": accelerationX, "angleAccelY": accelerationY, "angleAccelZ": accelerationZ, "torqueMag":torqueMag, "torqueX":torqueX, "torqueY":torqueY, "torqueZ":torqueZ]
+                                imuData.append(data)
+                                
+                                // swap values acceleration calculation
+                                previousVeloX = Float(vector.x)
+                                previousVeloY = Float(vector.y)
+                                previousVeloZ = Float(vector.z)
+                            } else {
+                                // for zero case
+                                // Step 1 collect angles
+                                if let angles = self.visualiserData.calculateRelativeAngleForReferenceBone(bone: rightLowerLeg!, referenceBone: rightFoot!, frameIndex: i){
+                                    angleX = angles.x
+                                    angleY = angles.y
+                                    angleZ = angles.z
+                                }
+                                
+                                let data: [String: Float] = ["angleX":angleX,"angleY":angleY, "angleZ":angleZ, "angleVeloX":vector.x, "angleVeloY": vector.y, "angleVeloZ": vector.z, "angleAccelX": 0.0, "angleAccelY": 0.0, "angleAccelZ": 0.0,"torqueMag":0.0 ,"torqueX":torqueX, "torqueY":torqueY, "torqueZ":torqueZ]
+                               imuData.append(data)
+                            }
+                            
+                        }
+                        
+                        if let vector = self.visualiserData.getPosition(bone: rightFoot!, frameIndex: i) {
+                            let data: [String: Float] = ["posX":vector.x, "posY": vector.y, "posZ": vector.z]
                             imuData.append(data)
                         }
+                        
                     }
                 }
                 
@@ -169,65 +226,82 @@ class VisualiserViewController: WorkoutAnimationViewController, AnimationProgres
                 let rightFoot = skeleton.bone("RightFootTop")
                 let rightLowerLeg = skeleton.bone("RightLowerLeg")
                 if  (rightFoot != nil) && (rightLowerLeg != nil){
-                     var angleX, angleY, angleZ, angleVeloX, angleVeloY, angleVeloZ, posX, posY, posZ: Float
+                    var angleVeloX, angleVeloY, angleVeloZ, posX, posY, posZ: Float
+                    var angleX:Float = 0.0
+                    var angleY:Float = 0.0
+                    var angleZ:Float = 0.0
+                    var previousVeloX:Float = 0.00
+                    var previousVeloY:Float = 0.00
+                    var previousVeloZ:Float = 0.00
+                    var torqueX: Float = 0.0
+                    var torqueY: Float = 0.0
+                    var torqueZ: Float = 0.0
                     
                     //started from the second sample to include angular velocity
                     for i in 1..<self.visualiserData.frameCount {
                         //appends the first sample to imu motion list
                         var imuMotionList = "\(i),"
-                        if let vector = self.visualiserData.calculateRelativeAngleForReferenceBone(bone: rightFoot!, referenceBone: rightLowerLeg!, frameIndex: i)
-                        {
-                            print("Angle via visualizer: \(vector.x) \(vector.y) \(vector.z)")
-                            angleX = vector.x
-                            angleY = vector.y
-                            angleZ = vector.z
-                            imuMotionList.append(contentsOf: "\(angleX),\(angleY),\(angleZ),")
-                        }
                         if let vector = self.visualiserData.calculateAngularVelocity(bone: rightLowerLeg!, frameIndex: i) {
                             
-                            print("angular Velocity: \(vector.x) \(vector.y) \(vector.z)")
-                            angleVeloX = vector.x
-                            angleVeloY = vector.y
-                            angleVeloZ = vector.z
-                            imuMotionList.append(contentsOf: "\(angleVeloX),\(angleVeloY),\(angleVeloZ),")
+//                            print("angular Velocity: \(vector.x) \(vector.y) \(vector.z)")
+                            if i > 1 {
+                                let accelerationX = angularAcceleration(angleVelocityPrevious: Float(previousVeloX), angleVelocityCurrent: vector.x, samplesPerSecond: 40)
+                                let accelerationY = angularAcceleration(angleVelocityPrevious: Float(previousVeloY), angleVelocityCurrent: vector.x, samplesPerSecond: 40)
+                                let accelerationZ = angularAcceleration(angleVelocityPrevious: Float(previousVeloZ), angleVelocityCurrent: vector.x, samplesPerSecond: 40)
+
+                                // Calculating Torque
+                                // Step 1 collect angles
+                                if let angles = self.visualiserData.calculateRelativeAngleForReferenceBone(bone: rightLowerLeg!, referenceBone: rightFoot!, frameIndex: i){
+                                    angleX = angles.x
+                                    angleY = angles.y
+                                    angleZ = angles.z
+                                }
+                                
+                                torqueX = jointTorque(angularAcceleration: accelerationX, angle: angleX)
+                                torqueY = jointTorque(angularAcceleration: accelerationY, angle: angleY)
+                                torqueZ = jointTorque(angularAcceleration: accelerationZ, angle: angleZ)
+                                let torqueMag = externalWorkMagnitude(x:torqueX,y:torqueY,z:torqueZ )
+                                
+                                let data: [String: Float] = ["angleX":angleX,"angleY":angleY,"angleZ":angleZ ,"angleVeloX":vector.x, "angleVeloY": vector.y, "angleVeloZ": vector.z, "angleAccelX": accelerationX, "angleAccelY": accelerationY, "angleAccelZ": accelerationZ, "torqueMag":torqueMag, "torqueX":torqueX, "torqueY":torqueY, "torqueZ":torqueZ]
+                                
+                                print("accelerationX:", accelerationX)
+                                print("TorqueX, TorqueMag:", torqueX, torqueMag)
+                                imuData.append(data)
+                                
+                                // swap values acceleration calculation
+                                previousVeloX = Float(vector.x)
+                                previousVeloY = Float(vector.y)
+                                previousVeloZ = Float(vector.z)
+                            } else {
+                                // for zero case
+                                // Step 1 collect angles
+                                if let angles = self.visualiserData.calculateRelativeAngleForReferenceBone(bone: rightLowerLeg!, referenceBone: rightFoot!, frameIndex: i){
+                                    angleX = angles.x
+                                    angleY = angles.y
+                                    angleZ = angles.z
+                                }
+                                
+                                let data: [String: Float] = ["angleX":angleX,"angleY":angleY, "angleZ":angleZ, "angleVeloX":vector.x, "angleVeloY": vector.y, "angleVeloZ": vector.z, "angleAccelX": 0.0, "angleAccelY": 0.0, "angleAccelZ": 0.0,"torqueMag":0.0 ,"torqueX":torqueX, "torqueY":torqueY, "torqueZ":torqueZ]
+                                print("accelerationX:", 0.0)
+                               imuData.append(data)
+                            }
+                            
                         }
                         
-                        
-                        
+                                                
                         if let vector = self.visualiserData.getPosition(bone: rightFoot!, frameIndex: i){
                             print("Position via visualizer: \(vector.x) \(vector.y) \(vector.z)")
                             posX = vector.x
                             posY = vector.y
                             posZ = vector.z
-                            imuMotionList.append(contentsOf: "\(posX),\(posY),\(posZ)\n")
+                            let data: [String: Float] = ["posX":vector.x, "posY": vector.y, "posZ": vector.z]
+                            imuData.append(data)
                         }
                         
-                        imuText.append(contentsOf: imuMotionList)
-                    }
-                    
-                    do {
-                    try imuText.write(to: path!, atomically: true, encoding: String.Encoding.utf8)
-                        let vcExportCSV = UIActivityViewController(activityItems: [path], applicationActivities: [])
-                        vcExportCSV.excludedActivityTypes = [
-                            UIActivity.ActivityType.assignToContact,
-                            UIActivity.ActivityType.saveToCameraRoll,
-                            UIActivity.ActivityType.postToFlickr,
-                            UIActivity.ActivityType.postToVimeo,
-                            UIActivity.ActivityType.postToTencentWeibo,
-                            UIActivity.ActivityType.postToTwitter,
-                            UIActivity.ActivityType.postToFacebook,
-                            UIActivity.ActivityType.openInIBooks
-                        ]
-                        present(vcExportCSV, animated: true, completion: nil)
-                        
-                    }
-                    catch {
-                        print("failed to create imu file downloader")
-                        print ("error")
                     }
                     
                 } else {
-                    print("ChestBottom bone not found")
+                    print("right foot bone not found")
                 }
             } catch let error as NSError {
                 print(error.localizedDescription)
