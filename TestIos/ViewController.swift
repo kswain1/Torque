@@ -39,10 +39,10 @@ class ViewController: UIViewController {
     var sessionDataValues = [[Double]]()
     var isStartClicked = false
     var sessionDictionary = [String:[Double]]()
-    var customArray = [Double]()
-    var customArray1 = [Double]()
-    var customArray2 = [Double]()
-    var customArray3 = [Double]()
+    var customArray = [Double]()  //Medial Gastro
+    var customArray1 = [Double]()  // 1 - Posterial Medial
+    var customArray2 = [Double]()  // 2 - Tibilar Anterior
+    var customArray3 = [Double]()  // 3- Peroneals
     var emgDataArray = [0.0,0.0,0.0,0.0]
     var imuDictionary: [[String : Float]]? = []
 
@@ -90,6 +90,17 @@ class ViewController: UIViewController {
     }
     @IBAction func startEmg(_ sender: Any) {
         isStartClicked = true
+        var progressSeconds = 0.0
+        var maxTimeElapse = 3.0
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { (Timer) in
+            progressSeconds += 1.0
+            if progressSeconds >= maxTimeElapse {
+                self.isStartClicked = false
+                print("It has been 3 seconds")
+                Timer.invalidate()
+            }
+            
+        }
     }
     
     
@@ -137,10 +148,40 @@ class ViewController: UIViewController {
     @IBAction func exportIMU(_ sender: Any) {
         let fileName = "imuDownload.csv"
         let path = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(fileName)
-        var csvText = "angleX, angleY, angleZ,torqueMag, torqueX, torqueY, torqueZ, posMag, posX, posY, posZ\n"
+        var csvText = "angleX, angleY, angleZ,torqueMag, torqueX, torqueY, torqueZ, posMag, posX, posY, posZ, medGastro, tibAnterior\n"
         let count = self.imuDictionary?.count
         var angleX, angleY, angleZ: Float
         var i = 0
+        
+        
+        ///Save emg Data to IMUDictionary
+        if imuDictionary != nil {
+            let imulength = imuDictionary!.count
+            for i in 0..<imulength {
+                if customArray.count != 0{
+                    imuDictionary![i]["medGastro"] = Float(customArray[i])
+                }
+                
+                if customArray1.count != 0{
+                    imuDictionary![i]["postMedial"] = Float(customArray1[i])
+                }
+                
+                if customArray2.count != 0{
+                    imuDictionary![i]["tibAnt"] = Float(customArray2[i])
+                }
+                
+                if customArray3.count != 0{
+                    imuDictionary![i]["peroneals"] = Float(customArray3[i])
+                }
+            }
+            
+            //clear emg data
+            customArray = []
+            customArray1 = []
+            customArray2 = []
+            customArray3 = []
+            
+        }
         
         if imuDictionary != nil{
             var imuMotionList = "\(i),"
@@ -159,7 +200,7 @@ class ViewController: UIViewController {
                     let torqueX = item["torqueX"]!
                     let torqueY = item["torqueY"]!
                     let torqueZ = item["torqueZ"]!
-                    let torqueMag = item["torqueMag"]
+                    let torqueMag = item["torqueMag"]!
                     csvText.append(contentsOf: "\(torqueMag),\(torqueX), \(torqueY), \(torqueZ),")
                 }else {
                     csvText.append(contentsOf: ",,,")
@@ -169,10 +210,24 @@ class ViewController: UIViewController {
                     let posX = item["posX"]!
                     let posY = item["posY"]!
                     let posZ = item["posZ"]!
-                    let posMag = item["posMag"]
-                    csvText.append(contentsOf: "\(posMag), \(posX), \(posY), \(posZ)\n")
+                    let posMag = item["posMag"]!
+                    csvText.append(contentsOf: "\(posMag), \(posX), \(posY), \(posZ),")
                 }else {
-                    csvText.append(contentsOf: ",,,\n")
+                    csvText.append(contentsOf: ",,,,")
+                }
+                
+                if (item["medGastro"] != nil){
+                    let medGastro = item["medGastro"]!
+                    csvText.append(contentsOf: "\(medGastro),")
+                }else {
+                    csvText.append(contentsOf: ",")
+                }
+                
+                if (item["tibAnt"] != nil){
+                    let tibAnterior = item["tibAnt"]!
+                    csvText.append(contentsOf: "\(tibAnterior)\n")
+                }else {
+                    csvText.append(contentsOf: "\n")
                 }
             }
             
@@ -299,6 +354,7 @@ extension ViewController {
         //stop collection of emg data
         BluetoothPreferences.peripherals?.forEach {
             peripheral in
+            
             
         }
     
@@ -689,6 +745,7 @@ extension ViewController {
                 cancelled: { })
             
         } else {
+        
             _ = AppDelegate.service.configureTimedCapture(
                 timerMillis: 30000, isShowingColors: false,
                 success: defaultSuccessCallback,
@@ -711,13 +768,30 @@ extension ViewController {
                 
             }
         } else {
+            
+            }
             _ = AppDelegate.service.timedCapture(
                 success: { result in
                     self.currentMeasurement = result
                     self.hideStatusLabel()
+                    self.showStatusLabel(message: "succesfully saved imu")
             }, failure: defaultFailureCallback,
                progress: { _ in },
                cancelled: { })
+            
+        //start emg sensor capture
+        var progressSeconds = 1.0
+        let elapsedTime = 30.0
+        self.isStartClicked = true
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { (Timer) in
+            progressSeconds += 1
+            if progressSeconds >= elapsedTime {
+                self.isStartClicked = false
+                Timer.invalidate()
+                self.showStatusLabel(message: "succesfull saved emg, Please Click Download Button")
+            }
+            
+            
         }
     }
     

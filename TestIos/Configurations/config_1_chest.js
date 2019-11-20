@@ -4,7 +4,7 @@
             "name": "ChestBottom",
             "color1": "Blue",
             "color2": "Blue",
-            "frequency": 40
+            "frequency": 70
         }
     ],
     "master_bone": "ChestBottom",
