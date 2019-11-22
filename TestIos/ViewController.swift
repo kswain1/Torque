@@ -9,11 +9,12 @@
 import UIKit
 import WearnotchSDK
 import CoreBluetooth
+import MessageUI
 
 
 
 //Mark: lifeCycle
-class ViewController: UIViewController {
+class ViewController: UIViewController, MFMailComposeViewControllerDelegate {
     
     private let LICENSE_CODE = "x7XURbDfbQWKYOQE7kr3"
     
@@ -45,6 +46,8 @@ class ViewController: UIViewController {
     var customArray3 = [Double]()  // 3- Peroneals
     var emgDataArray = [0.0,0.0,0.0,0.0]
     var imuDictionary: [[String : Float]]? = []
+    
+    var htmlString = ""
 
     
     private var selectedConfiguration: ConfigurationType = ConfigurationType.chest1 {
@@ -258,6 +261,16 @@ class ViewController: UIViewController {
         
     }
     
+    @IBAction func emailReport(_ sender: Any) {
+        self.sendEmailAlert()
+        
+        print("email alert")
+    }
+    
+    // MARK: MFMailComposeViewControllerDelegate Method
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true, completion: nil)
+    }
     
 }
 
@@ -972,3 +985,73 @@ extension ViewController: VisualizerDownloadDelegate {
     }
 }
 
+
+// MARK: Email Report
+extension ViewController {
+    func sendEmailAlert() {
+        let sendEmail = UIAlertController(title: "Email address", message: "Please enter your email address.", preferredStyle: .alert)
+        
+        sendEmail.addTextField { (text) in
+            text.placeholder = "Enter Your Email"
+        }
+        
+        sendEmail.textFields?[0].keyboardType = .emailAddress
+        sendEmail.addAction(UIAlertAction(title: "Send", style: .default, handler:  {(action) in
+            if let email = sendEmail.textFields?.first?.text {
+                //  self.yBalScore = Int(name)!
+                self.sendMail(email)
+                //self.postDataYBal()
+            }
+            else {
+                print("no email saved")
+            }
+            
+            })
+        )
+        
+        sendEmail.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        self.present(sendEmail, animated: true)
+    }
+    
+    func sendMail(_ email: String) {
+        let mailComposeViewController = configureMailComposer(email)
+        if MFMailComposeViewController.canSendMail(){
+            self.present(mailComposeViewController, animated: true, completion: nil)
+        }else{
+            print("Can't send email")
+        }
+    }
+    
+    func configureMailComposer(_ email: String) -> MFMailComposeViewController{
+        let mailComposeVC = MFMailComposeViewController()
+        mailComposeVC.mailComposeDelegate = self
+        mailComposeVC.setToRecipients([email])
+        mailComposeVC.setSubject("Torque Demo")
+        self.prepareHTMLFromPlayerData()
+        mailComposeVC.setMessageBody(self.htmlString, isHTML: true)
+        return mailComposeVC
+    }
+    
+    func prepareHTMLFromPlayerData(){
+        var externalSum:Float = 0.00
+        var externalAvg: Float = 0.00
+        if imuDictionary != nil {
+            for item in self.imuDictionary!{
+                externalSum += item["torqueMag"]!
+            }
+            
+            externalAvg = externalSum/Float(imuDictionary!.count)
+        }
+        
+        
+        self.htmlString = String(format: """
+             <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+             <html>
+                <h4> External Torque Average</h4>
+                <b>%2.2f</b>
+             </html>
+            """, externalAvg)
+    }
+    
+}

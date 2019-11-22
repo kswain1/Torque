@@ -41,7 +41,7 @@
                                 <rect key="frame" x="0.0" y="88" width="375" height="1278"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="5fc-ul-K3R">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="1674"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="1719"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Device List:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UPJ-Gq-Yp0">
                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="20.5"/>
@@ -410,7 +410,7 @@
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="fJT-Yq-m8h">
-                                                <rect key="frame" x="0.0" y="1113" width="375" height="561"/>
+                                                <rect key="frame" x="0.0" y="1113" width="375" height="606"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Capture EMG" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ozz-XV-Oy4">
                                                         <rect key="frame" x="0.0" y="0.0" width="108" height="40"/>
@@ -587,6 +587,18 @@
                                                         </state>
                                                         <connections>
                                                             <action selector="exportIMU:" destination="Mdc-O1-VmU" eventType="touchUpInside" id="nU0-BC-Drx"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yVd-cB-XaU">
+                                                        <rect key="frame" x="0.0" y="573" width="111" height="33"/>
+                                                        <color key="backgroundColor" red="0.080266483129999996" green="0.72267872099999997" blue="0.85492521519999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                        <state key="normal" title=" Email Report  ">
+                                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="emailReport:" destination="Mdc-O1-VmU" eventType="touchUpInside" id="ZZ7-aS-Fj2"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>

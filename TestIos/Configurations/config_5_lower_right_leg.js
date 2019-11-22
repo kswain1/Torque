@@ -5,31 +5,31 @@
              "name": "ChestBottom",
              "color1": "Cyan",
              "color2": "Cyan",
-             "frequency": 40
+             "frequency": 58
     },
       {
             "name": "Hip",
             "color1": "Blue",
             "color2": "Blue",
-            "frequency": 40
+            "frequency": 58
         },
         {
             "name": "RightThigh",
             "color1": "Red",
             "color2": "Red",
-            "frequency": 40
+            "frequency": 58
         },
         {
             "name": "RightLowerLeg",
             "color1": "Green",
             "color2": "Green",
-            "frequency": 40
+            "frequency": 58
         },
         {
             "name": "RightFootTop",
             "color1": "Pink",
             "color2": "Pink",
-            "frequency": 40
+            "frequency": 58
         },
     ],
     "master_bone": "Hip",
