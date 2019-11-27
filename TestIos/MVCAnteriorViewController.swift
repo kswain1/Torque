@@ -20,10 +20,10 @@ class MVCAnteriorViewController: UIViewController {
     
     // Peripherals Data 
     var btReceiverHolderTypesArray = [Int]()
-    var customArray = [Double]()
-    var customArray1 = [Double]()
-    var customArray2 = [Double]()
-    var customArray3 = [Double]()
+    var peroneals = [Double]()
+    var medGastro = [Double]()
+    var tibAnterior = [Double]()
+    var latGastro = [Double]()
     //delegate method for peripherals view controller
     weak var mvcDelegate: MVCDelegate?
     
@@ -80,14 +80,9 @@ extension MVCAnteriorViewController {
         
         /// calulate Max MVC
         var MVC: Double = 0.0
-        if self.customArray.capacity != 0 {
-            MVC = customArray.max()!
-        }else if (self.customArray1.capacity != 0) {
-            MVC = customArray1.max()!
-        }else if (self.customArray2.capacity != 0) {
-            MVC = customArray2.max()!
-        }else if (self.customArray3.capacity != 0) {
-            MVC = customArray3.max()!
+        if (self.tibAnterior.capacity != 0) {
+            MVC = tibAnterior.max()!
+            
         }
         
         let alertView = UIAlertController(title: "Save MVC Session Data", message: "MVC calculated: \(MVC) mv do you wish  to save?", preferredStyle: .alert )
@@ -192,20 +187,20 @@ extension MVCAnteriorViewController: CBPeripheralDelegate {
                                 if peripheral == preferencePeripherals[i].peripheral {
 //                                     self.sessionDataValues[i].append(sessionDataValue)
                                     self.btReceiverHolderTypesArray[i] = preferencePeripherals[i].type!
-                                    switch i{
+                                    switch preferencePeripherals[i].type!{
                                     /// append storage array for sensors involved 0 - Medial Gastroc 1 - Posterial Mediall, 2 - Tibilar Anterior  3- Peroneals
-                                    case 0:
-                                        self.customArray.append(sessionDataValue)
-                                        break
                                     case 1:
-                                        self.customArray1.append(sessionDataValue)
+                                        self.peroneals.append(sessionDataValue)
                                         break
                                     case 2:
-                                        self.customArray2.append(sessionDataValue)
+                                        self.tibAnterior.append(sessionDataValue)
                                         self.updateProgressBar(emgData: sessionDataValue)
                                         break
                                     case 3:
-                                        self.customArray3.append(sessionDataValue)
+                                        self.latGastro.append(sessionDataValue)
+                                        break
+                                    case 4:
+                                        self.medGastro.append(sessionDataValue)
                                         break
                                     default:
                                         break

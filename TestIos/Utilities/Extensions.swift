@@ -71,6 +71,12 @@ func jointTorque(angularAcceleration: Float, angle: Float, nueroMuscle: Float = 
     return torque
 }
 
+// 
+
+func computeScore (emgArray: Double) -> [Double] {
+    return [0.0, 0.0]
+}
+
 protocol MVCDelegate: class {
     func addMVC(MVC: (String,Double))
 }
@@ -82,3 +88,5 @@ protocol PosteriorMVCDelegate: class {
 protocol BluetoothControllerDelegate {
     func didAddPeripherals(array: [Peripheral]?, btmanager: CBCentralManager?)
 }
+
+

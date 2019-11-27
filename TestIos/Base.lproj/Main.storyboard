@@ -80,14 +80,14 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="cSc-W4-dRo">
-                                                        <rect key="frame" x="0.0" y="52" width="144" height="30"/>
+                                                        <rect key="frame" x="0.0" y="52" width="143" height="30"/>
                                                         <color key="backgroundColor" red="0.0" green="0.6705882353" blue="0.81960784310000001" alpha="1" colorSpace="calibratedRGB"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="30" id="e7a-ya-CR8"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <inset key="contentEdgeInsets" minX="12" minY="0.0" maxX="12" maxY="0.0"/>
-                                                        <state key="normal" title="Pair new device">
+                                                        <state key="normal" title="Pair IMU device">
                                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </state>
                                                         <connections>
@@ -95,14 +95,14 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="Fvr-4y-EYT" userLabel="Pair EMG device">
-                                                        <rect key="frame" x="0.0" y="94" width="148" height="30"/>
+                                                        <rect key="frame" x="0.0" y="94" width="151" height="30"/>
                                                         <color key="backgroundColor" red="0.0" green="0.6705882353" blue="0.81960784310000001" alpha="1" colorSpace="calibratedRGB"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="30" id="rTy-kG-ENp"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <inset key="contentEdgeInsets" minX="12" minY="0.0" maxX="12" maxY="0.0"/>
-                                                        <state key="normal" title="Pair emg Device">
+                                                        <state key="normal" title="Pair EMG Device">
                                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </state>
                                                         <connections>
@@ -549,7 +549,7 @@
                                                             <action selector="actionConfigureCapture" destination="Mdc-O1-VmU" eventType="touchUpInside" id="s8m-ae-zeI"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bcc-DF-lhH">
+                                                    <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bcc-DF-lhH">
                                                         <rect key="frame" x="0.0" y="363" width="142" height="30"/>
                                                         <color key="backgroundColor" red="0.0" green="0.6705882353" blue="0.81960784310000001" alpha="1" colorSpace="calibratedRGB"/>
                                                         <constraints>

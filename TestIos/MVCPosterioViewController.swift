@@ -196,21 +196,21 @@ extension MVCPosterioViewController: CBPeripheralDelegate {
                                 if peripheral == preferencePeripherals[i].peripheral {
 //                                     self.sessionDataValues[i].append(sessionDataValue)
                                     self.btReceiverHolderTypesArray[i] = preferencePeripherals[i].type!
-                                    switch i{
+                                    switch preferencePeripherals[i].type!{
                                     /// append storage array for sensors involved 0 - Medial Gastroc 1 - Posterial Mediall, 2 - Tibilar Anterior  3- Peroneals
-                                    case 0:
-                                        self.medGastro.append(sessionDataValue)
-                                        self.updateProgressBar(emgData: sessionDataValue)
-                                        break
                                     case 1:
-                                        self.lateralGastro.append(sessionDataValue)
-                                        self.updateProgressBar(emgData: sessionDataValue)
+                                        self.peroneals.append(sessionDataValue)
                                         break
                                     case 2:
                                         self.tibAnterior.append(sessionDataValue)
                                         break
                                     case 3:
-                                        self.peroneals.append(sessionDataValue)
+                                        self.lateralGastro.append(sessionDataValue)
+                                        self.updateProgressBar(emgData: sessionDataValue)
+                                        break
+                                    case 4:
+                                        self.medGastro.append(sessionDataValue)
+                                        self.updateProgressBar(emgData: sessionDataValue)
                                         break
                                     default:
                                         break

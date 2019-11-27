@@ -39,10 +39,10 @@ class ViewController: UIViewController, MFMailComposeViewControllerDelegate {
     var sessionDataValues = [[Double]]()
     var isStartClicked = false
     var sessionDictionary = [String:[Double]]()
-    var customArray = [Double]()  //Medial Gastro
-    var customArray1 = [Double]()  // 1 - Posterial Medial
-    var customArray2 = [Double]()  // 2 - Tibilar Anterior
-    var customArray3 = [Double]()  // 3- Peroneals
+    var medGastroc = [Double]()  //Medial Gastro
+    var latGastroc = [Double]()  // 1 - Posterial Medial
+    var tibAnterior = [Double]()  // 2 - Tibilar Anterior
+    var peroneals = [Double]()  // 3- Peroneals
     var emgDataArray = [0.0,0.0,0.0,0.0]
     var imuDictionary: [[String : Float]]? = []
     var blueToothPeripheralsDelegate: BluetoothControllerDelegate?
@@ -131,11 +131,11 @@ class ViewController: UIViewController, MFMailComposeViewControllerDelegate {
         let fileName = "emgDownload.csv"
         let path = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(fileName)
         var csvText = "Medial Gastroc, Posteriolateral Gastroc, Tibilar Anterior,Peroneals\n"
-        let count = self.customArray.count
+        let count = self.medGastroc.count
         
         if count > 0 {
-            for emgArray in customArray {
-                let newline = "\(customArray[0]),\(customArray[1]),\(customArray[2]),\(customArray[3])\n"
+            for emgArray in medGastroc {
+                let newline = "\(medGastroc[0]),\(medGastroc[1]),\(medGastroc[2]),\(medGastroc[3])\n"
 //                let newline = currentMeasurement!
                 csvText.append(contentsOf: newline)
             }
@@ -167,7 +167,7 @@ class ViewController: UIViewController, MFMailComposeViewControllerDelegate {
     @IBAction func exportIMU(_ sender: Any) {
         let fileName = "imuDownload.csv"
         let path = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(fileName)
-        var csvText = "angleX, angleY, angleZ,torqueMag, torqueX, torqueY, torqueZ, posMag, posX, posY, posZ, medGastro, tibAnterior\n"
+        var csvText = "angleX, angleY, angleZ,torqueMag, torqueX, torqueY, torqueZ, posMag, posX, posY, posZ, medGastro, tibAnterior, latGastro, Peroneals\n"
         let count = self.imuDictionary?.count
         var angleX, angleY, angleZ: Float
         var i = 0
@@ -177,28 +177,57 @@ class ViewController: UIViewController, MFMailComposeViewControllerDelegate {
         if imuDictionary != nil {
             let imulength = imuDictionary!.count
             for i in 0..<imulength {
-                if customArray.count != 0{
-                    imuDictionary![i]["medGastro"] = Float(customArray[i])
+                if medGastroc.count != 0{
+                    
+                    if let MedGastroc = self.MVCDict["medialGastroc"] {
+                        var normalize = self.medGastroc[i]/MedGastroc
+                        normalize *= 100
+                        imuDictionary![i]["medGastro"] = Float(normalize)
+                    }
+                    else {
+                        imuDictionary![i]["medGastroc"] = Float(medGastroc[i])
+                    }
                 }
                 
-                if customArray1.count != 0{
-                    imuDictionary![i]["postMedial"] = Float(customArray1[i])
+                if latGastroc.count != 0{
+                    // check for MVC value storage
+                    if let LatGastroc = self.MVCDict["lateralGastroc"]{
+                        var normalize = self.latGastroc[i]/LatGastroc
+                        normalize *= 100
+                        imuDictionary![i]["latGastro"] = Float(normalize)
+                    }else {
+                        imuDictionary![i]["latGastroc"] = Float(latGastroc[i])
+                    }
                 }
                 
-                if customArray2.count != 0{
-                    imuDictionary![i]["tibAnt"] = Float(customArray2[i])
+                if tibAnterior.count != 0{
+                    //check for MVC value storage
+                    if let TibAnterior = self.MVCDict["Anterior"]{
+                        var normalize = self.tibAnterior[i]/TibAnterior
+                        normalize *= 100
+                        imuDictionary![i]["tibAnt"] = Float(normalize)
+                    }else{
+                        imuDictionary![i]["tibAnt"] = Float(tibAnterior[i])
+                    }
+                    
                 }
                 
-                if customArray3.count != 0{
-                    imuDictionary![i]["peroneals"] = Float(customArray3[i])
+                if peroneals.count != 0{
+                    //check for MVC value storage
+                    if let Peroneals = self.MVCDict["Peroneals"]{
+                        var normalize = self.peroneals[i]/Peroneals
+                        normalize *= 100
+                        imuDictionary![i]["peroneals"] = Float(normalize)
+                    }
+                    imuDictionary![i]["peroneals"] = Float(peroneals[i])
                 }
             }
             
             //clear emg data
-            customArray = []
-            customArray1 = []
-            customArray2 = []
-            customArray3 = []
+            medGastroc = []
+            latGastroc = []
+            tibAnterior = []
+            peroneals = []
             
         }
         
@@ -246,9 +275,24 @@ class ViewController: UIViewController, MFMailComposeViewControllerDelegate {
                     let tibAnterior = item["tibAnt"]!
                     csvText.append(contentsOf: "\(tibAnterior)\n")
                 }else {
+                    csvText.append(contentsOf: ",")
+                }
+                
+                if (item["latGastro"] != nil){
+                    let tibAnterior = item["latGastro"]!
+                    csvText.append(contentsOf: "\(tibAnterior)\n")
+                }else {
+                    csvText.append(contentsOf: ",")
+                }
+                if (item["peroneals"] != nil){
+                    let tibAnterior = item["peroneals"]!
+                    csvText.append(contentsOf: "\(tibAnterior)\n")
+                }else {
                     csvText.append(contentsOf: "\n")
                 }
             }
+            // clear IMU data
+            imuDictionary = [[String:Float]]()
             
             do {
                 try csvText.write(to: path!, atomically: true, encoding: String.Encoding.utf8)
@@ -463,25 +507,25 @@ extension ViewController: CBPeripheralDelegate {
                             if peripheral == preferencePeripherals[i].peripheral {
                                  self.sessionDataValues[i].append(sessionDataValue)
                                 self.btReceiverHolderTypesArray[i] = preferencePeripherals[i].type!
-                                switch i{
+                                switch preferencePeripherals[i].type!{
                                 /// append storage array for sensors involved 0 - Medial Gastroc 1 - Posterial Mediall, 2 - Tibilar Anterior  3- Peroneals
-                                case 0:
-                                    self.customArray.append(sessionDataValue)
-                                    break
                                 case 1:
-                                    self.customArray1.append(sessionDataValue)
+                                    self.peroneals.append(sessionDataValue)
                                     break
                                 case 2:
-                                    self.customArray2.append(sessionDataValue)
+                                    
+                                    self.tibAnterior.append(sessionDataValue)
                                     break
                                 case 3:
-                                    self.customArray3.append(sessionDataValue)
+                                    self.latGastroc.append(sessionDataValue)
+                                    break
+                                case 4:                                    self.medGastroc.append(sessionDataValue)
                                     break
                                 default:
                                     break
                             
                                 }                                
-                         }
+                          }
                      }
                  }
              }
@@ -824,7 +868,8 @@ extension ViewController {
             if progressSeconds >= elapsedTime {
                 self.isStartClicked = false
                 Timer.invalidate()
-                self.showStatusLabel(message: "succesfull saved emg, Please Click Download Button")
+                self.showStatusLabel(message: "Saved EMG, Click Download Button")
+                
             }
             
             
@@ -993,18 +1038,18 @@ extension ViewController: VisualizerDownloadDelegate {
     
     func getImuData(data: [[String : Float]]) {
         imuDictionary?.append(contentsOf: data)
-        var i = 1
-        for item in data {
-            
-            print("potential data value for angle X", data[i]["angleX"])
-            
-            if (item["angleX"]  != nil) {
-            print("Item angleX... ", item["angleX"])
-            print("Item angleY... ", item["angleY"])
-            print("Item workx...", item["torqueX"])
-            print("item worky...", item["torqueY"])
-            }
-        }
+//        var i = 1
+//        for item in data {
+//
+//            print("potential data value for angle X", data[i]["angleX"])
+//
+//            if (item["angleX"]  != nil) {
+//            print("Item angleX... ", item["angleX"])
+//            print("Item angleY... ", item["angleY"])
+//            print("Item workx...", item["torqueX"])
+//            print("item worky...", item["torqueY"])
+//            }
+//        }
     }
 }
 

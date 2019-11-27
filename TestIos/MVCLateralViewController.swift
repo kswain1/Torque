@@ -91,10 +91,10 @@ extension MVCLateralViewController {
             MVC = peroneals.max()!
         }
         
-        let alertView = UIAlertController(title: "Save MVC Session Data", message: "MVC calculated: \(MVC) mv do you wish  to save?", preferredStyle: .alert )
+        let alertView = UIAlertController(title: "Save MVC Session Data", message: "Peroneals MVC calculated: \(MVC) mv do you wish  to save?", preferredStyle: .alert )
         alertView.addAction(UIAlertAction(title: "Yes", style: .default, handler: { action in
 //            self.postDataToBackend()
-            let mvcObject = ("Anterior",MVC)
+            let mvcObject = ("Peroneals",MVC)
             self.mvcDelegate?.addMVC(MVC: mvcObject)
             _ = self.navigationController?.popViewController(animated: true)
         }))
@@ -193,20 +193,20 @@ extension MVCLateralViewController: CBPeripheralDelegate {
                                 if peripheral == preferencePeripherals[i].peripheral {
 //                                     self.sessionDataValues[i].append(sessionDataValue)
                                     self.btReceiverHolderTypesArray[i] = preferencePeripherals[i].type!
-                                    switch i{
+                                    switch preferencePeripherals[i].type!{
                                     /// append storage array for sensors involved 0 - Medial Gastroc 1 - Posterial Mediall, 2 - Tibilar Anterior  3- Peroneals
-                                    case 0:
-                                        self.medGastro.append(sessionDataValue)
-                                        break
                                     case 1:
-                                        self.latGastro.append(sessionDataValue)
+                                        self.peroneals.append(sessionDataValue)
+                                        self.updateProgressBar(emgData: sessionDataValue)
                                         break
                                     case 2:
                                         self.tibAnterior.append(sessionDataValue)
                                         break
                                     case 3:
-                                        self.peroneals.append(sessionDataValue)
-                                        self.updateProgressBar(emgData: sessionDataValue)
+                                        self.latGastro.append(sessionDataValue)
+                                        break
+                                    case 4:
+                                        self.medGastro.append(sessionDataValue)
                                         break
                                     default:
                                         break
