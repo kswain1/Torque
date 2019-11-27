@@ -35,7 +35,6 @@ class ViewController: UIViewController, MFMailComposeViewControllerDelegate {
     @IBOutlet weak var downloadButton: UIButton!
     
     // Mark: EMG Variables
-    /// Line Chart Data
     var btReceiverHolderTypesArray = [Int]()
     var sessionDataValues = [[Double]]()
     var isStartClicked = false
@@ -46,6 +45,8 @@ class ViewController: UIViewController, MFMailComposeViewControllerDelegate {
     var customArray3 = [Double]()  // 3- Peroneals
     var emgDataArray = [0.0,0.0,0.0,0.0]
     var imuDictionary: [[String : Float]]? = []
+    var blueToothPeripheralsDelegate: BluetoothControllerDelegate?
+    var MVCDict: [String:Double] = [:]
     
     var htmlString = ""
 
@@ -78,6 +79,7 @@ class ViewController: UIViewController, MFMailComposeViewControllerDelegate {
         selectedConfiguration = ConfigurationType.chest1
         
         realtimeSwitch.addTarget(self, action: #selector(realtimeSwitchChanged(_ :)), for: .valueChanged)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -87,6 +89,20 @@ class ViewController: UIViewController, MFMailComposeViewControllerDelegate {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "MVCAnteriorSegue" {
+            let mvcVC = segue.destination as? MVCAnteriorViewController
+            mvcVC?.mvcDelegate = self
+            blueToothPeripheralsDelegate?.didAddPeripherals(array: BluetoothPreferences.peripherals, btmanager: BluetoothPreferences.btManager)
+        }else if segue.identifier == "MVCPosterioSegue" {
+            let mvcVC = segue.destination as? MVCPosterioViewController
+            mvcVC?.mvcDelegate = self
+            blueToothPeripheralsDelegate?.didAddPeripherals(array: BluetoothPreferences.peripherals, btmanager: BluetoothPreferences.btManager)
+        }else if segue.identifier == "MVCLateralSegue" {
+            let mvcVC = segue.destination as?  MVCLateralViewController
+            mvcVC?.mvcDelegate = self
+            blueToothPeripheralsDelegate?.didAddPeripherals(array: BluetoothPreferences.peripherals, btmanager: BluetoothPreferences.btManager)
+        }
         let nav = segue.destination as? PeripheralsViewController
        // let vc = nav?.topViewController as? PeripheralsViewController
         nav?.delegateForPeripheralView = self
@@ -276,6 +292,7 @@ class ViewController: UIViewController, MFMailComposeViewControllerDelegate {
 
 // MARK: - Device Management
 extension ViewController {
+
     @IBAction func actionPairDevice() {
         self.showStatusLabel()
         
@@ -360,15 +377,21 @@ extension ViewController {
            }
        }
     
-    func timePeripheals(time: NSNumber) {
+    @IBAction func disconnectEMG() {
+        //stop collection of emg data
+        BluetoothPreferences.peripherals?.forEach {
+            peripheral in
+            BluetoothPreferences.btManager?.cancelPeripheralConnection( peripheral.peripheral)
+        }
+    }
+    func disconnectAllEMG() {
         // while (start time counter != 0)
         //     start collection
         
         //stop collection of emg data
         BluetoothPreferences.peripherals?.forEach {
             peripheral in
-            
-            
+            BluetoothPreferences.btManager?.cancelPeripheralConnection( peripheral.peripheral)
         }
     
     }
@@ -985,6 +1008,27 @@ extension ViewController: VisualizerDownloadDelegate {
     }
 }
 
+extension ViewController: MVCDelegate, PosteriorMVCDelegate {
+    func addMVC(MVC: (String, Double)) {
+        print("We are in the MVC view controller")
+        self.MVCDict[MVC.0] = MVC.1
+        
+        self.showToast("\(MVC.0) MVC: \(MVC.1)")
+    }
+    
+    func addPostMVC(MVC: (String, Double, String, Double)) {
+        self.MVCDict[MVC.0] = MVC.1
+        self.MVCDict[MVC.2] = MVC.3
+        if MVC.3 != 0.0 {
+            self.showToast("\(MVC.0) MVC: \(MVC.1) & \(MVC.2) MVC: \(MVC.3) ")
+        }else {
+            self.showToast("\(MVC.0) MVC: \(MVC.1)")
+        }
+        
+    }
+    
+}
+
 
 // MARK: Email Report
 extension ViewController {
@@ -1055,3 +1099,5 @@ extension ViewController {
     }
     
 }
+
+

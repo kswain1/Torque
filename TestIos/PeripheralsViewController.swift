@@ -168,7 +168,9 @@ class PeripheralsViewController: UIViewController {
     //MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setupBluetoothConnection()
+        
         // Tracks user has entered this view
 //        Answers.logContentView(withName: "Connecting via Bluetooth Screen", contentType: "bluetooth, ble, sensors", contentId: "5", customAttributes: [:])
 
@@ -229,6 +231,7 @@ extension PeripheralsViewController: CBCentralManagerDelegate{
     
     @objc func stopScan(){
         self.btManager.stopScan()
+        
     }
     
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {

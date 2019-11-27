@@ -70,3 +70,15 @@ func jointTorque(angularAcceleration: Float, angle: Float, nueroMuscle: Float = 
     //measure distance from imu follow up
     return torque
 }
+
+protocol MVCDelegate: class {
+    func addMVC(MVC: (String,Double))
+}
+
+protocol PosteriorMVCDelegate: class {
+    func addPostMVC(MVC: (String,Double,String,Double))
+}
+
+protocol BluetoothControllerDelegate {
+    func didAddPeripherals(array: [Peripheral]?, btmanager: CBCentralManager?)
+}

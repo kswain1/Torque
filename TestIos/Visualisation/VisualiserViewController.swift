@@ -218,6 +218,7 @@ class VisualiserViewController: WorkoutAnimationViewController, AnimationProgres
             //file creation for saving file (potentially delete in the future)
             let fileName = "imuDownload.csv"
             let path = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(fileName)
+            var posText = "posX, posY, posZ, posMag\n"
             var imuText = "sample, angleX, angleY, angleZ, angleVeloX, angleVeloY, angleVeloZ, posX, posY, posZ\n"
             do {
                 self.visualiserData = try NotchVisualiserData.fromURL(url: (self.measurementURL)!)
@@ -225,6 +226,7 @@ class VisualiserViewController: WorkoutAnimationViewController, AnimationProgres
                 
                 let rightFoot = skeleton.bone("RightFootTop")
                 let rightLowerLeg = skeleton.bone("RightLowerLeg")
+                let chest = skeleton.bone("Chest")
                 if  (rightFoot != nil) && (rightLowerLeg != nil){
                     var angleVeloX, angleVeloY, angleVeloZ: Float
                     var posX: Float = 0.0
@@ -304,9 +306,45 @@ class VisualiserViewController: WorkoutAnimationViewController, AnimationProgres
                 } else {
                     print("right foot bone not found")
                 }
-            } catch let error as NSError {
+                
+                if (chest != nil) {
+                    for i in 1..<self.visualiserData.frameCount {
+                        //position calculations
+                        let posX, posY, posZ, posMag: Float
+                        if let position = self.visualiserData.getPosition(bone: rightFoot!, frameIndex: i) {
+                            posX = position.x
+                            posY = position.y
+                            posZ = position.z
+                            posMag = externalWorkMagnitude(x: posX, y: posY, z: posZ)
+                            posText.append(contentsOf: "\(posX),\(posY),\(posZ),\(posMag)\n")
+                        }
+                    do {
+                        try posText.write(to: path!, atomically: true, encoding: String.Encoding.utf8)
+                        let vcExportCSV = UIActivityViewController(activityItems: [path], applicationActivities: [])
+                        vcExportCSV.excludedActivityTypes = [
+                            UIActivity.ActivityType.assignToContact,
+                            UIActivity.ActivityType.saveToCameraRoll,
+                            UIActivity.ActivityType.postToFlickr,
+                            UIActivity.ActivityType.postToVimeo,
+                            UIActivity.ActivityType.postToTencentWeibo,
+                            UIActivity.ActivityType.postToTwitter,
+                            UIActivity.ActivityType.postToFacebook,
+                            UIActivity.ActivityType.openInIBooks
+                        ]
+                        present(vcExportCSV, animated: true, completion: nil)
+                        
+                    }catch {
+                        print("Failed to create file")
+                        showFailedActionAlert(message: "Failed to Create CSV File")
+                    }
+                }
+            }
+            }
+            catch let error as NSError {
                 print(error.localizedDescription)
             }
+            
+            
         }
         
         self.sceneProvider = self.visualiserData.config
