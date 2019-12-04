@@ -1038,18 +1038,6 @@ extension ViewController: VisualizerDownloadDelegate {
     
     func getImuData(data: [[String : Float]]) {
         imuDictionary?.append(contentsOf: data)
-//        var i = 1
-//        for item in data {
-//
-//            print("potential data value for angle X", data[i]["angleX"])
-//
-//            if (item["angleX"]  != nil) {
-//            print("Item angleX... ", item["angleX"])
-//            print("Item angleY... ", item["angleY"])
-//            print("Item workx...", item["torqueX"])
-//            print("item worky...", item["torqueY"])
-//            }
-//        }
     }
 }
 
@@ -1123,24 +1111,131 @@ extension ViewController {
     }
     
     func prepareHTMLFromPlayerData(){
-        var externalSum:Float = 0.00
-        var externalAvg: Float = 0.00
+        var externalTorqueSum:Float = 0.00
+        var angularVelocitySum:Float = 0.00
+        var effeciencyScoreAverage:[String:Float] = [:]
+        var externalTorquelAvg: Float = 0.00
+        var angularVeloAverage:Float = 0.00
+        
+        // save medial gastro information
+        //Save emg Data to IMUDictionary
         if imuDictionary != nil {
-            for item in self.imuDictionary!{
-                externalSum += item["torqueMag"]!
+            let imulength = imuDictionary!.count
+            for i in 0..<imulength {
+                if medGastroc.count != 0{
+                    
+                    if let MedGastroc = self.MVCDict["medialGastroc"] {
+                        var normalize = self.medGastroc[i]/MedGastroc
+                        normalize *= 100
+                        imuDictionary![i]["medGastro"] = Float(normalize)
+                    }
+                    else {
+                        imuDictionary![i]["medGastroc"] = Float(medGastroc[i])
+                    }
+                }
+                
+                if latGastroc.count != 0{
+                    // check for MVC value storage
+                    if let LatGastroc = self.MVCDict["lateralGastroc"]{
+                        var normalize = self.latGastroc[i]/LatGastroc
+                        normalize *= 100
+                        imuDictionary![i]["latGastro"] = Float(normalize)
+                    }else {
+                        imuDictionary![i]["latGastroc"] = Float(latGastroc[i])
+                    }
+                }
+                
+                if tibAnterior.count != 0{
+                    //check for MVC value storage
+                    if let TibAnterior = self.MVCDict["Anterior"]{
+                        var normalize = self.tibAnterior[i]/TibAnterior
+                        normalize *= 100
+                        imuDictionary![i]["tibAnt"] = Float(normalize)
+                    }else{
+                        imuDictionary![i]["tibAnt"] = Float(tibAnterior[i])
+                    }
+                    
+                }
+                
+                if peroneals.count != 0{
+                    //check for MVC value storage
+                    if let Peroneals = self.MVCDict["Peroneals"]{
+                        var normalize = self.peroneals[i]/Peroneals
+                        normalize *= 100
+                        imuDictionary![i]["peroneals"] = Float(normalize)
+                    }
+                    imuDictionary![i]["peroneals"] = Float(peroneals[i])
+                }
             }
             
-            externalAvg = externalSum/Float(imuDictionary!.count)
         }
+        
+        if imuDictionary != nil {
+            for item in self.imuDictionary!{
+                var angleVeloMag: Float = 0.00
+                externalTorqueSum += item["torqueMag"]!
+                
+                //calculate the angleVelocity Magnitude
+                angleVeloMag = externalWorkMagnitude(x: item["angleVeloX"]!, y: item["angleVeloY"]!, z: item["angleVeloZ"]!)
+                angularVelocitySum += angleVeloMag
+                
+                //calculate the sum effeciency scores
+                if let tibilarAnterior = item["tibAnt"]{
+                    if effeciencyScoreAverage["tibAnt"] == nil {
+                        effeciencyScoreAverage["tibAnt"] = tibilarAnterior
+                    }else {
+                        effeciencyScoreAverage["tibAnt"]! += tibilarAnterior
+                    }
+                    
+                }
+                
+                if let medialGastroc = item["medGastro"]{
+                    if effeciencyScoreAverage["medGastroc"] == nil {
+                        effeciencyScoreAverage["medGastroc"] = medialGastroc
+                    }else {
+                        effeciencyScoreAverage["medGastroc"]! += medialGastroc
+                    }
+                }
+                
+            }
+            
+            externalTorquelAvg = externalTorqueSum/Float(imuDictionary!.count)
+            angularVeloAverage = angularVelocitySum/Float(imuDictionary!.count)
+            if let tibAnterior = effeciencyScoreAverage["tibAnt"] {
+                effeciencyScoreAverage["tibAnt"] = tibAnterior/Float(imuDictionary!.count)
+                
+            }
+            
+            if let medGastro = effeciencyScoreAverage["medGastroc"] {
+                effeciencyScoreAverage["medGastroc"] = medGastro/Float(imuDictionary!.count)
+                
+            }
+            
+        }
+        
+        //clear emg data
+        medGastroc = []
+        latGastroc = []
+        tibAnterior = []
+        peroneals = []
+        // clear IMU data
+        imuDictionary = [[String:Float]]()
         
         
         self.htmlString = String(format: """
              <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
              <html>
+                <h1> Torque Snap Shot </h1>
                 <h4> External Torque Average</h4>
                 <b>%2.2f</b>
+                <h4> Average Angular Velocity </h4>
+                <b>%2.3f</b>
+                <h4> Average Tibilar Anterior Effeciency Score <h4>
+                <b>%2.2f</b>
+                <h4> Average MedGastro Anterior Effeciency Score <h4>
+                <b>%2.2f</b>
              </html>
-            """, externalAvg)
+            """, externalTorquelAvg, angularVeloAverage, effeciencyScoreAverage["tibAnt"] ?? 0.0, effeciencyScoreAverage["medGastroc"] ?? 0.0)
     }
     
 }
