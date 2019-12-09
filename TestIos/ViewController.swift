@@ -102,6 +102,11 @@ class ViewController: UIViewController, MFMailComposeViewControllerDelegate {
             let mvcVC = segue.destination as?  MVCLateralViewController
             mvcVC?.mvcDelegate = self
             blueToothPeripheralsDelegate?.didAddPeripherals(array: BluetoothPreferences.peripherals, btmanager: BluetoothPreferences.btManager)
+        }else if segue.identifier == "SensorBodyAttachment"{
+            let sensorBodyVC = segue.destination as? SensorBodyAttachmentViewController
+            // pass the configuration object here
+            sensorBodyVC?.sensorConfiguration = selectedConfiguration
+            
         }
         let nav = segue.destination as? PeripheralsViewController
        // let vc = nav?.topViewController as? PeripheralsViewController
@@ -711,7 +716,11 @@ extension ViewController {
             measurementType: NotchMeasurementType.steadySimple, isShowingColors: true,
             success: defaultSuccessCallback,
             failure:  defaultFailureCallback,
-            progress: { _ in },
+            progress: { _ in
+                // present second view controller on screen
+                // use base picture initially then add logic for dynamic view
+                // 
+            },
             cancelled: { })
     }
     

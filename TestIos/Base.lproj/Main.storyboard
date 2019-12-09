@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="LDG-5P-TrU">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="LDG-5P-TrU">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -405,6 +405,7 @@
                                                         </state>
                                                         <connections>
                                                             <action selector="actionConfigureSteady" destination="Mdc-O1-VmU" eventType="touchUpInside" id="zYO-Vd-Mbv"/>
+                                                            <segue destination="NoX-eQ-zQ6" kind="presentation" identifier="SensorBodyAttachment" id="ebO-tr-HUf"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cA8-Il-nng">
@@ -1218,10 +1219,79 @@
             </objects>
             <point key="canvasLocation" x="2078" y="2070"/>
         </scene>
+        <!--Sensor Body Attachment View Controller-->
+        <scene sceneID="AC3-Hy-HMD">
+            <objects>
+                <viewController id="NoX-eQ-zQ6" customClass="SensorBodyAttachmentViewController" customModule="Torque" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="a6K-Oc-fIc">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="lys-Vj-d2t">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RIk-AJ-9vv">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="791"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C95-pz-1Ho" userLabel="Chest">
+                                                <rect key="frame" x="185" y="226" width="30" height="32"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <state key="normal" title="Chest"/>
+                                            </button>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="right lower leg configuration" translatesAutoresizingMaskIntoConstraints="NO" id="qWG-nC-UCO">
+                                                <rect key="frame" x="0.0" y="0.0" width="414" height="791"/>
+                                            </imageView>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="qWG-nC-UCO" secondAttribute="trailing" id="4It-NH-r6X"/>
+                                            <constraint firstItem="qWG-nC-UCO" firstAttribute="leading" secondItem="RIk-AJ-9vv" secondAttribute="leading" id="WXM-rd-6xf"/>
+                                            <constraint firstItem="qWG-nC-UCO" firstAttribute="top" secondItem="RIk-AJ-9vv" secondAttribute="top" id="ZoZ-lZ-nfI"/>
+                                            <constraint firstAttribute="bottom" secondItem="qWG-nC-UCO" secondAttribute="bottom" id="rQc-1R-Wx6"/>
+                                        </constraints>
+                                    </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HHK-0s-HwQ">
+                                        <rect key="frame" x="0.0" y="791" width="414" height="51"/>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="51" id="kcn-mA-WID"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <state key="normal" title="Complete">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <integer key="value" value="10"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="clipsToBounds" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="complete:" destination="NoX-eQ-zQ6" eventType="touchUpInside" id="ZGJ-Hv-1dm"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="lys-Vj-d2t" secondAttribute="bottom" id="GT1-xl-uYK"/>
+                            <constraint firstAttribute="trailing" secondItem="lys-Vj-d2t" secondAttribute="trailing" id="SWr-Ob-ziL"/>
+                            <constraint firstItem="lys-Vj-d2t" firstAttribute="leading" secondItem="b7v-tn-vjw" secondAttribute="leading" id="tDY-f2-fts"/>
+                            <constraint firstItem="lys-Vj-d2t" firstAttribute="top" secondItem="b7v-tn-vjw" secondAttribute="top" id="yqC-qq-534"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="b7v-tn-vjw"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JqF-zY-cWL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2879.7101449275365" y="2069.8660714285716"/>
+        </scene>
     </scenes>
     <resources>
         <image name="Posterior_leg_icon" width="135" height="191"/>
         <image name="bluetooth_blue" width="16" height="16"/>
         <image name="c0001" width="429" height="402"/>
+        <image name="right lower leg configuration" width="265" height="645"/>
     </resources>
 </document>
