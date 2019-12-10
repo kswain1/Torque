@@ -10,11 +10,12 @@ import UIKit
 
 class SensorBodyAttachmentViewController: UIViewController {
     
+    @IBOutlet weak var sensorConfigImage: UIImageView!
     var sensorConfiguration: ConfigurationType?
     override func viewDidLoad() {
         super.viewDidLoad()
         //self.SensorConfigurationSetup()
-
+        self.setUpImageView()
         // Do any additional setup after loading the view.
     }
     
@@ -30,7 +31,15 @@ class SensorBodyAttachmentViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    func setUpImageView() {
+        let sensorConfigDic =  ["Left Ankle & Right Thigh (5)":"left lower leg configuration", "Right Ankle & Left Thigh (5)":"right lower leg configuration", "Chest (1)":"chest"]
+        let name = sensorConfiguration?.name
+        if let sensorName = sensorConfigDic[name!] {
+            sensorConfigImage.image = UIImage(named: sensorName)
+        }
+    }
     
+    //TODO: autonomously place sensor on person based on their chosen configuraiton
     func SensorConfigurationSetup() {
        let altURL = Bundle.main.url(forResource: "config_1_chest", withExtension: ".json")
         
