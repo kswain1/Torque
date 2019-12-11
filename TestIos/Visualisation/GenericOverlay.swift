@@ -173,7 +173,13 @@ open class SceneOverlay: SKScene {
             let location = touch.location(in: self)
             let touchedNode = self.atPoint(location)
             if let nodeName = touchedNode.name {
-                getButton(nodeName)?.callback?(self)
+                switch nodeName{
+                case "download":
+                    print("we are downloading")
+                    super.touchesBegan(touches, with: event)
+                default:
+                     getButton(nodeName)?.callback?(self)
+                }
             }
         }
     }

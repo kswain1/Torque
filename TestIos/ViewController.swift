@@ -10,6 +10,8 @@ import UIKit
 import WearnotchSDK
 import CoreBluetooth
 
+
+
 //Mark: lifeCycle
 class ViewController: UIViewController {
     
@@ -42,6 +44,7 @@ class ViewController: UIViewController {
     var customArray2 = [Double]()
     var customArray3 = [Double]()
     var emgDataArray = [0.0,0.0,0.0,0.0]
+    var imuDictionary: [[String : Float]]? = []
 
     
     private var selectedConfiguration: ConfigurationType = ConfigurationType.chest1 {
@@ -129,6 +132,77 @@ class ViewController: UIViewController {
             }
         }
     }
+    
+    /// EXPORT IMU DATA
+    @IBAction func exportIMU(_ sender: Any) {
+        let fileName = "imuDownload.csv"
+        let path = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(fileName)
+        var csvText = "angleX, angleY, angleZ,torqueMag, torqueX, torqueY, torqueZ, posMag, posX, posY, posZ\n"
+        let count = self.imuDictionary?.count
+        var angleX, angleY, angleZ: Float
+        var i = 0
+        
+        if imuDictionary != nil{
+            var imuMotionList = "\(i),"
+            for item in imuDictionary!{
+                if (item["angleX"] != nil){
+                angleX = item["angleX"] ?? 0.00
+                angleY = item["angleY"] ?? 0.00
+                angleZ = item["angleZ"] ?? 0.00
+                    csvText.append(contentsOf: "\(angleX), \(angleY), \(angleZ),")
+                    
+                }else {
+                    csvText.append(contentsOf: ",,,")
+                }
+                
+                if (item["torqueX"] != nil){
+                    let torqueX = item["torqueX"]!
+                    let torqueY = item["torqueY"]!
+                    let torqueZ = item["torqueZ"]!
+                    let torqueMag = item["torqueMag"]
+                    csvText.append(contentsOf: "\(torqueMag),\(torqueX), \(torqueY), \(torqueZ),")
+                }else {
+                    csvText.append(contentsOf: ",,,")
+                }
+                
+                if (item["posX"] != nil){
+                    let posX = item["posX"]!
+                    let posY = item["posY"]!
+                    let posZ = item["posZ"]!
+                    let posMag = item["posMag"]
+                    csvText.append(contentsOf: "\(posMag), \(posX), \(posY), \(posZ)\n")
+                }else {
+                    csvText.append(contentsOf: ",,,\n")
+                }
+            }
+            
+            do {
+                try csvText.write(to: path!, atomically: true, encoding: String.Encoding.utf8)
+                let vcExportCSV = UIActivityViewController(activityItems: [path], applicationActivities: [])
+                vcExportCSV.excludedActivityTypes = [
+                    UIActivity.ActivityType.assignToContact,
+                    UIActivity.ActivityType.saveToCameraRoll,
+                    UIActivity.ActivityType.postToFlickr,
+                    UIActivity.ActivityType.postToVimeo,
+                    UIActivity.ActivityType.postToTencentWeibo,
+                    UIActivity.ActivityType.postToTwitter,
+                    UIActivity.ActivityType.postToFacebook,
+                    UIActivity.ActivityType.openInIBooks
+                ]
+                present(vcExportCSV, animated: true, completion: nil)
+                
+            }catch {
+                print("Failed to create file")
+                showFailedActionAlert(message: "Failed to Create CSV File")
+            }
+            
+        } else {
+            print("no loaded imu data")
+            showFailedActionAlert(message: "No Loaded IMU Data")
+        }
+        
+    }
+    
     
 }
 
@@ -631,9 +705,10 @@ extension ViewController {
         if realtimeSwitch.isOn {
             DispatchQueue.main.async {
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let viewController = storyboard.instantiateViewController(withIdentifier: "visualizerScreenId")
-                
+                let viewController = storyboard.instantiateViewController(withIdentifier: "visualizerScreenId") as! VisualiserViewController
+                viewController.visualizerDelegate = self
                 self.navigationController?.pushViewController(viewController, animated: true)
+                
             }
         } else {
             _ = AppDelegate.service.timedCapture(
@@ -706,8 +781,11 @@ extension ViewController {
         
         if isShowingExample {
             viewController.isExampleMeasurement = true
+            viewController.visualizerDelegate = self
+
         } else {
             viewController.measurementURL = measurementURL
+            viewController.visualizerDelegate = self
         }
         DispatchQueue.main.async(){
             self.navigationController?.pushViewController(viewController, animated: true)
@@ -799,3 +877,24 @@ extension ViewController {
         dockAnimationImageView.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi))
     }
 }
+
+// MARK: Download Delegate from 3D Rendering
+extension ViewController: VisualizerDownloadDelegate {
+    
+    func getImuData(data: [[String : Float]]) {
+        imuDictionary?.append(contentsOf: data)
+        var i = 1
+        for item in data {
+            
+            print("potential data value for angle X", data[i]["angleX"])
+            
+            if (item["angleX"]  != nil) {
+            print("Item angleX... ", item["angleX"])
+            print("Item angleY... ", item["angleY"])
+            print("Item workx...", item["torqueX"])
+            print("item worky...", item["torqueY"])
+            }
+        }
+    }
+}
+

@@ -51,3 +51,22 @@ func emgDataConvert(from characteristics: CBCharacteristic ) -> [Double] {
     }
     return emgConvertedArray
 }
+
+func externalWorkMagnitude(x: Float, y: Float, z: Float) -> Float{
+    var results = x*x + y*y + z*z
+    results = results.squareRoot()
+    return results
+}
+
+func angularAcceleration(angleVelocityPrevious: Float, angleVelocityCurrent: Float, samplesPerSecond: Int) -> Float {
+    let velocityDelta = angleVelocityCurrent - angleVelocityPrevious
+    let ElapsedTime = Float(1.0/Float(samplesPerSecond))
+    let angAcceleration = velocityDelta/Float(ElapsedTime)
+    return angAcceleration
+}
+
+func jointTorque(angularAcceleration: Float, angle: Float, nueroMuscle: Float = 1.0, mass: Float = 1.0) -> Float{
+    var torque = mass * angularAcceleration * angle * nueroMuscle
+    //measure distance from imu follow up
+    return torque
+}
