@@ -4,10 +4,11 @@ This is the ios app for Hx Innovations that connects imu and emg pairing togethe
 # Workspace setup 
 - install pod files by using pod install
 - setup environment files to become a wear notch user
+
 - Set up your ~/.netrc file. If you don’t have it, create it now.
-machine wearnotch.com
+`machine wearnotch.com
     login {yourLoginCredentials}
-    password {yourPassword}
+    password {yourPassword}`
 
 ## Install Cocoa Pods on Macbook 
 sudo gem install cocoapods
