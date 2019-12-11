@@ -7,6 +7,10 @@ This is the ios app for Hx Innovations that connects imu and emg pairing togethe
 
 - Set up your ~/.netrc file. If you don’t have it, create it now.
 
+```console 
+vi ~/.netrc file
+```
+
 ```console
  machine wearnotch.com
  login {yourLoginCredentials}
