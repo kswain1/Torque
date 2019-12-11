@@ -6,6 +6,7 @@ This is the ios app for Hx Innovations that connects imu and emg pairing togethe
 - setup environment files to become a wear notch user
 
 - Set up your ~/.netrc file. If you don’t have it, create it now.
+
 `machine wearnotch.com
     login {yourLoginCredentials}
     password {yourPassword}`
