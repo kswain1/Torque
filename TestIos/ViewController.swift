@@ -107,6 +107,11 @@ class ViewController: UIViewController, MFMailComposeViewControllerDelegate {
             // pass the configuration object here
             sensorBodyVC?.sensorConfiguration = selectedConfiguration
             
+        }else if segue.identifier == "Visualizer"{
+            let visualizerVC = segue.destination as? VisualiserViewController
+            // pass the configuration object here
+            visualizerVC?.sensorConfiguration = selectedConfiguration
+            print("selected configuration, ", selectedConfiguration)
         }
         let nav = segue.destination as? PeripheralsViewController
        // let vc = nav?.topViewController as? PeripheralsViewController
@@ -115,7 +120,7 @@ class ViewController: UIViewController, MFMailComposeViewControllerDelegate {
     @IBAction func startEmg(_ sender: Any) {
         isStartClicked = true
         var progressSeconds = 0.0
-        var maxTimeElapse = 3.0
+        var maxTimeElapse = 30.0
         Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { (Timer) in
             progressSeconds += 1.0
             if progressSeconds >= maxTimeElapse {
@@ -815,9 +820,9 @@ extension ViewController {
                 
                 self.steadyInitButton.setTitle("init 3 notches", for: .normal)
                 self.captureInitButton.setTitle("init 3 notches", for: .normal)
-                self.configureCaptureButton.setTitle("Configure 30 sec capture", for: .normal)
+                self.configureCaptureButton.setTitle("Configure 3 sec capture", for: .normal)
                 self.downloadButton.setTitle("Download", for: .normal)
-                self.captureButton.setTitle("Capture 30 sec", for: .normal)
+                self.captureButton.setTitle("Capture 3 sec", for: .normal)
             }
         }
     }
@@ -946,10 +951,12 @@ extension ViewController {
         if isShowingExample {
             viewController.isExampleMeasurement = true
             viewController.visualizerDelegate = self
+            viewController.sensorConfiguration = selectedConfiguration
 
         } else {
             viewController.measurementURL = measurementURL
             viewController.visualizerDelegate = self
+            viewController.sensorConfiguration = selectedConfiguration
         }
         DispatchQueue.main.async(){
             self.navigationController?.pushViewController(viewController, animated: true)

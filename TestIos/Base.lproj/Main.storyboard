@@ -13,7 +13,7 @@
             <objects>
                 <viewController storyboardIdentifier="visualizerScreenId" title="NOTCH" id="YEW-bj-A5Q" customClass="VisualiserViewController" customModule="Torque" customModuleProvider="target" sceneMemberID="viewController">
                     <sceneKitView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="top" id="1eP-GS-bBs">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </sceneKitView>
@@ -691,7 +691,7 @@
                         <outlet property="selectedConfigurationLabel" destination="axo-YS-fFP" id="aZK-lF-fpR"/>
                         <outlet property="statusLabel" destination="1gR-YP-Ldn" id="Fnw-ew-lAo"/>
                         <outlet property="steadyInitButton" destination="92L-o2-LtC" id="5KX-T7-Quq"/>
-                        <segue destination="YEW-bj-A5Q" kind="show" id="6FB-4r-9sn"/>
+                        <segue destination="YEW-bj-A5Q" kind="presentation" identifier="Visualizer" id="6FB-4r-9sn"/>
                         <segue destination="ybI-4g-5HL" kind="show" identifier="sensor" id="NMe-Sx-c0D"/>
                     </connections>
                 </viewController>
