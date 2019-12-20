@@ -10,6 +10,7 @@ import UIKit
 import WearnotchSDK
 import CoreBluetooth
 import MessageUI
+import Accelerate
 
 
 
@@ -47,6 +48,7 @@ class ViewController: UIViewController, MFMailComposeViewControllerDelegate {
     var imuDictionary: [[String : Float]]? = []
     var blueToothPeripheralsDelegate: BluetoothControllerDelegate?
     var MVCDict: [String:Double] = [:]
+    var captureTimeConfiguration = 30
     
     var htmlString = ""
 
@@ -120,10 +122,10 @@ class ViewController: UIViewController, MFMailComposeViewControllerDelegate {
     @IBAction func startEmg(_ sender: Any) {
         isStartClicked = true
         var progressSeconds = 0.0
-        var maxTimeElapse = 30.0
+        var maxTimeElapse = captureTimeConfiguration
         Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { (Timer) in
             progressSeconds += 1.0
-            if progressSeconds >= maxTimeElapse {
+            if Int(progressSeconds) >= maxTimeElapse {
                 self.isStartClicked = false
                 print("It has been 3 seconds")
                 Timer.invalidate()
@@ -182,20 +184,87 @@ class ViewController: UIViewController, MFMailComposeViewControllerDelegate {
         var angleX, angleY, angleZ: Float
         var i = 0
         
+        //Linear Inteprolation Medial Gastro and Tibilar Anterior
+        let imuSampleTime = 40 * captureTimeConfiguration
+        
+        
+        if medGastroc.count != 0 {
+            var count = medGastroc.count
+            var originalTimesArray = Array(1...count)
+            var newValues = [Double](repeating: 0,
+            count: imuSampleTime)
+            let newArray = originalTimesArray.map({ (originalTime) -> Double in
+                Double(originalTime)
+            })
+            let stride = vDSP_Stride(1)
+            vDSP_vgenpD(medGastroc, stride,
+                        newArray, stride,
+                        &newValues, stride,
+                        vDSP_Length(imuSampleTime),
+                        vDSP_Length(medGastroc.count))
+            medGastroc = newValues
+        }
+        if latGastroc.count != 0 {
+            var count = latGastroc.count
+            var originalTimesArray = Array(1...count)
+            var newValues = [Double](repeating: 0,
+            count: imuSampleTime)
+            let newArray = originalTimesArray.map({ (originalTime) -> Double in
+                Double(originalTime)
+            })
+            let stride = vDSP_Stride(1)
+            vDSP_vgenpD(latGastroc, stride,
+                        newArray, stride,
+                        &newValues, stride,
+                        vDSP_Length(imuSampleTime),
+                        vDSP_Length(latGastroc.count))
+            latGastroc = newValues
+        }
+        if tibAnterior.count != 0 {
+            var count = tibAnterior.count
+            var originalTimesArray = Array(1...count)
+            var newValues = [Double](repeating: 0,
+            count: imuSampleTime)
+            let newArray = originalTimesArray.map({ (originalTime) -> Double in
+                Double(originalTime)
+            })
+            let stride = vDSP_Stride(1)
+            vDSP_vgenpD(tibAnterior, stride,
+                        newArray, stride,
+                        &newValues, stride,
+                        vDSP_Length(imuSampleTime),
+                        vDSP_Length(tibAnterior.count))
+            tibAnterior = newValues
+        }
+        if peroneals.count != 0 {
+            var count = peroneals.count
+            var originalTimesArray = Array(1...count)
+            var newValues = [Double](repeating: 0,
+            count: imuSampleTime)
+            let newArray = originalTimesArray.map({ (originalTime) -> Double in
+                Double(originalTime)
+            })
+            let stride = vDSP_Stride(1)
+            vDSP_vgenpD(peroneals, stride,
+                        newArray, stride,
+                        &newValues, stride,
+                        vDSP_Length(imuSampleTime),
+                        vDSP_Length(peroneals.count))
+            peroneals = newValues
+        }
         
         ///Save emg Data to IMUDictionary
         if imuDictionary != nil {
             let imulength = imuDictionary!.count
             for i in 0..<imulength {
                 if medGastroc.count != 0{
-                    
                     if let MedGastroc = self.MVCDict["medialGastroc"] {
                         var normalize = self.medGastroc[i]/MedGastroc
                         normalize *= 100
                         imuDictionary![i]["medGastro"] = Float(normalize)
                     }
                     else {
-                        imuDictionary![i]["medGastroc"] = Float(medGastroc[i])
+                        imuDictionary![i]["medGastro"] = Float(medGastroc[i])
                     }
                 }
                 
@@ -206,7 +275,7 @@ class ViewController: UIViewController, MFMailComposeViewControllerDelegate {
                         normalize *= 100
                         imuDictionary![i]["latGastro"] = Float(normalize)
                     }else {
-                        imuDictionary![i]["latGastroc"] = Float(latGastroc[i])
+                        imuDictionary![i]["latGastro"] = Float(latGastroc[i])
                     }
                 }
                 
@@ -283,20 +352,20 @@ class ViewController: UIViewController, MFMailComposeViewControllerDelegate {
                 
                 if (item["tibAnt"] != nil){
                     let tibAnterior = item["tibAnt"]!
-                    csvText.append(contentsOf: "\(tibAnterior)\n")
+                    csvText.append(contentsOf: "\(tibAnterior)")
                 }else {
                     csvText.append(contentsOf: ",")
                 }
                 
                 if (item["latGastro"] != nil){
-                    let tibAnterior = item["latGastro"]!
-                    csvText.append(contentsOf: "\(tibAnterior)\n")
+                    let latGastro = item["latGastro"]!
+                    csvText.append(contentsOf: "\(latGastro)")
                 }else {
                     csvText.append(contentsOf: ",")
                 }
                 if (item["peroneals"] != nil){
-                    let tibAnterior = item["peroneals"]!
-                    csvText.append(contentsOf: "\(tibAnterior)\n")
+                    let peroneals = item["peroneals"]!
+                    csvText.append(contentsOf: "\(peroneals)\n")
                 }else {
                     csvText.append(contentsOf: "\n")
                 }
@@ -868,7 +937,7 @@ extension ViewController {
                 success: { result in
                     self.currentMeasurement = result
                     self.hideStatusLabel()
-                    self.showStatusLabel(message: "succesfully saved imu")
+                    self.showStatusLabel(message: "imu capture complete")
             }, failure: defaultFailureCallback,
                progress: { _ in },
                cancelled: { })
