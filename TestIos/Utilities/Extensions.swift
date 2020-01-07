@@ -71,6 +71,11 @@ func jointTorque(angularAcceleration: Float, angle: Float, nueroMuscle: Float = 
     return torque
 }
 
+func forceAnkle(linearAccel: Float, angularAccel: Float, angularVelo: Float, mass: Float = 79, length: Float = 1.0) -> Float{
+    var force = linearAccel + angularAccel + angularVelo
+    return force
+}
+
 // 
 
 func computeScore (emgArray: Double) -> [Double] {

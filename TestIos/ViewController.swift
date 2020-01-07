@@ -179,13 +179,14 @@ class ViewController: UIViewController, MFMailComposeViewControllerDelegate {
     @IBAction func exportIMU(_ sender: Any) {
         let fileName = "imuDownload.csv"
         let path = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(fileName)
-        var csvText = "angleX, angleY, angleZ,torqueMag, torqueX, torqueY, torqueZ, posMag, posX, posY, posZ, medGastro, tibAnterior, latGastro, Peroneals\n"
+        var csvText = "ankleAngleX, ankleAngleY, ankleAngleZ, lowLegAngleMag,lowLegAngleX, lowLegAngleY, lowLegAngleZ, lowLegAngleVeloMag, lowLegAngleVeloX, lowLegAngleVeloY, lowLegAngleVeloZ, lowLegAngleAccelX, lowLegAngleAccelY, lowLegAngleAccelZ, footAngleMag, footAngleX, footAngleY, footAngleZ, footAngleVeloMag, footAngleVeloX, footAngleVeloY,  footAngleVeloZ, footAngleAccelMag, footAngleAccelX, footAngleAccelY, footAngleAccelZ, footPosMag, footPosX, footPosY, footPosZ,footSpeedMag, footSpeedX, footSpeedY, footSpeedZ, footAccelMag, footAccelX, footAccelY, footAccelZ, lowLegPosMag, lowLegPosX, lowLegPosY, lowLegPosZ, lowLegSpeedMag, lowLegSpeedX, lowLegSpeedY, lowLegSpeedZ, lowLegAccelMag, lowLegAccelX, lowLegAccelY, lowLegAccelZ, medGastro, tibAnterior,\n"
         let count = self.imuDictionary?.count
         var angleX, angleY, angleZ: Float
         var i = 0
         
         //Linear Inteprolation Medial Gastro and Tibilar Anterior
-        let imuSampleTime = 40 * captureTimeConfiguration
+        //let imuSampleTime = 40 * captureTimeConfiguration
+        let imuSampleTime = imuDictionary!.count
         
         
         if medGastroc.count != 0 {
@@ -323,14 +324,60 @@ class ViewController: UIViewController, MFMailComposeViewControllerDelegate {
                     csvText.append(contentsOf: ",,,")
                 }
                 
-                if (item["torqueX"] != nil){
-                    let torqueX = item["torqueX"]!
-                    let torqueY = item["torqueY"]!
-                    let torqueZ = item["torqueZ"]!
-                    let torqueMag = item["torqueMag"]!
-                    csvText.append(contentsOf: "\(torqueMag),\(torqueX), \(torqueY), \(torqueZ),")
+                if (item["lowerLegAngleX"] != nil){
+                    let lowLegAngleX = item["lowerLegAngleX"] ?? 0.00
+                    let lowLegAngleY = item["lowerLegAngleY"] ?? 0.00
+                    let lowLegAngleZ = item["lowerLegAngleZ"] ?? 0.00
+                    let lowerLegAngleMag = item["lowerLegAngleMag"] ?? 0.00
+                    csvText.append(contentsOf: "\(lowerLegAngleMag), \(lowLegAngleX), \(lowLegAngleY), \(lowLegAngleZ),")
+                }else{
+                    csvText.append(contentsOf: ",,,,")
+                }
+                
+                if (item["lowerLegAngleVeloX"] != nil){
+                    let angleVeloX = item["lowerLegAngleVeloX"] ?? 0.00
+                    let angleVeloY = item["lowerLegAngleVeloY"] ?? 0.00
+                    let angleVeloZ = item["lowerLegAngleVeloZ"] ?? 0.00
+                    let lowerLegAngleVeloMag = item["lowerLegAngleVeloMag"] ?? 0.00
+                    csvText.append(contentsOf: "\(lowerLegAngleVeloMag), \(angleVeloX), \(angleVeloY), \(angleVeloZ),")
+                }else{
+                    csvText.append(contentsOf: ",,,,")
+                }
+                
+                if (item["angleAccelX"] != nil){
+                    let angleAccelX = item["angleAccelX"] ?? 0.00
+                    let angleAccelY = item["angleAccelY"] ?? 0.00
+                    let angleAccelZ = item["angleAccelZ"] ?? 0.00
+                    csvText.append(contentsOf: "\(angleAccelX), \(angleAccelY), \(angleAccelZ),")
                 }else {
                     csvText.append(contentsOf: ",,,")
+                }
+                if (item["footAngleX"] != nil){
+                    let footAngleX = item["footAngleX"]!
+                    let footAngleY = item["footAngleY"]!
+                    let footAngleZ = item["footAngleZ"]!
+                    let footAngleMag = item["footAngleMag"]!
+                    csvText.append(contentsOf: "\(footAngleMag),\(footAngleX), \(footAngleY), \(footAngleZ),")
+                }else {
+                    csvText.append(contentsOf: ",,,,")
+                }
+                if (item["footAngleVeloX"] != nil){
+                    let footAngleVeloX = item["footAngleVeloX"]!
+                    let footAngleVeloY = item["footAngleVeloY"]!
+                    let footAngleVeloZ = item["footAngleVeloZ"]!
+                    let footAngleVeloMag = item["footAngleVeloMag"]!
+                    csvText.append(contentsOf: "\(footAngleVeloMag),\(footAngleVeloX), \(footAngleVeloY), \(footAngleVeloZ),")
+                }else {
+                    csvText.append(contentsOf: ",,,,")
+                }
+                if (item["footAngleAccelX"] != nil){
+                    let footAngleAccelX = item["footAngleAccelX"]!
+                    let footAngleAccelY = item["footAngleAccelY"]!
+                    let footAngleAccelZ = item["footAngleAccelZ"]!
+                    let footAngleAccelMag = item["footAngleAccelMag"]!
+                    csvText.append(contentsOf: "\(footAngleAccelMag),\(footAngleAccelX), \(footAngleAccelY), \(footAngleAccelZ),")
+                }else {
+                    csvText.append(contentsOf: ",,,,")
                 }
                 
                 if (item["posX"] != nil){
@@ -339,6 +386,56 @@ class ViewController: UIViewController, MFMailComposeViewControllerDelegate {
                     let posZ = item["posZ"]!
                     let posMag = item["posMag"]!
                     csvText.append(contentsOf: "\(posMag), \(posX), \(posY), \(posZ),")
+                }else {
+                    csvText.append(contentsOf: ",,,,")
+                }
+                
+                if (item["footSpeedX"] != nil){
+                    let footSpeedX = item["footSpeedX"]!
+                    let footSpeedY = item["footSpeedY"]!
+                    let footSpeedZ = item["footSpeedZ"]!
+                    let footSpeedMag = item["footSpeedMag"]!
+                    csvText.append(contentsOf: "\(footSpeedMag), \(footSpeedX), \(footSpeedY), \(footSpeedZ),")
+                }else {
+                    csvText.append(contentsOf: ",,,,")
+                }
+                
+                if (item["footAccelX"] != nil){
+                    let footAccelX = item["footAccelX"]!
+                    let footAccelY = item["footAccelY"]!
+                    let footAccelZ = item["footAccelZ"]!
+                    let footAccelMag = item["footAccelMag"]!
+                    csvText.append(contentsOf: "\(footAccelMag), \(footAccelX), \(footAccelY), \(footAccelZ),")
+                }else {
+                    csvText.append(contentsOf: ",,,,")
+                }
+                
+                if (item["lowerLegPosX"] != nil){
+                    let lowerLegPosX = item["lowerLegPosX"]!
+                    let lowerLegPosY = item["lowerLegPosY"]!
+                    let lowerLegPosZ = item["lowerLegPosZ"]!
+                    let lowerLegPosMag = item["lowerLegPosMag"]!
+                    csvText.append(contentsOf: "\(lowerLegPosMag), \(lowerLegPosX), \(lowerLegPosY), \(lowerLegPosZ),")
+                }else {
+                    csvText.append(contentsOf: ",,,,")
+                }
+                
+                if (item["lowerLegSpeedX"] != nil){
+                    let lowerLegSpeedX = item["lowerLegSpeedX"]!
+                    let lowerLegSpeedY = item["lowerLegSpeedY"]!
+                    let lowerLegSpeedZ = item["lowerLegSpeedZ"]!
+                    let lowerLegSpeedMag = item["lowerLegSpeedMag"]!
+                    csvText.append(contentsOf: "\(lowerLegSpeedMag), \(lowerLegSpeedX), \(lowerLegSpeedY), \(lowerLegSpeedZ),")
+                }else {
+                    csvText.append(contentsOf: ",,,,")
+                }
+                
+                if (item["lowerLegAccelX"] != nil){
+                    let lowLegAccelX = item["lowerLegAccelX"]!
+                    let lowerLegAccelY = item["lowerLegAccelY"]!
+                    let lowerLegAccelZ = item["lowerLegAccelZ"]!
+                    let lowerLegAccelMag = item["lowerLegAccelMag"]!
+                    csvText.append(contentsOf: "\(lowerLegAccelMag), \(lowLegAccelX), \(lowerLegAccelY), \(lowerLegAccelZ),")
                 }else {
                     csvText.append(contentsOf: ",,,,")
                 }
@@ -352,20 +449,7 @@ class ViewController: UIViewController, MFMailComposeViewControllerDelegate {
                 
                 if (item["tibAnt"] != nil){
                     let tibAnterior = item["tibAnt"]!
-                    csvText.append(contentsOf: "\(tibAnterior)")
-                }else {
-                    csvText.append(contentsOf: ",")
-                }
-                
-                if (item["latGastro"] != nil){
-                    let latGastro = item["latGastro"]!
-                    csvText.append(contentsOf: "\(latGastro)")
-                }else {
-                    csvText.append(contentsOf: ",")
-                }
-                if (item["peroneals"] != nil){
-                    let peroneals = item["peroneals"]!
-                    csvText.append(contentsOf: "\(peroneals)\n")
+                    csvText.append(contentsOf: "\(tibAnterior)\n")
                 }else {
                     csvText.append(contentsOf: "\n")
                 }
