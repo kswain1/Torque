@@ -43,6 +43,22 @@ extension UIViewController {
         }
     }
     
+    func showFailedBleConnection(message: String = "No EMG Bluetooth Connection"){
+        let alert = UIAlertController(
+            title: "Action failed",
+            message: message,
+            preferredStyle: UIAlertController.Style.alert
+        )
+        alert.addAction(UIAlertAction(
+            title: "Ok",
+            style: UIAlertAction.Style.default,
+            handler: nil
+        ))
+        DispatchQueue.main.async {
+            self.present(alert, animated: false, completion:nil)
+        }
+    }
+    
     func showFailedActionAlert(message: String) {
         let alert = UIAlertController(
             title: "Action failed",

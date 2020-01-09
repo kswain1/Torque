@@ -88,6 +88,7 @@ class ViewController: UIViewController, MFMailComposeViewControllerDelegate {
         super.viewWillAppear(animated)
         print("view will appear")
         setupPeripherals()
+        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -120,6 +121,15 @@ class ViewController: UIViewController, MFMailComposeViewControllerDelegate {
         nav?.delegateForPeripheralView = self
     }
     @IBAction func startEmg(_ sender: Any) {
+        
+        // use let
+        if BluetoothPreferences.btManager != nil {
+            blueToothPeripheralsDelegate?.didAddPeripherals(array: BluetoothPreferences.peripherals, btmanager: BluetoothPreferences.btManager) // == nil (let's see why??)
+            EMGPeripheral.shared.startOrStopCollection(startClicked: true)
+        }else {
+            showFailedBleConnection()
+        }
+        
         isStartClicked = true
         var progressSeconds = 0.0
         var maxTimeElapse = captureTimeConfiguration
@@ -129,6 +139,7 @@ class ViewController: UIViewController, MFMailComposeViewControllerDelegate {
                 self.isStartClicked = false
                 print("It has been 3 seconds")
                 Timer.invalidate()
+                EMGPeripheral.shared.startOrStopCollection(startClicked: false)
             }
             
         }
@@ -137,6 +148,7 @@ class ViewController: UIViewController, MFMailComposeViewControllerDelegate {
     
     @IBAction func stopEMG(_ sender: Any) {
         isStartClicked = false
+        EMGPeripheral.shared.startOrStopCollection(startClicked: false)
     }
     
     @IBAction func downloadCSV(_ sender: Any) {
@@ -572,15 +584,14 @@ extension ViewController {
 extension ViewController {
     /// Setup selected Peripherals
        fileprivate func setupPeripherals() {
-           sessionDataValues.removeAll()
-           btReceiverHolderTypesArray.removeAll()
-           
+         sessionDataValues.removeAll()
+         btReceiverHolderTypesArray.removeAll()
            BluetoothPreferences.peripherals?.forEach { peripheral in
                print("we have peripherals")
                peripheral.peripheral.delegate = self
-               peripheral.peripheral.discoverServices([BluetoothPreferences.serviceUUID])
-               self.sessionDataValues.append([Double]())
-               self.btReceiverHolderTypesArray.append(-1)
+//               peripheral.peripheral.discoverServices([BluetoothPreferences.serviceUUID])
+//               self.sessionDataValues.append([Double]())
+//               self.btReceiverHolderTypesArray.append(-1)
            }
        }
     
@@ -682,7 +693,8 @@ extension ViewController: CBPeripheralDelegate {
                                 case 3:
                                     self.latGastroc.append(sessionDataValue)
                                     break
-                                case 4:                                    self.medGastroc.append(sessionDataValue)
+                                case 4:
+                                    self.medGastroc.append(sessionDataValue)
                                     break
                                 default:
                                     break
