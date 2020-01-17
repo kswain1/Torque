@@ -9,7 +9,7 @@
 import Foundation
 import Accelerate
 
-class LinearInterpolation {
+struct LinearInterpolation {
 
 private var n : Int
 private var x : [Double]

@@ -40,10 +40,11 @@ class ViewController: UIViewController, MFMailComposeViewControllerDelegate {
     var sessionDataValues = [[Double]]()
     var isStartClicked = false
     var sessionDictionary = [String:[Double]]()
-    var medGastroc = [Double]()  //Medial Gastro
-    var latGastroc = [Double]()  // 1 - Posterial Medial
-    var tibAnterior = [Double]()  // 2 - Tibilar Anterior
-    var peroneals = [Double]()  // 3- Peroneals
+    var emgData = EMGStruct()
+    //var emgData.medGastroc = [Double]()  //Medial Gastro
+   // var emgData.latGastroc = [Double]()  // 1 - Posterial Medial
+    //var emgData.tibAnterior = [Double]()  // 2 - Tibilar Anterior
+    //var emgData.peroneals = [Double]()  // 3- Peroneals
     var emgDataArray = [0.0,0.0,0.0,0.0]
     var imuDictionary: [[String : Float]]? = []
     var blueToothPeripheralsDelegate: BluetoothControllerDelegate?
@@ -123,6 +124,7 @@ class ViewController: UIViewController, MFMailComposeViewControllerDelegate {
     @IBAction func startEmg(_ sender: Any) {
         
         // use let
+        
         if BluetoothPreferences.btManager != nil {
             blueToothPeripheralsDelegate?.didAddPeripherals(array: BluetoothPreferences.peripherals, btmanager: BluetoothPreferences.btManager) // == nil (let's see why??)
             EMGPeripheral.shared.startOrStopCollection(startClicked: true)
@@ -140,6 +142,7 @@ class ViewController: UIViewController, MFMailComposeViewControllerDelegate {
                 print("It has been 3 seconds")
                 Timer.invalidate()
                 EMGPeripheral.shared.startOrStopCollection(startClicked: false)
+                self.emgData = EMGPeripheral.shared.getEmgData()
             }
             
         }
@@ -155,11 +158,11 @@ class ViewController: UIViewController, MFMailComposeViewControllerDelegate {
         let fileName = "emgDownload.csv"
         let path = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(fileName)
         var csvText = "Medial Gastroc, Posteriolateral Gastroc, Tibilar Anterior,Peroneals\n"
-        let count = self.medGastroc.count
+        let count = self.emgData.medGastroc.count
         
         if count > 0 {
-            for emgArray in medGastroc {
-                let newline = "\(medGastroc[0]),\(medGastroc[1]),\(medGastroc[2]),\(medGastroc[3])\n"
+            for emgArray in emgData.medGastroc {
+                let newline = "\(emgData.medGastroc[0]),\(emgData.medGastroc[1]),\(emgData.medGastroc[2]),\(emgData.medGastroc[3])\n"
 //                let newline = currentMeasurement!
                 csvText.append(contentsOf: newline)
             }
@@ -200,9 +203,10 @@ class ViewController: UIViewController, MFMailComposeViewControllerDelegate {
         //let imuSampleTime = 40 * captureTimeConfiguration
         let imuSampleTime = imuDictionary!.count
         
+        //var emgStruct = emgLinearInterpolation(medGastroc, latGastroc, tibAnterior, peroneals)
         
-        if medGastroc.count != 0 {
-            var count = medGastroc.count
+        if emgData.medGastroc.count != 0 {
+            var count = emgData.medGastroc.count
             var originalTimesArray = Array(1...count)
             var newValues = [Double](repeating: 0,
             count: imuSampleTime)
@@ -210,15 +214,15 @@ class ViewController: UIViewController, MFMailComposeViewControllerDelegate {
                 Double(originalTime)
             })
             let stride = vDSP_Stride(1)
-            vDSP_vgenpD(medGastroc, stride,
+            vDSP_vgenpD(emgData.medGastroc, stride,
                         newArray, stride,
                         &newValues, stride,
                         vDSP_Length(imuSampleTime),
-                        vDSP_Length(medGastroc.count))
-            medGastroc = newValues
+                        vDSP_Length(emgData.medGastroc.count))
+            emgData.medGastroc = newValues
         }
-        if latGastroc.count != 0 {
-            var count = latGastroc.count
+        if emgData.latGastroc.count != 0 {
+            var count = emgData.latGastroc.count
             var originalTimesArray = Array(1...count)
             var newValues = [Double](repeating: 0,
             count: imuSampleTime)
@@ -226,15 +230,15 @@ class ViewController: UIViewController, MFMailComposeViewControllerDelegate {
                 Double(originalTime)
             })
             let stride = vDSP_Stride(1)
-            vDSP_vgenpD(latGastroc, stride,
+            vDSP_vgenpD(emgData.latGastroc, stride,
                         newArray, stride,
                         &newValues, stride,
                         vDSP_Length(imuSampleTime),
-                        vDSP_Length(latGastroc.count))
-            latGastroc = newValues
+                        vDSP_Length(emgData.latGastroc.count))
+            emgData.latGastroc = newValues
         }
-        if tibAnterior.count != 0 {
-            var count = tibAnterior.count
+        if emgData.tibAnterior.count != 0 {
+            var count = emgData.tibAnterior.count
             var originalTimesArray = Array(1...count)
             var newValues = [Double](repeating: 0,
             count: imuSampleTime)
@@ -242,15 +246,15 @@ class ViewController: UIViewController, MFMailComposeViewControllerDelegate {
                 Double(originalTime)
             })
             let stride = vDSP_Stride(1)
-            vDSP_vgenpD(tibAnterior, stride,
+            vDSP_vgenpD(emgData.tibAnterior, stride,
                         newArray, stride,
                         &newValues, stride,
                         vDSP_Length(imuSampleTime),
-                        vDSP_Length(tibAnterior.count))
-            tibAnterior = newValues
+                        vDSP_Length(emgData.tibAnterior.count))
+            emgData.tibAnterior = newValues
         }
-        if peroneals.count != 0 {
-            var count = peroneals.count
+        if emgData.peroneals.count != 0 {
+            var count = emgData.peroneals.count
             var originalTimesArray = Array(1...count)
             var newValues = [Double](repeating: 0,
             count: imuSampleTime)
@@ -258,68 +262,68 @@ class ViewController: UIViewController, MFMailComposeViewControllerDelegate {
                 Double(originalTime)
             })
             let stride = vDSP_Stride(1)
-            vDSP_vgenpD(peroneals, stride,
+            vDSP_vgenpD(emgData.peroneals, stride,
                         newArray, stride,
                         &newValues, stride,
                         vDSP_Length(imuSampleTime),
-                        vDSP_Length(peroneals.count))
-            peroneals = newValues
+                        vDSP_Length(emgData.peroneals.count))
+            emgData.peroneals = newValues
         }
         
         ///Save emg Data to IMUDictionary
         if imuDictionary != nil {
             let imulength = imuDictionary!.count
             for i in 0..<imulength {
-                if medGastroc.count != 0{
+                if emgData.medGastroc.count != 0{
                     if let MedGastroc = self.MVCDict["medialGastroc"] {
-                        var normalize = self.medGastroc[i]/MedGastroc
+                        var normalize = self.emgData.medGastroc[i]/MedGastroc
                         normalize *= 100
                         imuDictionary![i]["medGastro"] = Float(normalize)
                     }
                     else {
-                        imuDictionary![i]["medGastro"] = Float(medGastroc[i])
+                        imuDictionary![i]["medGastro"] = Float(emgData.medGastroc[i])
                     }
                 }
                 
-                if latGastroc.count != 0{
+                if emgData.latGastroc.count != 0{
                     // check for MVC value storage
                     if let LatGastroc = self.MVCDict["lateralGastroc"]{
-                        var normalize = self.latGastroc[i]/LatGastroc
+                        var normalize = self.emgData.latGastroc[i]/LatGastroc
                         normalize *= 100
                         imuDictionary![i]["latGastro"] = Float(normalize)
                     }else {
-                        imuDictionary![i]["latGastro"] = Float(latGastroc[i])
+                        imuDictionary![i]["latGastro"] = Float(emgData.latGastroc[i])
                     }
                 }
                 
-                if tibAnterior.count != 0{
+                if emgData.tibAnterior.count != 0{
                     //check for MVC value storage
                     if let TibAnterior = self.MVCDict["Anterior"]{
-                        var normalize = self.tibAnterior[i]/TibAnterior
+                        var normalize = self.emgData.tibAnterior[i]/TibAnterior
                         normalize *= 100
                         imuDictionary![i]["tibAnt"] = Float(normalize)
                     }else{
-                        imuDictionary![i]["tibAnt"] = Float(tibAnterior[i])
+                        imuDictionary![i]["tibAnt"] = Float(emgData.tibAnterior[i])
                     }
                     
                 }
                 
-                if peroneals.count != 0{
+                if emgData.peroneals.count != 0{
                     //check for MVC value storage
                     if let Peroneals = self.MVCDict["Peroneals"]{
-                        var normalize = self.peroneals[i]/Peroneals
+                        var normalize = self.emgData.peroneals[i]/Peroneals
                         normalize *= 100
                         imuDictionary![i]["peroneals"] = Float(normalize)
                     }
-                    imuDictionary![i]["peroneals"] = Float(peroneals[i])
+                    imuDictionary![i]["peroneals"] = Float(emgData.peroneals[i])
                 }
             }
             
             //clear emg data
-            medGastroc = []
-            latGastroc = []
-            tibAnterior = []
-            peroneals = []
+            emgData.medGastroc = []
+            emgData.latGastroc = []
+            emgData.tibAnterior = []
+            emgData.peroneals = []
             
         }
         
@@ -684,17 +688,17 @@ extension ViewController: CBPeripheralDelegate {
                                 switch preferencePeripherals[i].type!{
                                 /// append storage array for sensors involved 0 - Medial Gastroc 1 - Posterial Mediall, 2 - Tibilar Anterior  3- Peroneals
                                 case 1:
-                                    self.peroneals.append(sessionDataValue)
+                                    self.emgData.peroneals.append(sessionDataValue)
                                     break
                                 case 2:
                                     
-                                    self.tibAnterior.append(sessionDataValue)
+                                    self.emgData.tibAnterior.append(sessionDataValue)
                                     break
                                 case 3:
-                                    self.latGastroc.append(sessionDataValue)
+                                    self.emgData.latGastroc.append(sessionDataValue)
                                     break
                                 case 4:
-                                    self.medGastroc.append(sessionDataValue)
+                                    self.emgData.medGastroc.append(sessionDataValue)
                                     break
                                 default:
                                     break
@@ -1037,7 +1041,12 @@ extension ViewController {
             }, failure: defaultFailureCallback,
                progress: { _ in },
                cancelled: { })
-            
+        if BluetoothPreferences.btManager != nil {
+            blueToothPeripheralsDelegate?.didAddPeripherals(array: BluetoothPreferences.peripherals, btmanager: BluetoothPreferences.btManager) // == nil (let's see why??)
+            EMGPeripheral.shared.startOrStopCollection(startClicked: true)
+        }else {
+            showFailedBleConnection()
+        }
         //start emg sensor capture
         var progressSeconds = 1.0
         let elapsedTime = 30.0
@@ -1048,6 +1057,8 @@ extension ViewController {
                 self.isStartClicked = false
                 Timer.invalidate()
                 self.showStatusLabel(message: "Saved EMG, Click Download Button")
+                EMGPeripheral.shared.startOrStopCollection(startClicked: false)
+                self.emgData = EMGPeripheral.shared.getEmgData()
                 
             }
             
@@ -1303,49 +1314,49 @@ extension ViewController {
         if imuDictionary != nil {
             let imulength = imuDictionary!.count
             for i in 0..<imulength {
-                if medGastroc.count != 0{
+                if emgData.medGastroc.count != 0{
                     
                     if let MedGastroc = self.MVCDict["medialGastroc"] {
-                        var normalize = self.medGastroc[i]/MedGastroc
+                        var normalize = self.emgData.medGastroc[i]/MedGastroc
                         normalize *= 100
                         imuDictionary![i]["medGastro"] = Float(normalize)
                     }
                     else {
-                        imuDictionary![i]["medGastroc"] = Float(medGastroc[i])
+                        imuDictionary![i]["medGastroc"] = Float(emgData.medGastroc[i])
                     }
                 }
                 
-                if latGastroc.count != 0{
+                if emgData.latGastroc.count != 0{
                     // check for MVC value storage
                     if let LatGastroc = self.MVCDict["lateralGastroc"]{
-                        var normalize = self.latGastroc[i]/LatGastroc
+                        var normalize = self.emgData.latGastroc[i]/LatGastroc
                         normalize *= 100
                         imuDictionary![i]["latGastro"] = Float(normalize)
                     }else {
-                        imuDictionary![i]["latGastroc"] = Float(latGastroc[i])
+                        imuDictionary![i]["latGastroc"] = Float(emgData.latGastroc[i])
                     }
                 }
                 
-                if tibAnterior.count != 0{
+                if emgData.tibAnterior.count != 0{
                     //check for MVC value storage
                     if let TibAnterior = self.MVCDict["Anterior"]{
-                        var normalize = self.tibAnterior[i]/TibAnterior
+                        var normalize = self.emgData.tibAnterior[i]/TibAnterior
                         normalize *= 100
                         imuDictionary![i]["tibAnt"] = Float(normalize)
                     }else{
-                        imuDictionary![i]["tibAnt"] = Float(tibAnterior[i])
+                        imuDictionary![i]["tibAnt"] = Float(emgData.tibAnterior[i])
                     }
                     
                 }
                 
-                if peroneals.count != 0{
+                if emgData.peroneals.count != 0{
                     //check for MVC value storage
                     if let Peroneals = self.MVCDict["Peroneals"]{
-                        var normalize = self.peroneals[i]/Peroneals
+                        var normalize = self.emgData.peroneals[i]/Peroneals
                         normalize *= 100
                         imuDictionary![i]["peroneals"] = Float(normalize)
                     }
-                    imuDictionary![i]["peroneals"] = Float(peroneals[i])
+                    imuDictionary![i]["peroneals"] = Float(emgData.peroneals[i])
                 }
             }
             
@@ -1395,10 +1406,10 @@ extension ViewController {
         }
         
         //clear emg data
-        medGastroc = []
-        latGastroc = []
-        tibAnterior = []
-        peroneals = []
+        emgData.medGastroc = []
+        emgData.latGastroc = []
+        emgData.tibAnterior = []
+        emgData.peroneals = []
         // clear IMU data
         imuDictionary = [[String:Float]]()
         
