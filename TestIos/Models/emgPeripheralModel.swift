@@ -113,7 +113,7 @@ class EMGPeripheral: NSObject, CBPeripheralDelegate {
              let emgDataList = emgDataConvert(from: characteristic)
              
             if self.isStartClicked {
-                print(emgDataList)
+                //print(emgDataList)
                  for sessionDataValue in emgDataList {
                     if let preferencePeripherals = BluetoothPreferences.peripherals {
                          for i in 0..<preferencePeripherals.count {

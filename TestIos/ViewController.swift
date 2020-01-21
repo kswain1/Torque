@@ -204,39 +204,74 @@ class ViewController: UIViewController, MFMailComposeViewControllerDelegate {
         let imuSampleTime = imuDictionary!.count
         
         //var emgStruct = emgLinearInterpolation(medGastroc, latGastroc, tibAnterior, peroneals)
+        // setup original times for emg tracker
+        let emgOriginalFrequencies = Double(1.0 / Double(emgData.medGastroc.count/captureTimeConfiguration))
+        let newFrequencyCounter = Double(1.0/300.0)
+        var originalEmgTimeCounter = Array(stride(from:Double(0.0), through: Double(captureTimeConfiguration), by: emgOriginalFrequencies))
+        var newEmgFrequencies = Array(stride(from:Double(0.0), through: Double(captureTimeConfiguration), by: newFrequencyCounter))
+        var emgMedGastro : [Double] = []
         
+        
+        //linear intperplation activated
         if emgData.medGastroc.count != 0 {
-            var count = emgData.medGastroc.count
-            var originalTimesArray = Array(1...count)
-            var newValues = [Double](repeating: 0,
-            count: imuSampleTime)
-            let newArray = originalTimesArray.map({ (originalTime) -> Double in
-                Double(originalTime)
-            })
-            let stride = vDSP_Stride(1)
-            vDSP_vgenpD(emgData.medGastroc, stride,
-                        newArray, stride,
-                        &newValues, stride,
-                        vDSP_Length(imuSampleTime),
-                        vDSP_Length(emgData.medGastroc.count))
-            emgData.medGastroc = newValues
+            var s = LinearInterpolation(x: originalEmgTimeCounter, y: emgData.medGastroc)
+            emgMedGastro = newEmgFrequencies.map { (emgSample: Double) -> Double in
+                return s.Interpolate(t: emgSample)
+            }
+            var emgMedGastroF = emgMedGastro.map {Float($0)}
+            //decimation step 1: Antialiasing Filter MARK
+            let decimationFactor = 6
+            let filterLength: vDSP_Length = 6
+            let filter = [Float](repeating: 1 / Float(filterLength),
+            count: Int(filterLength))
+            
+            //Define output length
+            let n = vDSP_Length((vDSP_Length(emgMedGastro.count) - filterLength) / vDSP_Length(decimationFactor)) + 1
+            var outputSignal = [Float](repeating: 0,
+            count: Int(n))
+            
+            //perform decimation
+            vDSP_desamp(emgMedGastroF, vDSP_Stride(decimationFactor), filter, &outputSignal, n, filterLength)
+            emgData.medGastroc = outputSignal.map { Double($0)}
         }
-        if emgData.latGastroc.count != 0 {
-            var count = emgData.latGastroc.count
-            var originalTimesArray = Array(1...count)
-            var newValues = [Double](repeating: 0,
-            count: imuSampleTime)
-            let newArray = originalTimesArray.map({ (originalTime) -> Double in
-                Double(originalTime)
-            })
-            let stride = vDSP_Stride(1)
-            vDSP_vgenpD(emgData.latGastroc, stride,
-                        newArray, stride,
-                        &newValues, stride,
-                        vDSP_Length(imuSampleTime),
-                        vDSP_Length(emgData.latGastroc.count))
-            emgData.latGastroc = newValues
-        }
+        
+        
+        
+        
+    
+        
+//        if emgData.medGastroc.count != 0 {
+//            var count = emgData.medGastroc.count
+//            var originalTimesArray = Array(1...count)
+//            var newValues = [Double](repeating: 0,
+//            count: imuSampleTime)
+//            let newArray = originalTimesArray.map({ (originalTime) -> Double in
+//                Double(originalTime)
+//            })
+//            let stride = vDSP_Stride(1)
+//            vDSP_vgenpD(emgData.medGastroc, stride,
+//                        newArray, stride,
+//                        &newValues, stride,
+//                        vDSP_Length(imuSampleTime),
+//                        vDSP_Length(emgData.medGastroc.count))
+//            emgData.medGastroc = newValues
+//        }
+//        if emgData.latGastroc.count != 0 {
+//            var count = emgData.latGastroc.count
+//            var originalTimesArray = Array(1...count)
+//            var newValues = [Double](repeating: 0,
+//            count: imuSampleTime)
+//            let newArray = originalTimesArray.map({ (originalTime) -> Double in
+//                Double(originalTime)
+//            })
+//            let stride = vDSP_Stride(1)
+//            vDSP_vgenpD(emgData.latGastroc, stride,
+//                        newArray, stride,
+//                        &newValues, stride,
+//                        vDSP_Length(imuSampleTime),
+//                        vDSP_Length(emgData.latGastroc.count))
+//            emgData.latGastroc = newValues
+//        }
         if emgData.tibAnterior.count != 0 {
             var count = emgData.tibAnterior.count
             var originalTimesArray = Array(1...count)
@@ -974,9 +1009,9 @@ extension ViewController {
             self.downloadButton.setTitle("Stop real time", for: .normal)
             self.captureButton.setTitle("Real time capture", for: .normal)
         } else {
-            self.configureCaptureButton.setTitle("Configure 30 sec capture", for: .normal)
+            self.configureCaptureButton.setTitle("Configure \(captureTimeConfiguration) sec capture", for: .normal)
             self.downloadButton.setTitle("Download", for: .normal)
-            self.captureButton.setTitle("Capture 30 sec", for: .normal)
+            self.captureButton.setTitle("Capture \(captureTimeConfiguration) sec", for: .normal)
         }
     }
     
@@ -1008,9 +1043,9 @@ extension ViewController {
                 cancelled: { })
             
         } else {
-        
+            let configurationTime = Int64(self.captureTimeConfiguration * 1000)
             _ = AppDelegate.service.configureTimedCapture(
-                timerMillis: 30000, isShowingColors: false,
+                timerMillis: configurationTime, isShowingColors: false,
                 success: defaultSuccessCallback,
                 failure: defaultFailureCallback,
                 progress: { _ in },
@@ -1048,12 +1083,12 @@ extension ViewController {
             showFailedBleConnection()
         }
         //start emg sensor capture
-        var progressSeconds = 1.0
-        let elapsedTime = 30.0
+        var progressSeconds = 0.0
+        let elapsedTime = captureTimeConfiguration
         self.isStartClicked = true
         Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { (Timer) in
             progressSeconds += 1
-            if progressSeconds >= elapsedTime {
+            if Int(progressSeconds) >= elapsedTime {
                 self.isStartClicked = false
                 Timer.invalidate()
                 self.showStatusLabel(message: "Saved EMG, Click Download Button")
