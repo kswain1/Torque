@@ -207,8 +207,11 @@ class ViewController: UIViewController, MFMailComposeViewControllerDelegate {
         // setup original times for emg tracker
         let emgOriginalFrequencies = Double(1.0 / Double(emgData.medGastroc.count/captureTimeConfiguration))
         let newFrequencyCounter = Double(1.0/300.0)
-        var originalEmgTimeCounter = Array(stride(from:Double(0.0), through: Double(captureTimeConfiguration), by: emgOriginalFrequencies))
-        var newEmgFrequencies = Array(stride(from:Double(0.0), through: Double(captureTimeConfiguration), by: newFrequencyCounter))
+        var originalEmgTimeCounter = Array(stride(from:Double(0.0), through: Double(emgData.medGastroc.count - 1), by: 1))
+        
+        //updating the too factor get a factor of 300 samples based on whatever samples given from emg's
+        //
+        var newEmgFrequencies = Array(stride(from:Double(0.0), through: Double(emgData.medGastroc.count), by: Double(emgData.medGastroc.count/captureTimeConfiguration)/300))
         var emgMedGastro : [Double] = []
         
         
