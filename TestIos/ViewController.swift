@@ -203,36 +203,34 @@ class ViewController: UIViewController, MFMailComposeViewControllerDelegate {
         //let imuSampleTime = 40 * captureTimeConfiguration
         let imuSampleTime = imuDictionary!.count
         
-        //var emgStruct = emgLinearInterpolation(medGastroc, latGastroc, tibAnterior, peroneals)
-        // setup original times for emg tracker
-        let emgOriginalFrequencies = Double(1.0 / Double(emgData.medGastroc.count/captureTimeConfiguration))
-        let newFrequencyCounter = Double(1.0/300.0)
-        var originalEmgTimeCounter = Array(stride(from:Double(0.0), through: Double(emgData.medGastroc.count - 1), by: 1))
-        
-        //updating the too factor get a factor of 300 samples based on whatever samples given from emg's
-        //
-        var newEmgFrequencies = Array(stride(from:Double(0.0), through: Double(emgData.medGastroc.count), by: Double(emgData.medGastroc.count/captureTimeConfiguration)/300))
         var emgMedGastro : [Double] = []
         
         
         //linear intperplation activated
         if emgData.medGastroc.count != 0 {
-            var s = LinearInterpolation(x: originalEmgTimeCounter, y: emgData.medGastroc)
-            emgMedGastro = newEmgFrequencies.map { (emgSample: Double) -> Double in
-                return s.Interpolate(t: emgSample)
-            }
-            var emgMedGastroF = emgMedGastro.map {Float($0)}
+
+            
+
+            let controlVector: [Float] = vDSP.ramp(in: 0 ... Float(emgData.medGastroc.count) - 1,
+            count: captureTimeConfiguration * 300)
+            var values = emgData.medGastroc.map { Float($0)}
+            values = vDSP.linearInterpolate(elementsOf: values,
+            using: controlVector)
+            emgData.medGastroc = values.map {Double($0)}
+            
+
+            var emgMedGastroF = emgData.medGastroc.map {Float($0)}
             //decimation step 1: Antialiasing Filter MARK
             let decimationFactor = 6
             let filterLength: vDSP_Length = 6
             let filter = [Float](repeating: 1 / Float(filterLength),
             count: Int(filterLength))
-            
+
             //Define output length
-            let n = vDSP_Length((vDSP_Length(emgMedGastro.count) - filterLength) / vDSP_Length(decimationFactor)) + 1
+            let n = vDSP_Length((vDSP_Length(emgData.medGastroc.count) - filterLength) / vDSP_Length(decimationFactor)) + 1
             var outputSignal = [Float](repeating: 0,
             count: Int(n))
-            
+
             //perform decimation
             vDSP_desamp(emgMedGastroF, vDSP_Stride(decimationFactor), filter, &outputSignal, n, filterLength)
             emgData.medGastroc = outputSignal.map { Double($0)}
@@ -629,7 +627,7 @@ extension ViewController {
          sessionDataValues.removeAll()
          btReceiverHolderTypesArray.removeAll()
            BluetoothPreferences.peripherals?.forEach { peripheral in
-               print("we have peripherals")
+               //print("we have peripherals")
                peripheral.peripheral.delegate = self
 //               peripheral.peripheral.discoverServices([BluetoothPreferences.serviceUUID])
 //               self.sessionDataValues.append([Double]())

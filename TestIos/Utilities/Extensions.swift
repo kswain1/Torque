@@ -11,6 +11,7 @@ import CoreBluetooth
 
 // Dictionary extensions
 extension Dictionary where Value: Equatable {
+    /// Filters for all key based  on value
     func allKeys(forValue val: Value) -> [Key] {
         return self.filter { $1 == val }.map { $0.0 }
     }
@@ -20,6 +21,13 @@ extension Dictionary where Value: Equatable {
     }
 }
 
+extension Double {
+    /// Rounds the double to decimal places value
+    func rounded(toPlaces places:Int) -> Double {
+        let divisor = pow(10.0, Double(places))
+        return (self * divisor).rounded() / divisor
+    }
+}
     //TODO: Grab 8 bites of the array that is sent to create more accuracy from sensor
     //function allows the byte array to be converted into integers
 
