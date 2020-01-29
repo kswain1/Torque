@@ -201,7 +201,12 @@ class ViewController: UIViewController, MFMailComposeViewControllerDelegate {
         
         //Linear Inteprolation Medial Gastro and Tibilar Anterior
         //let imuSampleTime = 40 * captureTimeConfiguration
-        let imuSampleTime = imuDictionary!.count
+        var imuSampleTime = 0
+        if imuDictionary?.count != 0 {
+            imuSampleTime = imuDictionary!.count
+        } else {
+            imuSampleTime = captureTimeConfiguration * 50
+        }
         
         var emgMedGastro : [Double] = []
         
@@ -212,28 +217,28 @@ class ViewController: UIViewController, MFMailComposeViewControllerDelegate {
             
 
             let controlVector: [Float] = vDSP.ramp(in: 0 ... Float(emgData.medGastroc.count) - 1,
-            count: captureTimeConfiguration * 300)
+            count: imuSampleTime)
             var values = emgData.medGastroc.map { Float($0)}
             values = vDSP.linearInterpolate(elementsOf: values,
             using: controlVector)
             emgData.medGastroc = values.map {Double($0)}
             
 
-            var emgMedGastroF = emgData.medGastroc.map {Float($0)}
-            //decimation step 1: Antialiasing Filter MARK
-            let decimationFactor = 6
-            let filterLength: vDSP_Length = 6
-            let filter = [Float](repeating: 1 / Float(filterLength),
-            count: Int(filterLength))
-
-            //Define output length
-            let n = vDSP_Length((vDSP_Length(emgData.medGastroc.count) - filterLength) / vDSP_Length(decimationFactor)) + 1
-            var outputSignal = [Float](repeating: 0,
-            count: Int(n))
-
-            //perform decimation
-            vDSP_desamp(emgMedGastroF, vDSP_Stride(decimationFactor), filter, &outputSignal, n, filterLength)
-            emgData.medGastroc = outputSignal.map { Double($0)}
+//            var emgMedGastroF = emgData.medGastroc.map {Float($0)}
+//            //decimation step 1: Antialiasing Filter MARK
+//            let decimationFactor = 6
+//            let filterLength: vDSP_Length = 6
+//            let filter = [Float](repeating: 1 / Float(filterLength),
+//            count: Int(filterLength))
+//
+//            //Define output length
+//            let n = vDSP_Length((vDSP_Length(emgData.medGastroc.count) - filterLength) / vDSP_Length(decimationFactor)) + 1
+//            var outputSignal = [Float](repeating: 0,
+//            count: Int(n))
+//
+//            //perform decimation
+//            vDSP_desamp(emgMedGastroF, vDSP_Stride(decimationFactor), filter, &outputSignal, n, filterLength)
+//            emgData.medGastroc = outputSignal.map { Double($0)}
         }
         
         
@@ -257,53 +262,29 @@ class ViewController: UIViewController, MFMailComposeViewControllerDelegate {
 //                        vDSP_Length(emgData.medGastroc.count))
 //            emgData.medGastroc = newValues
 //        }
-//        if emgData.latGastroc.count != 0 {
-//            var count = emgData.latGastroc.count
-//            var originalTimesArray = Array(1...count)
-//            var newValues = [Double](repeating: 0,
-//            count: imuSampleTime)
-//            let newArray = originalTimesArray.map({ (originalTime) -> Double in
-//                Double(originalTime)
-//            })
-//            let stride = vDSP_Stride(1)
-//            vDSP_vgenpD(emgData.latGastroc, stride,
-//                        newArray, stride,
-//                        &newValues, stride,
-//                        vDSP_Length(imuSampleTime),
-//                        vDSP_Length(emgData.latGastroc.count))
-//            emgData.latGastroc = newValues
-//        }
+        if emgData.latGastroc.count != 0 {
+              let controlVector: [Float] = vDSP.ramp(in: 0 ... Float(emgData.latGastroc.count) - 1,
+                      count: imuSampleTime)
+                      var values = emgData.latGastroc.map { Float($0)}
+                      values = vDSP.linearInterpolate(elementsOf: values,
+                      using: controlVector)
+                      emgData.latGastroc = values.map {Double($0)}
+        }
         if emgData.tibAnterior.count != 0 {
-            var count = emgData.tibAnterior.count
-            var originalTimesArray = Array(1...count)
-            var newValues = [Double](repeating: 0,
-            count: imuSampleTime)
-            let newArray = originalTimesArray.map({ (originalTime) -> Double in
-                Double(originalTime)
-            })
-            let stride = vDSP_Stride(1)
-            vDSP_vgenpD(emgData.tibAnterior, stride,
-                        newArray, stride,
-                        &newValues, stride,
-                        vDSP_Length(imuSampleTime),
-                        vDSP_Length(emgData.tibAnterior.count))
-            emgData.tibAnterior = newValues
+              let controlVector: [Float] = vDSP.ramp(in: 0 ... Float(emgData.tibAnterior.count) - 1,
+                      count: imuSampleTime)
+                      var values = emgData.tibAnterior.map { Float($0)}
+                      values = vDSP.linearInterpolate(elementsOf: values,
+                      using: controlVector)
+                      emgData.tibAnterior = values.map {Double($0)}
         }
         if emgData.peroneals.count != 0 {
-            var count = emgData.peroneals.count
-            var originalTimesArray = Array(1...count)
-            var newValues = [Double](repeating: 0,
-            count: imuSampleTime)
-            let newArray = originalTimesArray.map({ (originalTime) -> Double in
-                Double(originalTime)
-            })
-            let stride = vDSP_Stride(1)
-            vDSP_vgenpD(emgData.peroneals, stride,
-                        newArray, stride,
-                        &newValues, stride,
-                        vDSP_Length(imuSampleTime),
-                        vDSP_Length(emgData.peroneals.count))
-            emgData.peroneals = newValues
+              let controlVector: [Float] = vDSP.ramp(in: 0 ... Float(emgData.peroneals.count) - 1,
+                      count: imuSampleTime)
+                      var values = emgData.peroneals.map { Float($0)}
+                      values = vDSP.linearInterpolate(elementsOf: values,
+                      using: controlVector)
+                      emgData.peroneals = values.map {Double($0)}
         }
         
         ///Save emg Data to IMUDictionary
@@ -628,7 +609,7 @@ extension ViewController {
          btReceiverHolderTypesArray.removeAll()
            BluetoothPreferences.peripherals?.forEach { peripheral in
                //print("we have peripherals")
-               peripheral.peripheral.delegate = self
+               //peripheral.peripheral.delegate = self
 //               peripheral.peripheral.discoverServices([BluetoothPreferences.serviceUUID])
 //               self.sessionDataValues.append([Double]())
 //               self.btReceiverHolderTypesArray.append(-1)
@@ -668,14 +649,14 @@ extension ViewController: PeripheralsViewControllerDelegate {
 }
 
 extension ViewController: CBPeripheralDelegate {
-    
+
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
         /// check for error
         if let error = error {
             print("ERROR didDiscoverCharacteristicsFor service \(error)")
             return
         }
-        
+
         if let pServices = peripheral.services {
             for service in pServices {
                 if service.uuid == BluetoothPreferences.serviceUUID{
@@ -684,14 +665,14 @@ extension ViewController: CBPeripheralDelegate {
             }
         }
     }
-    
+
     func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
         /// check for error
         if let error = error {
             print("ERROR didDiscoverServices \(error)")
             return
         }
-        
+
         if let sCharacteristics = service.characteristics {
             for characteristic in sCharacteristics {
                 if characteristic.uuid == BluetoothPreferences.charUUID{
@@ -700,24 +681,24 @@ extension ViewController: CBPeripheralDelegate {
             }
         }
     }
-    
+
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         /// Check for error
         if let error = error {
             print("ERROR didUpdateValue \(error)")
             return
         }
-        
+
         /// Check if ids coincide
         if characteristic.uuid == BluetoothPreferences.charUUID {
             // Get dataSessionValue
             let emgDataList = emgDataConvert(from: characteristic)
-            print(emgDataList)
+            print(emgDataList, "main view controller")
             if isStartClicked {
                 for sessionDataValue in emgDataList {
                     if let preferencePeripherals = BluetoothPreferences.peripherals {
                         for i in 0..<preferencePeripherals.count {
-                        
+
                             if peripheral == preferencePeripherals[i].peripheral {
                                  self.sessionDataValues[i].append(sessionDataValue)
                                 self.btReceiverHolderTypesArray[i] = preferencePeripherals[i].type!
@@ -727,7 +708,7 @@ extension ViewController: CBPeripheralDelegate {
                                     self.emgData.peroneals.append(sessionDataValue)
                                     break
                                 case 2:
-                                    
+
                                     self.emgData.tibAnterior.append(sessionDataValue)
                                     break
                                 case 3:
@@ -738,8 +719,8 @@ extension ViewController: CBPeripheralDelegate {
                                     break
                                 default:
                                     break
-                            
-                                }                                
+
+                                }
                           }
                      }
                  }
@@ -1010,9 +991,9 @@ extension ViewController {
             self.downloadButton.setTitle("Stop real time", for: .normal)
             self.captureButton.setTitle("Real time capture", for: .normal)
         } else {
-            self.configureCaptureButton.setTitle("Configure \(captureTimeConfiguration) sec capture", for: .normal)
+            self.configureCaptureButton.setTitle("Configure \(self.captureTimeConfiguration) sec capture", for: .normal)
             self.downloadButton.setTitle("Download", for: .normal)
-            self.captureButton.setTitle("Capture \(captureTimeConfiguration) sec", for: .normal)
+            self.captureButton.setTitle("Capture \(self.captureTimeConfiguration) sec", for: .normal)
         }
     }
     
@@ -1081,6 +1062,7 @@ extension ViewController {
             blueToothPeripheralsDelegate?.didAddPeripherals(array: BluetoothPreferences.peripherals, btmanager: BluetoothPreferences.btManager) // == nil (let's see why??)
             EMGPeripheral.shared.startOrStopCollection(startClicked: true)
         }else {
+            print("no bluetooth connection")
             showFailedBleConnection()
         }
         //start emg sensor capture
@@ -1090,6 +1072,7 @@ extension ViewController {
         Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { (Timer) in
             progressSeconds += 1
             if Int(progressSeconds) >= elapsedTime {
+                print("emg has started")
                 self.isStartClicked = false
                 Timer.invalidate()
                 self.showStatusLabel(message: "Saved EMG, Click Download Button")
