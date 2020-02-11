@@ -224,44 +224,9 @@ class ViewController: UIViewController, MFMailComposeViewControllerDelegate {
             emgData.medGastroc = values.map {Double($0)}
             
 
-//            var emgMedGastroF = emgData.medGastroc.map {Float($0)}
-//            //decimation step 1: Antialiasing Filter MARK
-//            let decimationFactor = 6
-//            let filterLength: vDSP_Length = 6
-//            let filter = [Float](repeating: 1 / Float(filterLength),
-//            count: Int(filterLength))
-//
-//            //Define output length
-//            let n = vDSP_Length((vDSP_Length(emgData.medGastroc.count) - filterLength) / vDSP_Length(decimationFactor)) + 1
-//            var outputSignal = [Float](repeating: 0,
-//            count: Int(n))
-//
-//            //perform decimation
-//            vDSP_desamp(emgMedGastroF, vDSP_Stride(decimationFactor), filter, &outputSignal, n, filterLength)
-//            emgData.medGastroc = outputSignal.map { Double($0)}
+
         }
         
-        
-        
-        
-    
-        
-//        if emgData.medGastroc.count != 0 {
-//            var count = emgData.medGastroc.count
-//            var originalTimesArray = Array(1...count)
-//            var newValues = [Double](repeating: 0,
-//            count: imuSampleTime)
-//            let newArray = originalTimesArray.map({ (originalTime) -> Double in
-//                Double(originalTime)
-//            })
-//            let stride = vDSP_Stride(1)
-//            vDSP_vgenpD(emgData.medGastroc, stride,
-//                        newArray, stride,
-//                        &newValues, stride,
-//                        vDSP_Length(imuSampleTime),
-//                        vDSP_Length(emgData.medGastroc.count))
-//            emgData.medGastroc = newValues
-//        }
         if emgData.latGastroc.count != 0 {
               let controlVector: [Float] = vDSP.ramp(in: 0 ... Float(emgData.latGastroc.count) - 1,
                       count: imuSampleTime)
