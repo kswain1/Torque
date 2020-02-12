@@ -73,7 +73,7 @@ class StartUpViewController: UIViewController {
     
     func goToHomeScreen() {
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
-        if let tabBarVC = self.storyboard?.instantiateViewController(withIdentifier: "MainTabBar") as? UITabBarController {
+        if let tabBarVC = self.storyboard?.instantiateViewController(withIdentifier: "MainController") as? UINavigationController {
             appDelegate?.window?.rootViewController = tabBarVC
         }
     }
