@@ -13,7 +13,7 @@ import FirebaseCore
 import FirebaseFirestore
 
 
-class FireViewController: UIViewController {
+class FireViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
 
     var db: Firestore!
 
@@ -26,12 +26,17 @@ class FireViewController: UIViewController {
         Firestore.firestore().settings = settings
         // [END setup]
         db = Firestore.firestore()
-        self.getCollection()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+   
+//    func setupTableView() {
+//        tableview.delegate = self
+//        tableview.dataSource = self
+//
+//    }
     
     private func getCollection() {
           // [START get_collection]
@@ -46,5 +51,20 @@ class FireViewController: UIViewController {
           }
           // [END get_collection]
       }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+            self.getCollection()
+            return 4
+
+       }
+
+       func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        let cell = tableView.dequeueReusableCell(withIdentifier: <#T##String#>, for: <#T##IndexPath#>)
+                var organizations: UITableViewCell!
+                //var label:UILabel = "hello"
+               organizations.textLabel!.text = "hello"
+                return organizations
+       }
+       
 
 }
