@@ -19,13 +19,13 @@
             "frequency": 50
         },
         {
-            "name": "RightLowerLeg",
+            "name": "LeftLowerLeg",
             "color1": "Green",
             "color2": "Green",
             "frequency": 50
         },
         {
-            "name": "RightFootTop",
+            "name": "LeftFootTop",
             "color1": "Pink",
             "color2": "Pink",
             "frequency": 50
@@ -61,7 +61,7 @@
         }
     ]
     "custom":{
-        "config_name":"Lower body(with hip)"
+        "config_name":"Lower body left (with hip)"
     }
 }
 

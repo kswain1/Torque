@@ -22,3 +22,4 @@ struct BluetoothPreferences {
     static var btManager: CBCentralManager?
     static var peripherals: [Peripheral]?
 }
+

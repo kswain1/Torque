@@ -34,6 +34,7 @@ class VisualiserViewController: WorkoutAnimationViewController, AnimationProgres
     var progress: Float = 0.0
     
     weak var visualizerDelegate: VisualizerDownloadDelegate?
+    var sensorConfiguration: ConfigurationType?
     
     override func viewDidLoad() {
         // set up scene
@@ -218,95 +219,31 @@ class VisualiserViewController: WorkoutAnimationViewController, AnimationProgres
             //file creation for saving file (potentially delete in the future)
             let fileName = "imuDownload.csv"
             let path = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(fileName)
+            var posText = "posX, posY, posZ, posMag\n"
             var imuText = "sample, angleX, angleY, angleZ, angleVeloX, angleVeloY, angleVeloZ, posX, posY, posZ\n"
             do {
                 self.visualiserData = try NotchVisualiserData.fromURL(url: (self.measurementURL)!)
+                var s = VisualizerImuDictionary()
+                
+                
                 let skeleton = self.visualiserData.skeleton
                 
-                let rightFoot = skeleton.bone("RightFootTop")
-                let rightLowerLeg = skeleton.bone("RightLowerLeg")
-                if  (rightFoot != nil) && (rightLowerLeg != nil){
-                    var angleVeloX, angleVeloY, angleVeloZ: Float
-                    var posX: Float = 0.0
-                    var posY: Float = 0.0
-                    var posZ: Float = 0.0
-                    var angleX:Float = 0.0
-                    var angleY:Float = 0.0
-                    var angleZ:Float = 0.0
-                    var previousVeloX:Float = 0.00
-                    var previousVeloY:Float = 0.00
-                    var previousVeloZ:Float = 0.00
-                    var torqueX: Float = 0.0
-                    var torqueY: Float = 0.0
-                    var torqueZ: Float = 0.0
-                    
-                    //started from the second sample to include angular velocity
-                    for i in 1..<self.visualiserData.frameCount {
-                        //appends the first sample to imu motion list
-                        var imuMotionList = "\(i),"
-                        if let vector = self.visualiserData.calculateAngularVelocity(bone: rightLowerLeg!, frameIndex: i) {
-                            
-//                            print("angular Velocity: \(vector.x) \(vector.y) \(vector.z)")
-                            if i > 1 {
-                                let accelerationX = angularAcceleration(angleVelocityPrevious: Float(previousVeloX), angleVelocityCurrent: vector.x, samplesPerSecond: 40)
-                                let accelerationY = angularAcceleration(angleVelocityPrevious: Float(previousVeloY), angleVelocityCurrent: vector.x, samplesPerSecond: 40)
-                                let accelerationZ = angularAcceleration(angleVelocityPrevious: Float(previousVeloZ), angleVelocityCurrent: vector.x, samplesPerSecond: 40)
-                                
-                                // MARK: Calculating Torque
-                                /// Calculating Torque
-                                // Step 1 collect angles
-                                if let angles = self.visualiserData.calculateRelativeAngleForReferenceBone(bone: rightLowerLeg!, referenceBone: rightFoot!, frameIndex: i){
-                                    angleX = angles.x
-                                    angleY = angles.y
-                                    angleZ = angles.z
-                                }
-                                
-                                torqueX = jointTorque(angularAcceleration: accelerationX, angle: angleX)
-                                torqueY = jointTorque(angularAcceleration: accelerationY, angle: angleY)
-                                torqueZ = jointTorque(angularAcceleration: accelerationZ, angle: angleZ)
-                                let torqueMag = externalWorkMagnitude(x:torqueX,y:torqueY,z:torqueZ )
-                                
-                                //position calculations
-                                if let position = self.visualiserData.getPosition(bone: rightFoot!, frameIndex: i) {
-                                    posX = position.x
-                                    posY = position.y
-                                    posZ = position.z
-                                }
-                                let posMag = externalWorkMagnitude(x: posX, y: posY, z: posZ)
-                                
-                                let data: [String: Float] = ["angleX":angleX,"angleY":angleY,"angleZ":angleZ ,"angleVeloX":vector.x, "angleVeloY": vector.y, "angleVeloZ": vector.z, "angleAccelX": accelerationX, "angleAccelY": accelerationY, "angleAccelZ": accelerationZ, "torqueMag":torqueMag, "torqueX":torqueX, "torqueY":torqueY, "torqueZ":torqueZ, "posX": posX, "posY": posY, "posZ": posZ, "posMag": posMag]
-                                
-                                print("accelerationX:", accelerationX)
-                                print("TorqueX, TorqueMag:", torqueX, torqueMag)
-                                imuData.append(data)
-                                
-                                // swap values acceleration calculation
-                                previousVeloX = Float(vector.x)
-                                previousVeloY = Float(vector.y)
-                                previousVeloZ = Float(vector.z)
-                            } else {
-                                // for zero case
-                                // Step 1 collect angles
-                                if let angles = self.visualiserData.calculateRelativeAngleForReferenceBone(bone: rightLowerLeg!, referenceBone: rightFoot!, frameIndex: i){
-                                    angleX = angles.x
-                                    angleY = angles.y
-                                    angleZ = angles.z
-                                }
-                                
-                                let data: [String: Float] = ["angleX":angleX,"angleY":angleY, "angleZ":angleZ, "angleVeloX":vector.x, "angleVeloY": vector.y, "angleVeloZ": vector.z, "angleAccelX": 0.0, "angleAccelY": 0.0, "angleAccelZ": 0.0,"torqueMag":0.0 ,"torqueX":torqueX, "torqueY":torqueY, "torqueZ":torqueZ, "posX": 0.0, "posY": 0.0, "posZ": 0.0, "posMag": 0.0]
-                                print("accelerationX:", 0.0)
-                               imuData.append(data)
-                            }
-                            
-                        }
-                    }
-                    
-                } else {
-                    print("right foot bone not found")
-                }
-            } catch let error as NSError {
+//                let rightFoot = skeleton.bone("RightFootTop")
+//                let leftFoot = skeleton.bone("LeftFootTop")
+//                let rightLowerLeg = skeleton.bone("RightLowerLeg")
+//                let chest = skeleton.bone("Chest")
+                
+                let sensorConfigDic =  ["Left Ankle & Right Thigh (5)":"Left", "Right Ankle & Left Thigh (5)":"Right", "Chest (1)":"chest"]
+                //check for right foot
+                let selectLeg = sensorConfiguration?.name
+                let leg = sensorConfigDic[selectLeg!]
+                imuData = s.computeImuDict(leg: leg!, visualizerData: self.visualiserData, measurementUrl: self.measurementURL!)
+            }
+            catch let error as NSError {
                 print(error.localizedDescription)
             }
+            
+            
         }
         
         self.sceneProvider = self.visualiserData.config

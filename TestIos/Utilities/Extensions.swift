@@ -11,6 +11,7 @@ import CoreBluetooth
 
 // Dictionary extensions
 extension Dictionary where Value: Equatable {
+    /// Filters for all key based  on value
     func allKeys(forValue val: Value) -> [Key] {
         return self.filter { $1 == val }.map { $0.0 }
     }
@@ -20,6 +21,13 @@ extension Dictionary where Value: Equatable {
     }
 }
 
+extension Double {
+    /// Rounds the double to decimal places value
+    func rounded(toPlaces places:Int) -> Double {
+        let divisor = pow(10.0, Double(places))
+        return (self * divisor).rounded() / divisor
+    }
+}
     //TODO: Grab 8 bites of the array that is sent to create more accuracy from sensor
     //function allows the byte array to be converted into integers
 
@@ -70,3 +78,28 @@ func jointTorque(angularAcceleration: Float, angle: Float, nueroMuscle: Float = 
     //measure distance from imu follow up
     return torque
 }
+
+func forceAnkle(linearAccel: Float, angularAccel: Float, angularVelo: Float, mass: Float = 79, length: Float = 1.0) -> Float{
+    var force = linearAccel + angularAccel + angularVelo
+    return force
+}
+
+// 
+
+func computeScore (emgArray: Double) -> [Double] {
+    return [0.0, 0.0]
+}
+
+protocol MVCDelegate: class {
+    func addMVC(MVC: (String,Double))
+}
+
+protocol PosteriorMVCDelegate: class {
+    func addPostMVC(MVC: (String,Double,String,Double))
+}
+
+protocol BluetoothControllerDelegate {
+    func didAddPeripherals(array: [Peripheral]?, btmanager: CBCentralManager?)
+}
+
+
