@@ -31,29 +31,31 @@ class OrgViewController: UIViewController, UITableViewDataSource, UITableViewDel
     }
    
 
-    @IBAction func didTapLogoutButton(_ sender: UIBarButtonItem) {
+//    @IBAction func didTapLogoutButton(_ sender: UIBarButtonItem) {
+//
+//        let alertController = UIAlertController(title: "Are you sure you want to logout?", message: "", preferredStyle: .alert)
+//        let okAction = UIAlertAction(title: "Logout", style: .destructive) { _ in
+//            self.showLoginView()
+//        }
+//
+//    }
         
-        let alertController = UIAlertController(title: "Are you sure you want to logout?", message: "", preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "Logout", style: .destructive) { _ in
-            self.showLoginView()
-        }
-        
-        func showLoginView() {
-           
-            let storyboard = UIStoryboard(name: Identifiers.Main, bundle: nil)
-            let loginVC = storyboard.instantiateViewController(withIdentifier: Identifiers.LoginViewController) as! LoginViewController
-            present(loginVC, animated: true, completion: nil)
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
-
-        alertController.addAction(cancelAction)
-        alertController.addAction(okAction)
-        self.present(alertController, animated: true, completion: nil)
-        
-        
-        
-        
-    }
+//    func showLoginView() {
+//
+//            //let storyboard = UIStoryboard(name: Identifiers.Main, bundle: nil)
+//        let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "StartUpViewController")
+//            present(loginVC, animated: true, completion: nil)
+//
+//        let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+//
+//        alertController.addAction(cancelAction)
+//        alertController.addAction(okAction)
+//        self.present(alertController, animated: true, completion: nil)
+//
+//    }
+    
+}
+    
     
 //    @IBAction func didTapLogoutButton(_ sender: UIBarButtonItem) {
 //        // TODO: Replace with unwind segue
@@ -75,5 +77,3 @@ class OrgViewController: UIViewController, UITableViewDataSource, UITableViewDel
          Pass the selected object to the new view controller.
     }
     */
-
-}

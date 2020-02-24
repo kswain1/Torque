@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2CB9D6690D6F9A18264EC996 /* Pods_TestIos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18FFD492329A8D019C7199B4 /* Pods_TestIos.framework */; };
+		88213EE023F48F98005BA4A4 /* OrgViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88213EDF23F48F98005BA4A4 /* OrgViewController.swift */; };
 		8824149E2316E0F9006BEBA9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8824149C2316E0F9006BEBA9 /* Main.storyboard */; };
 		882414A02316E0FA006BEBA9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8824149F2316E0FA006BEBA9 /* Assets.xcassets */; };
 		882414A32316E0FA006BEBA9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 882414A12316E0FA006BEBA9 /* LaunchScreen.storyboard */; };
@@ -15,6 +16,9 @@
 		882414B92316E0FA006BEBA9 /* TestIosUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882414B82316E0FA006BEBA9 /* TestIosUITests.swift */; };
 		882CD56D2388558500DCACD6 /* MVCAnteriorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882CD56C2388558500DCACD6 /* MVCAnteriorViewController.swift */; };
 		8851A4A9236123C4001679BE /* emgHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8851A4A8236123C4001679BE /* emgHelper.swift */; };
+		8857D4E023FDB81B007587A2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8857D4DF23FDB81B007587A2 /* AppDelegate.swift */; };
+		887393C123C52F4400F19622 /* emgPeripheralModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887393C023C52F4400F19622 /* emgPeripheralModel.swift */; };
+		888C0B7323D24C9F00EF2BAE /* SensorLinearInterpolation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888C0B7223D24C9F00EF2BAE /* SensorLinearInterpolation.swift */; };
 		889B834423864760008A37FC /* Email.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889B834323864760008A37FC /* Email.swift */; };
 		889E4C97238DB164007F03A7 /* MVCPosterioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889E4C96238DB164007F03A7 /* MVCPosterioViewController.swift */; };
 		889E4C99238DBB83007F03A7 /* MVCLateralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889E4C98238DBB83007F03A7 /* MVCLateralViewController.swift */; };
@@ -44,10 +48,14 @@
 		88D24916235801130053F3B7 /* BluetoothPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D24915235801130053F3B7 /* BluetoothPreferences.swift */; };
 		88D24918235805DE0053F3B7 /* SensoryTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D24917235805DE0053F3B7 /* SensoryTypeViewController.swift */; };
 		88D3CA4C2368D62900617B88 /* config_5_lower_body.js in Resources */ = {isa = PBXBuildFile; fileRef = 88D3CA4B2368D62900617B88 /* config_5_lower_body.js */; };
+		88D8903323F46CE200D5CDE7 /* FireViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D8903223F46CE200D5CDE7 /* FireViewController.swift */; };
 		88D89C5E23709BF400E20A43 /* config_5_leg_rightAnkle_leftThigh.js in Resources */ = {isa = PBXBuildFile; fileRef = 88D89C5D23709BF400E20A43 /* config_5_leg_rightAnkle_leftThigh.js */; };
+		88DBC3A023F3305500A3A35C /* StartUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88DBC39F23F3305500A3A35C /* StartUpViewController.swift */; };
+		88DBC3A323F3521F00A3A35C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 88DBC3A223F3521E00A3A35C /* GoogleService-Info.plist */; };
 		88FA15A7239EC5C7000C5DA6 /* SensorBodyAttachmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FA15A6239EC5C7000C5DA6 /* SensorBodyAttachmentViewController.swift */; };
 		88FA15A9239EDEDF000C5DA6 /* config_1_chest.json in Resources */ = {isa = PBXBuildFile; fileRef = 88FA15A8239EDEDF000C5DA6 /* config_1_chest.json */; };
 		88FA15AC23A023C7000C5DA6 /* config_5_leg_leftAnkle_leftThigh.js in Resources */ = {isa = PBXBuildFile; fileRef = 88FA15AB23A023C7000C5DA6 /* config_5_leg_leftAnkle_leftThigh.js */; };
+		88FD700A23AAF06500E8EE5D /* LinearInterpolation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FD700923AAF06500E8EE5D /* LinearInterpolation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +77,7 @@
 
 /* Begin PBXFileReference section */
 		18FFD492329A8D019C7199B4 /* Pods_TestIos.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TestIos.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		88213EDF23F48F98005BA4A4 /* OrgViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrgViewController.swift; sourceTree = "<group>"; };
 		882414952316E0F9006BEBA9 /* Torque.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Torque.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8824149D2316E0F9006BEBA9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8824149F2316E0FA006BEBA9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -82,6 +91,9 @@
 		882414BA2316E0FA006BEBA9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		882CD56C2388558500DCACD6 /* MVCAnteriorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MVCAnteriorViewController.swift; sourceTree = "<group>"; };
 		8851A4A8236123C4001679BE /* emgHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = emgHelper.swift; sourceTree = "<group>"; };
+		8857D4DF23FDB81B007587A2 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		887393C023C52F4400F19622 /* emgPeripheralModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = emgPeripheralModel.swift; sourceTree = "<group>"; };
+		888C0B7223D24C9F00EF2BAE /* SensorLinearInterpolation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorLinearInterpolation.swift; sourceTree = "<group>"; };
 		889B834323864760008A37FC /* Email.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Email.swift; sourceTree = "<group>"; };
 		889E4C96238DB164007F03A7 /* MVCPosterioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MVCPosterioViewController.swift; sourceTree = "<group>"; };
 		889E4C98238DBB83007F03A7 /* MVCLateralViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MVCLateralViewController.swift; sourceTree = "<group>"; };
@@ -111,10 +123,14 @@
 		88D24915235801130053F3B7 /* BluetoothPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothPreferences.swift; sourceTree = "<group>"; };
 		88D24917235805DE0053F3B7 /* SensoryTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensoryTypeViewController.swift; sourceTree = "<group>"; };
 		88D3CA4B2368D62900617B88 /* config_5_lower_body.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = config_5_lower_body.js; sourceTree = "<group>"; };
+		88D8903223F46CE200D5CDE7 /* FireViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireViewController.swift; sourceTree = "<group>"; };
 		88D89C5D23709BF400E20A43 /* config_5_leg_rightAnkle_leftThigh.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = config_5_leg_rightAnkle_leftThigh.js; sourceTree = "<group>"; };
+		88DBC39F23F3305500A3A35C /* StartUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartUpViewController.swift; sourceTree = "<group>"; };
+		88DBC3A223F3521E00A3A35C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		88FA15A6239EC5C7000C5DA6 /* SensorBodyAttachmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorBodyAttachmentViewController.swift; sourceTree = "<group>"; };
 		88FA15A8239EDEDF000C5DA6 /* config_1_chest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = config_1_chest.json; sourceTree = "<group>"; };
 		88FA15AB23A023C7000C5DA6 /* config_5_leg_leftAnkle_leftThigh.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = config_5_leg_leftAnkle_leftThigh.js; sourceTree = "<group>"; };
+		88FD700923AAF06500E8EE5D /* LinearInterpolation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinearInterpolation.swift; sourceTree = "<group>"; };
 		8BF5A900DEBDFF54A1788DB2 /* Pods-TestIos.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestIos.debug.xcconfig"; path = "Target Support Files/Pods-TestIos/Pods-TestIos.debug.xcconfig"; sourceTree = "<group>"; };
 		F30D79082BA64F41188F99AE /* Pods-TestIos.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestIos.release.xcconfig"; path = "Target Support Files/Pods-TestIos/Pods-TestIos.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -162,6 +178,21 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		88213EDE23F48F2A005BA4A4 /* VIews */ = {
+			isa = PBXGroup;
+			children = (
+				88D24917235805DE0053F3B7 /* SensoryTypeViewController.swift */,
+				88D249112357E67D0053F3B7 /* PeripheralsViewController.swift */,
+				882CD56C2388558500DCACD6 /* MVCAnteriorViewController.swift */,
+				889E4C98238DBB83007F03A7 /* MVCLateralViewController.swift */,
+				889E4C96238DB164007F03A7 /* MVCPosterioViewController.swift */,
+				88FA15A6239EC5C7000C5DA6 /* SensorBodyAttachmentViewController.swift */,
+				88A310BD2319B900002D2C89 /* ViewController.swift */,
+				88213EDF23F48F98005BA4A4 /* OrgViewController.swift */,
+			);
+			path = VIews;
+			sourceTree = "<group>";
+		};
 		8824148C2316E0F9006BEBA9 = {
 			isa = PBXGroup;
 			children = (
@@ -188,26 +219,20 @@
 		882414972316E0F9006BEBA9 /* TestIos */ = {
 			isa = PBXGroup;
 			children = (
+				88213EDE23F48F2A005BA4A4 /* VIews */,
+				88D8903123F46C8C00D5CDE7 /* Network */,
+				88DBC3A123F3384C00A3A35C /* SignupSignIn */,
 				88FA15AA23A01F9D000C5DA6 /* Models */,
 				88C06D032358B924004CEC1D /* Utilities */,
 				88A310C32319BA48002D2C89 /* Visualisation */,
 				88A310AA2319B872002D2C89 /* Configurations */,
-				88A310BB2319B89A002D2C89 /* UIHelper.swift */,
-				88D249132357F9000053F3B7 /* Peripheral.swift */,
-				88D24915235801130053F3B7 /* BluetoothPreferences.swift */,
 				88A310BF2319B9A2002D2C89 /* AppDelegate.swift */,
-				88D24917235805DE0053F3B7 /* SensoryTypeViewController.swift */,
-				88C06D0123582308004CEC1D /* PeripheralTableViewCell.swift */,
-				88D249112357E67D0053F3B7 /* PeripheralsViewController.swift */,
-				882CD56C2388558500DCACD6 /* MVCAnteriorViewController.swift */,
-				889E4C98238DBB83007F03A7 /* MVCLateralViewController.swift */,
-				889E4C96238DB164007F03A7 /* MVCPosterioViewController.swift */,
-				88FA15A6239EC5C7000C5DA6 /* SensorBodyAttachmentViewController.swift */,
-				88A310BD2319B900002D2C89 /* ViewController.swift */,
+				8857D4DF23FDB81B007587A2 /* AppDelegate.swift */,
 				8824149C2316E0F9006BEBA9 /* Main.storyboard */,
 				8824149F2316E0FA006BEBA9 /* Assets.xcassets */,
 				88A310C12319B9E3002D2C89 /* Visualiser.xcassets */,
 				882414A12316E0FA006BEBA9 /* LaunchScreen.storyboard */,
+				88DBC3A223F3521E00A3A35C /* GoogleService-Info.plist */,
 				882414A42316E0FA006BEBA9 /* Info.plist */,
 			);
 			path = TestIos;
@@ -272,10 +297,33 @@
 			path = Utilities;
 			sourceTree = "<group>";
 		};
+		88D8903123F46C8C00D5CDE7 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				88D8903223F46CE200D5CDE7 /* FireViewController.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		88DBC3A123F3384C00A3A35C /* SignupSignIn */ = {
+			isa = PBXGroup;
+			children = (
+				88DBC39F23F3305500A3A35C /* StartUpViewController.swift */,
+			);
+			path = SignupSignIn;
+			sourceTree = "<group>";
+		};
 		88FA15AA23A01F9D000C5DA6 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				88C06D0123582308004CEC1D /* PeripheralTableViewCell.swift */,
 				88D239E623A05935009909B3 /* VisualizerDataModel.swift */,
+				88FD700923AAF06500E8EE5D /* LinearInterpolation.swift */,
+				888C0B7223D24C9F00EF2BAE /* SensorLinearInterpolation.swift */,
+				88D24915235801130053F3B7 /* BluetoothPreferences.swift */,
+				88A310BB2319B89A002D2C89 /* UIHelper.swift */,
+				88D249132357F9000053F3B7 /* Peripheral.swift */,
+				887393C023C52F4400F19622 /* emgPeripheralModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -388,6 +436,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				88BEB99423199E7E0030B8B7 /* Podfile in Resources */,
+				88DBC3A323F3521F00A3A35C /* GoogleService-Info.plist in Resources */,
 				88A310B62319B872002D2C89 /* config_11_full_body.js in Resources */,
 				882414A32316E0FA006BEBA9 /* LaunchScreen.storyboard in Resources */,
 				88A310B82319B872002D2C89 /* config_2_right_arm.js in Resources */,
@@ -491,22 +540,29 @@
 				88A310C02319B9A3002D2C89 /* AppDelegate.swift in Sources */,
 				88A310B72319B872002D2C89 /* ConfigurationType.swift in Sources */,
 				88FA15A7239EC5C7000C5DA6 /* SensorBodyAttachmentViewController.swift in Sources */,
+				8857D4E023FDB81B007587A2 /* AppDelegate.swift in Sources */,
 				882CD56D2388558500DCACD6 /* MVCAnteriorViewController.swift in Sources */,
 				88D239E723A05935009909B3 /* VisualizerDataModel.swift in Sources */,
 				88C06D0223582308004CEC1D /* PeripheralTableViewCell.swift in Sources */,
+				888C0B7323D24C9F00EF2BAE /* SensorLinearInterpolation.swift in Sources */,
 				88A310CA2319BA48002D2C89 /* ControlsOverlay.swift in Sources */,
 				88D249122357E67D0053F3B7 /* PeripheralsViewController.swift in Sources */,
 				88D249142357F9000053F3B7 /* Peripheral.swift in Sources */,
 				88A310BE2319B900002D2C89 /* ViewController.swift in Sources */,
+				887393C123C52F4400F19622 /* emgPeripheralModel.swift in Sources */,
 				88A310C92319BA48002D2C89 /* VisualiserViewController.swift in Sources */,
+				88D8903323F46CE200D5CDE7 /* FireViewController.swift in Sources */,
 				889E4C99238DBB83007F03A7 /* MVCLateralViewController.swift in Sources */,
 				88A310BC2319B89A002D2C89 /* UIHelper.swift in Sources */,
 				88A310CB2319BA48002D2C89 /* GenericOverlay.swift in Sources */,
+				88FD700A23AAF06500E8EE5D /* LinearInterpolation.swift in Sources */,
 				8851A4A9236123C4001679BE /* emgHelper.swift in Sources */,
 				88D24918235805DE0053F3B7 /* SensoryTypeViewController.swift in Sources */,
+				88DBC3A023F3305500A3A35C /* StartUpViewController.swift in Sources */,
 				88D24916235801130053F3B7 /* BluetoothPreferences.swift in Sources */,
 				889B834423864760008A37FC /* Email.swift in Sources */,
 				889E4C97238DB164007F03A7 /* MVCPosterioViewController.swift in Sources */,
+				88213EE023F48F98005BA4A4 /* OrgViewController.swift in Sources */,
 				88C06D052358B942004CEC1D /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -688,16 +744,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
-				DEVELOPMENT_TEAM = 77PZNJDUQL;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8Z38QN3Q9Y;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = TestIos/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.22;
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = kehlin.TestIos;
 				PRODUCT_NAME = Torque;
 				SWIFT_VERSION = 4.2;
@@ -711,16 +767,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
-				DEVELOPMENT_TEAM = 77PZNJDUQL;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8Z38QN3Q9Y;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = TestIos/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.22;
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = kehlin.TestIos;
 				PRODUCT_NAME = Torque;
 				SWIFT_VERSION = 4.2;
