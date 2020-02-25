@@ -11,6 +11,7 @@ import WearnotchSDK
 import CoreBluetooth
 import MessageUI
 import Accelerate
+import Firebase
 
 
 
@@ -69,6 +70,9 @@ class ViewController: UIViewController, MFMailComposeViewControllerDelegate {
     // Mark: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        let signOutButton = UIButton(type: .roundedRect)
+        let barButtonItem = UIBarButtonItem(title: "Sign out", style: .done, target: self, action: #selector(signOut(_:)))
+        self.navigationItem.rightBarButtonItem = barButtonItem
         
         // set your license code here. in a real app it would be asked from the backend and saved
         AppDelegate.service.license = LICENSE_CODE
@@ -83,6 +87,15 @@ class ViewController: UIViewController, MFMailComposeViewControllerDelegate {
         
         realtimeSwitch.addTarget(self, action: #selector(realtimeSwitchChanged(_ :)), for: .valueChanged)
         
+    }
+    
+    @IBAction func signOut(_ sender: UIBarButtonItem) {
+        print("Sign out")
+        let signedOut = try? Auth.auth().signOut()
+        guard let _ = signedOut else { return }
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let startupVC = storyboard.instantiateViewController(identifier: "StartUpViewController")
+        self.navigationController?.pushViewController(startupVC, animated: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -1193,13 +1206,14 @@ extension ViewController {
     }
     
     private func initDockAnimation() {
-        var imgListArray = [UIImage]()
         
+        var imgListArray = [UIImage]()
+        /*
         for countValue in 0...132 {
             let strImageName : String = "c\(String(format: "%04d", countValue)).png"
             let image  = UIImage(named:strImageName)
             imgListArray.append(image!)
-        }
+        }*/
         dockAnimationImageView.animationImages = imgListArray;
         dockAnimationImageView.animationRepeatCount = 1
         dockAnimationImageView.animationDuration = 7.0

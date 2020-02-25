@@ -13,11 +13,8 @@
 		882414A32316E0FA006BEBA9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 882414A12316E0FA006BEBA9 /* LaunchScreen.storyboard */; };
 		882414AE2316E0FA006BEBA9 /* TestIosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882414AD2316E0FA006BEBA9 /* TestIosTests.swift */; };
 		882414B92316E0FA006BEBA9 /* TestIosUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882414B82316E0FA006BEBA9 /* TestIosUITests.swift */; };
-		882CD56D2388558500DCACD6 /* MVCAnteriorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882CD56C2388558500DCACD6 /* MVCAnteriorViewController.swift */; };
 		8851A4A9236123C4001679BE /* emgHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8851A4A8236123C4001679BE /* emgHelper.swift */; };
 		889B834423864760008A37FC /* Email.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889B834323864760008A37FC /* Email.swift */; };
-		889E4C97238DB164007F03A7 /* MVCPosterioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889E4C96238DB164007F03A7 /* MVCPosterioViewController.swift */; };
-		889E4C99238DBB83007F03A7 /* MVCLateralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889E4C98238DBB83007F03A7 /* MVCLateralViewController.swift */; };
 		88A310B32319B872002D2C89 /* config_5_upper_body.js in Resources */ = {isa = PBXBuildFile; fileRef = 88A310AB2319B872002D2C89 /* config_5_upper_body.js */; };
 		88A310B42319B872002D2C89 /* config_1_chest.js in Resources */ = {isa = PBXBuildFile; fileRef = 88A310AC2319B872002D2C89 /* config_1_chest.js */; };
 		88A310B52319B872002D2C89 /* config_6_upper_body.js in Resources */ = {isa = PBXBuildFile; fileRef = 88A310AD2319B872002D2C89 /* config_6_upper_body.js */; };
@@ -26,8 +23,6 @@
 		88A310B82319B872002D2C89 /* config_2_right_arm.js in Resources */ = {isa = PBXBuildFile; fileRef = 88A310B02319B872002D2C89 /* config_2_right_arm.js */; };
 		88A310B92319B872002D2C89 /* config_3_right_arm.js in Resources */ = {isa = PBXBuildFile; fileRef = 88A310B12319B872002D2C89 /* config_3_right_arm.js */; };
 		88A310BA2319B872002D2C89 /* config_6_lower_body.js in Resources */ = {isa = PBXBuildFile; fileRef = 88A310B22319B872002D2C89 /* config_6_lower_body.js */; };
-		88A310BC2319B89A002D2C89 /* UIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A310BB2319B89A002D2C89 /* UIHelper.swift */; };
-		88A310BE2319B900002D2C89 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A310BD2319B900002D2C89 /* ViewController.swift */; };
 		88A310C02319B9A3002D2C89 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A310BF2319B9A2002D2C89 /* AppDelegate.swift */; };
 		88A310C22319B9E3002D2C89 /* Visualiser.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 88A310C12319B9E3002D2C89 /* Visualiser.xcassets */; };
 		88A310C92319BA48002D2C89 /* VisualiserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A310C42319BA48002D2C89 /* VisualiserViewController.swift */; };
@@ -36,18 +31,30 @@
 		88A310CD2319BA48002D2C89 /* WorkoutAnimationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A310C82319BA48002D2C89 /* WorkoutAnimationViewController.swift */; };
 		88B1E665236C9A2700D5D5F9 /* config_5_lower_right_leg.js in Resources */ = {isa = PBXBuildFile; fileRef = 88B1E664236C9A2700D5D5F9 /* config_5_lower_right_leg.js */; };
 		88BEB99423199E7E0030B8B7 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 88BEB99323199E7E0030B8B7 /* Podfile */; };
-		88C06D0223582308004CEC1D /* PeripheralTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88C06D0123582308004CEC1D /* PeripheralTableViewCell.swift */; };
 		88C06D052358B942004CEC1D /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88C06D042358B942004CEC1D /* Extensions.swift */; };
-		88D239E723A05935009909B3 /* VisualizerDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D239E623A05935009909B3 /* VisualizerDataModel.swift */; };
-		88D249122357E67D0053F3B7 /* PeripheralsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D249112357E67D0053F3B7 /* PeripheralsViewController.swift */; };
-		88D249142357F9000053F3B7 /* Peripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D249132357F9000053F3B7 /* Peripheral.swift */; };
-		88D24916235801130053F3B7 /* BluetoothPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D24915235801130053F3B7 /* BluetoothPreferences.swift */; };
-		88D24918235805DE0053F3B7 /* SensoryTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D24917235805DE0053F3B7 /* SensoryTypeViewController.swift */; };
 		88D3CA4C2368D62900617B88 /* config_5_lower_body.js in Resources */ = {isa = PBXBuildFile; fileRef = 88D3CA4B2368D62900617B88 /* config_5_lower_body.js */; };
 		88D89C5E23709BF400E20A43 /* config_5_leg_rightAnkle_leftThigh.js in Resources */ = {isa = PBXBuildFile; fileRef = 88D89C5D23709BF400E20A43 /* config_5_leg_rightAnkle_leftThigh.js */; };
-		88FA15A7239EC5C7000C5DA6 /* SensorBodyAttachmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FA15A6239EC5C7000C5DA6 /* SensorBodyAttachmentViewController.swift */; };
 		88FA15A9239EDEDF000C5DA6 /* config_1_chest.json in Resources */ = {isa = PBXBuildFile; fileRef = 88FA15A8239EDEDF000C5DA6 /* config_1_chest.json */; };
 		88FA15AC23A023C7000C5DA6 /* config_5_leg_leftAnkle_leftThigh.js in Resources */ = {isa = PBXBuildFile; fileRef = 88FA15AB23A023C7000C5DA6 /* config_5_leg_leftAnkle_leftThigh.js */; };
+		8E5D5EE423FDAE5500FAC878 /* StartUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5D5EE323FDAE5500FAC878 /* StartUpViewController.swift */; };
+		8E5D5EEE23FDAE7C00FAC878 /* SensorBodyAttachmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5D5EE623FDAE7C00FAC878 /* SensorBodyAttachmentViewController.swift */; };
+		8E5D5EEF23FDAE7C00FAC878 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5D5EE723FDAE7C00FAC878 /* ViewController.swift */; };
+		8E5D5EF023FDAE7C00FAC878 /* MVCLateralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5D5EE823FDAE7C00FAC878 /* MVCLateralViewController.swift */; };
+		8E5D5EF123FDAE7C00FAC878 /* SensoryTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5D5EE923FDAE7C00FAC878 /* SensoryTypeViewController.swift */; };
+		8E5D5EF223FDAE7C00FAC878 /* PeripheralsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5D5EEA23FDAE7C00FAC878 /* PeripheralsViewController.swift */; };
+		8E5D5EF323FDAE7C00FAC878 /* MVCAnteriorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5D5EEB23FDAE7C00FAC878 /* MVCAnteriorViewController.swift */; };
+		8E5D5EF423FDAE7C00FAC878 /* OrgViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5D5EEC23FDAE7C00FAC878 /* OrgViewController.swift */; };
+		8E5D5EF523FDAE7C00FAC878 /* MVCPosterioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5D5EED23FDAE7C00FAC878 /* MVCPosterioViewController.swift */; };
+		8E5D5EF723FDAF1500FAC878 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8E5D5EF623FDAF1500FAC878 /* GoogleService-Info.plist */; };
+		8E5D5EFA23FDAF3000FAC878 /* FireViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5D5EF923FDAF3000FAC878 /* FireViewController.swift */; };
+		8E5D5F0623FDB28C00FAC878 /* Peripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5D5EFE23FDB28C00FAC878 /* Peripheral.swift */; };
+		8E5D5F0723FDB28C00FAC878 /* VisualizerDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5D5EFF23FDB28C00FAC878 /* VisualizerDataModel.swift */; };
+		8E5D5F0823FDB28C00FAC878 /* SensorLinearInterpolation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5D5F0023FDB28C00FAC878 /* SensorLinearInterpolation.swift */; };
+		8E5D5F0923FDB28C00FAC878 /* UIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5D5F0123FDB28C00FAC878 /* UIHelper.swift */; };
+		8E5D5F0A23FDB28C00FAC878 /* LinearInterpolation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5D5F0223FDB28C00FAC878 /* LinearInterpolation.swift */; };
+		8E5D5F0B23FDB28C00FAC878 /* PeripheralTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5D5F0323FDB28C00FAC878 /* PeripheralTableViewCell.swift */; };
+		8E5D5F0C23FDB28C00FAC878 /* emgPeripheralModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5D5F0423FDB28C00FAC878 /* emgPeripheralModel.swift */; };
+		8E5D5F0D23FDB28C00FAC878 /* BluetoothPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5D5F0523FDB28C00FAC878 /* BluetoothPreferences.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,11 +87,8 @@
 		882414B42316E0FA006BEBA9 /* TestIosUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestIosUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		882414B82316E0FA006BEBA9 /* TestIosUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestIosUITests.swift; sourceTree = "<group>"; };
 		882414BA2316E0FA006BEBA9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		882CD56C2388558500DCACD6 /* MVCAnteriorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MVCAnteriorViewController.swift; sourceTree = "<group>"; };
 		8851A4A8236123C4001679BE /* emgHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = emgHelper.swift; sourceTree = "<group>"; };
 		889B834323864760008A37FC /* Email.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Email.swift; sourceTree = "<group>"; };
-		889E4C96238DB164007F03A7 /* MVCPosterioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MVCPosterioViewController.swift; sourceTree = "<group>"; };
-		889E4C98238DBB83007F03A7 /* MVCLateralViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MVCLateralViewController.swift; sourceTree = "<group>"; };
 		88A310AB2319B872002D2C89 /* config_5_upper_body.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = config_5_upper_body.js; sourceTree = "<group>"; };
 		88A310AC2319B872002D2C89 /* config_1_chest.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = config_1_chest.js; sourceTree = "<group>"; };
 		88A310AD2319B872002D2C89 /* config_6_upper_body.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = config_6_upper_body.js; sourceTree = "<group>"; };
@@ -93,8 +97,6 @@
 		88A310B02319B872002D2C89 /* config_2_right_arm.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = config_2_right_arm.js; sourceTree = "<group>"; };
 		88A310B12319B872002D2C89 /* config_3_right_arm.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = config_3_right_arm.js; sourceTree = "<group>"; };
 		88A310B22319B872002D2C89 /* config_6_lower_body.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = config_6_lower_body.js; sourceTree = "<group>"; };
-		88A310BB2319B89A002D2C89 /* UIHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIHelper.swift; sourceTree = "<group>"; };
-		88A310BD2319B900002D2C89 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		88A310BF2319B9A2002D2C89 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		88A310C12319B9E3002D2C89 /* Visualiser.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Visualiser.xcassets; sourceTree = "<group>"; };
 		88A310C42319BA48002D2C89 /* VisualiserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualiserViewController.swift; sourceTree = "<group>"; };
@@ -103,19 +105,32 @@
 		88A310C82319BA48002D2C89 /* WorkoutAnimationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutAnimationViewController.swift; sourceTree = "<group>"; };
 		88B1E664236C9A2700D5D5F9 /* config_5_lower_right_leg.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = config_5_lower_right_leg.js; sourceTree = "<group>"; };
 		88BEB99323199E7E0030B8B7 /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		88C06D0123582308004CEC1D /* PeripheralTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeripheralTableViewCell.swift; sourceTree = "<group>"; };
 		88C06D042358B942004CEC1D /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		88D239E623A05935009909B3 /* VisualizerDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualizerDataModel.swift; sourceTree = "<group>"; };
-		88D249112357E67D0053F3B7 /* PeripheralsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeripheralsViewController.swift; sourceTree = "<group>"; };
-		88D249132357F9000053F3B7 /* Peripheral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Peripheral.swift; sourceTree = "<group>"; };
-		88D24915235801130053F3B7 /* BluetoothPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothPreferences.swift; sourceTree = "<group>"; };
-		88D24917235805DE0053F3B7 /* SensoryTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensoryTypeViewController.swift; sourceTree = "<group>"; };
 		88D3CA4B2368D62900617B88 /* config_5_lower_body.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = config_5_lower_body.js; sourceTree = "<group>"; };
 		88D89C5D23709BF400E20A43 /* config_5_leg_rightAnkle_leftThigh.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = config_5_leg_rightAnkle_leftThigh.js; sourceTree = "<group>"; };
-		88FA15A6239EC5C7000C5DA6 /* SensorBodyAttachmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorBodyAttachmentViewController.swift; sourceTree = "<group>"; };
 		88FA15A8239EDEDF000C5DA6 /* config_1_chest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = config_1_chest.json; sourceTree = "<group>"; };
 		88FA15AB23A023C7000C5DA6 /* config_5_leg_leftAnkle_leftThigh.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = config_5_leg_leftAnkle_leftThigh.js; sourceTree = "<group>"; };
 		8BF5A900DEBDFF54A1788DB2 /* Pods-TestIos.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestIos.debug.xcconfig"; path = "Target Support Files/Pods-TestIos/Pods-TestIos.debug.xcconfig"; sourceTree = "<group>"; };
+		8E5D5EE323FDAE5500FAC878 /* StartUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartUpViewController.swift; sourceTree = "<group>"; };
+		8E5D5EE623FDAE7C00FAC878 /* SensorBodyAttachmentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorBodyAttachmentViewController.swift; sourceTree = "<group>"; };
+		8E5D5EE723FDAE7C00FAC878 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		8E5D5EE823FDAE7C00FAC878 /* MVCLateralViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MVCLateralViewController.swift; sourceTree = "<group>"; };
+		8E5D5EE923FDAE7C00FAC878 /* SensoryTypeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensoryTypeViewController.swift; sourceTree = "<group>"; };
+		8E5D5EEA23FDAE7C00FAC878 /* PeripheralsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeripheralsViewController.swift; sourceTree = "<group>"; };
+		8E5D5EEB23FDAE7C00FAC878 /* MVCAnteriorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MVCAnteriorViewController.swift; sourceTree = "<group>"; };
+		8E5D5EEC23FDAE7C00FAC878 /* OrgViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrgViewController.swift; sourceTree = "<group>"; };
+		8E5D5EED23FDAE7C00FAC878 /* MVCPosterioViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MVCPosterioViewController.swift; sourceTree = "<group>"; };
+		8E5D5EF623FDAF1500FAC878 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		8E5D5EF923FDAF3000FAC878 /* FireViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FireViewController.swift; sourceTree = "<group>"; };
+		8E5D5EFB23FDB22400FAC878 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		8E5D5EFE23FDB28C00FAC878 /* Peripheral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Peripheral.swift; sourceTree = "<group>"; };
+		8E5D5EFF23FDB28C00FAC878 /* VisualizerDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualizerDataModel.swift; sourceTree = "<group>"; };
+		8E5D5F0023FDB28C00FAC878 /* SensorLinearInterpolation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorLinearInterpolation.swift; sourceTree = "<group>"; };
+		8E5D5F0123FDB28C00FAC878 /* UIHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIHelper.swift; sourceTree = "<group>"; };
+		8E5D5F0223FDB28C00FAC878 /* LinearInterpolation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinearInterpolation.swift; sourceTree = "<group>"; };
+		8E5D5F0323FDB28C00FAC878 /* PeripheralTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeripheralTableViewCell.swift; sourceTree = "<group>"; };
+		8E5D5F0423FDB28C00FAC878 /* emgPeripheralModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = emgPeripheralModel.swift; sourceTree = "<group>"; };
+		8E5D5F0523FDB28C00FAC878 /* BluetoothPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluetoothPreferences.swift; sourceTree = "<group>"; };
 		F30D79082BA64F41188F99AE /* Pods-TestIos.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestIos.release.xcconfig"; path = "Target Support Files/Pods-TestIos/Pods-TestIos.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -188,26 +203,19 @@
 		882414972316E0F9006BEBA9 /* TestIos */ = {
 			isa = PBXGroup;
 			children = (
-				88FA15AA23A01F9D000C5DA6 /* Models */,
+				8E5D5EFD23FDB28C00FAC878 /* Models */,
+				8E5D5EF823FDAF3000FAC878 /* Network */,
+				8E5D5EE523FDAE7C00FAC878 /* VIews */,
+				8E5D5EE223FDAE5500FAC878 /* SignupSignIn */,
 				88C06D032358B924004CEC1D /* Utilities */,
 				88A310C32319BA48002D2C89 /* Visualisation */,
 				88A310AA2319B872002D2C89 /* Configurations */,
-				88A310BB2319B89A002D2C89 /* UIHelper.swift */,
-				88D249132357F9000053F3B7 /* Peripheral.swift */,
-				88D24915235801130053F3B7 /* BluetoothPreferences.swift */,
 				88A310BF2319B9A2002D2C89 /* AppDelegate.swift */,
-				88D24917235805DE0053F3B7 /* SensoryTypeViewController.swift */,
-				88C06D0123582308004CEC1D /* PeripheralTableViewCell.swift */,
-				88D249112357E67D0053F3B7 /* PeripheralsViewController.swift */,
-				882CD56C2388558500DCACD6 /* MVCAnteriorViewController.swift */,
-				889E4C98238DBB83007F03A7 /* MVCLateralViewController.swift */,
-				889E4C96238DB164007F03A7 /* MVCPosterioViewController.swift */,
-				88FA15A6239EC5C7000C5DA6 /* SensorBodyAttachmentViewController.swift */,
-				88A310BD2319B900002D2C89 /* ViewController.swift */,
 				8824149C2316E0F9006BEBA9 /* Main.storyboard */,
 				8824149F2316E0FA006BEBA9 /* Assets.xcassets */,
 				88A310C12319B9E3002D2C89 /* Visualiser.xcassets */,
 				882414A12316E0FA006BEBA9 /* LaunchScreen.storyboard */,
+				8E5D5EF623FDAF1500FAC878 /* GoogleService-Info.plist */,
 				882414A42316E0FA006BEBA9 /* Info.plist */,
 			);
 			path = TestIos;
@@ -272,13 +280,55 @@
 			path = Utilities;
 			sourceTree = "<group>";
 		};
-		88FA15AA23A01F9D000C5DA6 /* Models */ = {
+		8E5D5EE223FDAE5500FAC878 /* SignupSignIn */ = {
 			isa = PBXGroup;
 			children = (
-				88D239E623A05935009909B3 /* VisualizerDataModel.swift */,
+				8E5D5EE323FDAE5500FAC878 /* StartUpViewController.swift */,
 			);
-			path = Models;
+			path = SignupSignIn;
 			sourceTree = "<group>";
+		};
+		8E5D5EE523FDAE7C00FAC878 /* VIews */ = {
+			isa = PBXGroup;
+			children = (
+				8E5D5EE623FDAE7C00FAC878 /* SensorBodyAttachmentViewController.swift */,
+				8E5D5EE723FDAE7C00FAC878 /* ViewController.swift */,
+				8E5D5EFB23FDB22400FAC878 /* ViewController.swift */,
+				8E5D5EE823FDAE7C00FAC878 /* MVCLateralViewController.swift */,
+				8E5D5EE923FDAE7C00FAC878 /* SensoryTypeViewController.swift */,
+				8E5D5EEA23FDAE7C00FAC878 /* PeripheralsViewController.swift */,
+				8E5D5EEB23FDAE7C00FAC878 /* MVCAnteriorViewController.swift */,
+				8E5D5EEC23FDAE7C00FAC878 /* OrgViewController.swift */,
+				8E5D5EED23FDAE7C00FAC878 /* MVCPosterioViewController.swift */,
+			);
+			name = VIews;
+			path = TestIos/VIews;
+			sourceTree = SOURCE_ROOT;
+		};
+		8E5D5EF823FDAF3000FAC878 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				8E5D5EF923FDAF3000FAC878 /* FireViewController.swift */,
+			);
+			name = Network;
+			path = TestIos/Network;
+			sourceTree = SOURCE_ROOT;
+		};
+		8E5D5EFD23FDB28C00FAC878 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				8E5D5EFE23FDB28C00FAC878 /* Peripheral.swift */,
+				8E5D5EFF23FDB28C00FAC878 /* VisualizerDataModel.swift */,
+				8E5D5F0023FDB28C00FAC878 /* SensorLinearInterpolation.swift */,
+				8E5D5F0123FDB28C00FAC878 /* UIHelper.swift */,
+				8E5D5F0223FDB28C00FAC878 /* LinearInterpolation.swift */,
+				8E5D5F0323FDB28C00FAC878 /* PeripheralTableViewCell.swift */,
+				8E5D5F0423FDB28C00FAC878 /* emgPeripheralModel.swift */,
+				8E5D5F0523FDB28C00FAC878 /* BluetoothPreferences.swift */,
+			);
+			name = Models;
+			path = TestIos/Models;
+			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
@@ -346,7 +396,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1030;
-				LastUpgradeCheck = 1030;
+				LastUpgradeCheck = 1130;
 				ORGANIZATIONNAME = "kehlin swain";
 				TargetAttributes = {
 					882414942316E0F9006BEBA9 = {
@@ -398,6 +448,7 @@
 				88A310B52319B872002D2C89 /* config_6_upper_body.js in Resources */,
 				88D3CA4C2368D62900617B88 /* config_5_lower_body.js in Resources */,
 				88A310B42319B872002D2C89 /* config_1_chest.js in Resources */,
+				8E5D5EF723FDAF1500FAC878 /* GoogleService-Info.plist in Resources */,
 				8824149E2316E0F9006BEBA9 /* Main.storyboard in Resources */,
 				88FA15AC23A023C7000C5DA6 /* config_5_leg_leftAnkle_leftThigh.js in Resources */,
 				88A310B92319B872002D2C89 /* config_3_right_arm.js in Resources */,
@@ -487,27 +538,33 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E5D5EF423FDAE7C00FAC878 /* OrgViewController.swift in Sources */,
+				8E5D5F0823FDB28C00FAC878 /* SensorLinearInterpolation.swift in Sources */,
 				88A310CD2319BA48002D2C89 /* WorkoutAnimationViewController.swift in Sources */,
+				8E5D5F0C23FDB28C00FAC878 /* emgPeripheralModel.swift in Sources */,
+				8E5D5F0A23FDB28C00FAC878 /* LinearInterpolation.swift in Sources */,
 				88A310C02319B9A3002D2C89 /* AppDelegate.swift in Sources */,
 				88A310B72319B872002D2C89 /* ConfigurationType.swift in Sources */,
-				88FA15A7239EC5C7000C5DA6 /* SensorBodyAttachmentViewController.swift in Sources */,
-				882CD56D2388558500DCACD6 /* MVCAnteriorViewController.swift in Sources */,
-				88D239E723A05935009909B3 /* VisualizerDataModel.swift in Sources */,
-				88C06D0223582308004CEC1D /* PeripheralTableViewCell.swift in Sources */,
+				8E5D5EE423FDAE5500FAC878 /* StartUpViewController.swift in Sources */,
+				8E5D5EF023FDAE7C00FAC878 /* MVCLateralViewController.swift in Sources */,
+				8E5D5EEF23FDAE7C00FAC878 /* ViewController.swift in Sources */,
+				8E5D5EF523FDAE7C00FAC878 /* MVCPosterioViewController.swift in Sources */,
 				88A310CA2319BA48002D2C89 /* ControlsOverlay.swift in Sources */,
-				88D249122357E67D0053F3B7 /* PeripheralsViewController.swift in Sources */,
-				88D249142357F9000053F3B7 /* Peripheral.swift in Sources */,
-				88A310BE2319B900002D2C89 /* ViewController.swift in Sources */,
+				8E5D5EEE23FDAE7C00FAC878 /* SensorBodyAttachmentViewController.swift in Sources */,
+				8E5D5F0723FDB28C00FAC878 /* VisualizerDataModel.swift in Sources */,
+				8E5D5EF223FDAE7C00FAC878 /* PeripheralsViewController.swift in Sources */,
 				88A310C92319BA48002D2C89 /* VisualiserViewController.swift in Sources */,
-				889E4C99238DBB83007F03A7 /* MVCLateralViewController.swift in Sources */,
-				88A310BC2319B89A002D2C89 /* UIHelper.swift in Sources */,
+				8E5D5EFA23FDAF3000FAC878 /* FireViewController.swift in Sources */,
+				8E5D5EF323FDAE7C00FAC878 /* MVCAnteriorViewController.swift in Sources */,
 				88A310CB2319BA48002D2C89 /* GenericOverlay.swift in Sources */,
 				8851A4A9236123C4001679BE /* emgHelper.swift in Sources */,
-				88D24918235805DE0053F3B7 /* SensoryTypeViewController.swift in Sources */,
-				88D24916235801130053F3B7 /* BluetoothPreferences.swift in Sources */,
+				8E5D5F0B23FDB28C00FAC878 /* PeripheralTableViewCell.swift in Sources */,
+				8E5D5F0623FDB28C00FAC878 /* Peripheral.swift in Sources */,
 				889B834423864760008A37FC /* Email.swift in Sources */,
-				889E4C97238DB164007F03A7 /* MVCPosterioViewController.swift in Sources */,
+				8E5D5EF123FDAE7C00FAC878 /* SensoryTypeViewController.swift in Sources */,
+				8E5D5F0D23FDB28C00FAC878 /* BluetoothPreferences.swift in Sources */,
 				88C06D052358B942004CEC1D /* Extensions.swift in Sources */,
+				8E5D5F0923FDB28C00FAC878 /* UIHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -687,12 +744,13 @@
 			baseConfigurationReference = 8BF5A900DEBDFF54A1788DB2 /* Pods-TestIos.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 77PZNJDUQL;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = TestIos/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -700,6 +758,7 @@
 				MARKETING_VERSION = 1.22;
 				PRODUCT_BUNDLE_IDENTIFIER = kehlin.TestIos;
 				PRODUCT_NAME = Torque;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -710,12 +769,13 @@
 			baseConfigurationReference = F30D79082BA64F41188F99AE /* Pods-TestIos.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 77PZNJDUQL;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = TestIos/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -723,6 +783,7 @@
 				MARKETING_VERSION = 1.22;
 				PRODUCT_BUNDLE_IDENTIFIER = kehlin.TestIos;
 				PRODUCT_NAME = Torque;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

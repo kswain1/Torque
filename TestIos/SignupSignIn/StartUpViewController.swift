@@ -20,11 +20,15 @@ class StartUpViewController: UIViewController {
         super.viewDidLoad()
         authUI = FUIAuth.defaultAuthUI()
         authUI?.delegate = self
+        //let signedOut = try? Auth.auth().signOut()
+        //print("Signed Out", signedOut)
+        
         // Do any additional setup after loading the view.
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.navigationController?.isNavigationBarHidden = true
         if authUI.auth?.currentUser != nil {
             goToHomeScreen()
         } else {
