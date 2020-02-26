@@ -468,7 +468,15 @@ class ViewController: UIViewController, MFMailComposeViewControllerDelegate {
                     UIActivity.ActivityType.postToFacebook,
                     UIActivity.ActivityType.openInIBooks
                 ]
+                
+                if let popoverController = vcExportCSV.popoverPresentationController {
+                    popoverController.sourceRect = CGRect(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2, width: 0, height: 0)
+                    popoverController.sourceView = self.view
+                    popoverController.permittedArrowDirections = UIPopoverArrowDirection(rawValue: 0)
+                }
+                
                 present(vcExportCSV, animated: true, completion: nil)
+                
                 
             }catch {
                 print("Failed to create file")
@@ -763,7 +771,7 @@ extension ViewController {
 // MARK: - Workout selection
 extension ViewController {
     @IBAction func actionShowWorkouts() {
-        let selectionController = UIAlertController(title: "Choose workout", message: nil, preferredStyle: .actionSheet)
+        let selectionController = UIAlertController(title: "Choose workout", message: nil, preferredStyle: .alert)
         
         ConfigurationType.allItems.forEach { (type) in
             selectionController.addAction(
